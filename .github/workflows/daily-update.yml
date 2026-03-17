@@ -21,6 +21,6 @@ jobs:
         run: |
           git config user.name "GRISI Bot"
           git config user.email "grisi-bot@users.noreply.github.com"
-          git add data/
+          git add data/ docs/data/
           git diff --staged --quiet || git commit -m "data: daily update $(date +%Y-%m-%d)"
           git push

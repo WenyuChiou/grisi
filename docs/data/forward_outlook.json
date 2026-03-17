@@ -1,0 +1,72 @@
+{
+  "us_current_score": 33.5,
+  "tw_current_score": 41.2,
+  "us_forward": {
+    "spy_fwd_5d": {
+      "mean": 0.37,
+      "median": 0.65,
+      "positive_pct": 59.4,
+      "p25": -1.63,
+      "p75": 2.64,
+      "n": 554
+    },
+    "spy_fwd_10d": {
+      "mean": 0.89,
+      "median": 1.71,
+      "positive_pct": 65.9,
+      "p25": -1.17,
+      "p75": 3.71,
+      "n": 554
+    },
+    "spy_fwd_20d": {
+      "mean": 2.18,
+      "median": 3.24,
+      "positive_pct": 73.1,
+      "p25": -0.3,
+      "p75": 5.54,
+      "n": 554
+    },
+    "spy_fwd_60d": {
+      "mean": 4.19,
+      "median": 5.09,
+      "positive_pct": 74.2,
+      "p25": -0.18,
+      "p75": 9.05,
+      "n": 554
+    }
+  },
+  "tw_forward": {
+    "taiex_fwd_5d": {
+      "mean": 0.28,
+      "median": 0.5,
+      "positive_pct": 60.2,
+      "p25": -0.94,
+      "p75": 1.76,
+      "n": 1340
+    },
+    "taiex_fwd_10d": {
+      "mean": 0.52,
+      "median": 0.96,
+      "positive_pct": 61.3,
+      "p25": -1.26,
+      "p75": 2.77,
+      "n": 1340
+    },
+    "taiex_fwd_20d": {
+      "mean": 0.82,
+      "median": 1.59,
+      "positive_pct": 62.6,
+      "p25": -2.11,
+      "p75": 4.35,
+      "n": 1340
+    },
+    "taiex_fwd_60d": {
+      "mean": 2.86,
+      "median": 3.19,
+      "positive_pct": 68.3,
+      "p25": -1.56,
+      "p75": 8.19,
+      "n": 1340
+    }
+  }
+}

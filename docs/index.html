@@ -734,11 +734,11 @@ function renderMarketData(snap) {
 async function loadDashboard() {
   try {
     const [fwdData, agentData, quintileData, dashData, overlayData] = await Promise.all([
-      fetch('../data/forward_outlook.json').then(r => r.json()),
-      fetch('../data/phase2_agent_results.json').then(r => r.json()),
-      fetch('../data/quintile_data.json').then(r => r.json()),
-      fetch('../data/dashboard_data.json').then(r => r.json()),
-      fetch('../data/overlay_data.json').then(r => r.json()),
+      fetch('data/forward_outlook.json').then(r => r.json()),
+      fetch('data/phase2_agent_results.json').then(r => r.json()),
+      fetch('data/quintile_data.json').then(r => r.json()),
+      fetch('data/dashboard_data.json').then(r => r.json()),
+      fetch('data/overlay_data.json').then(r => r.json()),
     ]);
 
     const date = agentData.date || dashData.snapshot?.date || '2026-03-16';

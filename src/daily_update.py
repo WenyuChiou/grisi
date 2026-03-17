@@ -223,7 +223,7 @@ def update_snapshot(us_data=None, tw_data=None, tw_retail=None, global_ctx=None,
 
 
 def update_dashboard_json(snapshot):
-    """Update dashboard_data.json with latest snapshot."""
+    """Update dashboard_data.json with latest snapshot, then sync to docs/data/ for GitHub Pages."""
     dd_path = os.path.join(DATA_DIR, 'dashboard_data.json')
 
     with open(dd_path, 'r', encoding='utf-8') as f:
@@ -234,7 +234,17 @@ def update_dashboard_json(snapshot):
     with open(dd_path, 'w', encoding='utf-8') as f:
         json.dump(dd, f, ensure_ascii=False)
 
-    print("[SAVE] dashboard_data.json updated")
+    # Sync JSON files to docs/data/ (GitHub Pages serves from /docs)
+    import shutil
+    docs_data = os.path.join(os.path.dirname(__file__), '..', 'docs', 'data')
+    os.makedirs(docs_data, exist_ok=True)
+    for fn in ['dashboard_data.json', 'forward_outlook.json', 'phase2_agent_results.json',
+               'quintile_data.json', 'overlay_data.json']:
+        src = os.path.join(DATA_DIR, fn)
+        if os.path.exists(src):
+            shutil.copy2(src, os.path.join(docs_data, fn))
+
+    print("[SAVE] dashboard_data.json updated + synced to docs/data/")
 
 
 def main():
