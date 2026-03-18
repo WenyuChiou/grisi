@@ -332,13 +332,13 @@ const MARKETS = {
 
 // ── Zone definitions (TW labels) ──────────────────────────────────────────────
 const ZONES = [
-  { min:  0, max: 15, label: '極度恐懼', color: '#0a4020', extreme: true },
-  { min: 15, max: 30, label: '恐懼',     color: '#1a6b35' },
+  { min:  0, max: 15, label: '極度恐懼', color: '#22c55e', extreme: true },
+  { min: 15, max: 30, label: '恐懼',     color: '#4a7a3a' },
   { min: 30, max: 40, label: '謹慎',     color: '#2d8f4e' },
-  { min: 40, max: 60, label: '中性',     color: '#8a7a10' },
-  { min: 60, max: 70, label: '樂觀',     color: '#b84a1a' },
-  { min: 70, max: 85, label: '貪婪',     color: '#c53030' },
-  { min: 85, max:100, label: '極度貪婪', color: '#7a1a1a', extreme: true },
+  { min: 40, max: 60, label: '中性',     color: '#a08a20' },
+  { min: 60, max: 70, label: '樂觀',     color: '#c85a2a' },
+  { min: 70, max: 85, label: '貪婪',     color: '#dc2626' },
+  { min: 85, max:100, label: '極度貪婪', color: '#ef4444', extreme: true },
 ];
 const ZONE_TEXT_COLORS = ['#3fb950','#56d364','#7ee787','#e3b341','#f0883e','#f85149','#ff7b72'];
 
@@ -421,6 +421,7 @@ function renderThermometer(score, pctile, zoneReturns, mktKey) {
     seg.className = 'thermo-zone';
     seg.style.width      = pct;
     seg.style.background = z.color;
+    if (z.extreme) { seg.style.boxShadow = i === 0 ? '0 0 8px #22c55e' : '0 0 8px #ef4444'; }
     if (i === zi) { seg.style.outline = '2px solid ' + clr; seg.style.outlineOffset = '-1px'; seg.style.zIndex = '2'; }
     barEl.appendChild(seg);
 
@@ -645,10 +646,10 @@ function buildOverlayChart(overlayData, rangeDays, mktKey) {
       datasets: [
         { label: cfg.label + '情緒分數', data: scores, yAxisID: 'y-score',
           borderColor: mcol, backgroundColor: 'transparent',
-          borderWidth: 2.5, pointRadius: n <= 63 ? 2 : 0, tension: 0.2, order: 1, z: 10 },
+          borderWidth: 2.5, pointRadius: n <= 63 ? 2 : 0, tension: 0.2, order: 1, z: 10, spanGaps: false },
         { label: cfg.index, data: prices, yAxisID: 'y-price',
           borderColor: hexToRgba(mcol, 0.25), backgroundColor: hexToRgba(mcol, 0.07),
-          borderWidth: 1, pointRadius: 0, fill: true, tension: 0.2, order: 2 }
+          borderWidth: 1, pointRadius: 0, fill: true, tension: 0.2, order: 2, spanGaps: false }
       ]
     },
     options: {
