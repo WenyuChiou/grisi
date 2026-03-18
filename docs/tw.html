@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GRISI 儀表板 — 中文</title>
+<title>GRISI 情緒儀表板</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -16,7 +16,6 @@ body {
   padding-bottom: 40px;
 }
 
-/* Header */
 .header {
   padding: 20px 16px 12px;
   text-align: center;
@@ -42,7 +41,6 @@ body {
 }
 .lang-switch:hover { background: #21262d; }
 
-/* Sections */
 .section { padding: 14px 16px; border-bottom: 1px solid #21262d; }
 .section:last-child { border-bottom: none; }
 .section-title {
@@ -63,334 +61,210 @@ body {
   padding: 14px;
 }
 .thermo-card .market-label {
-  font-size: 0.68em;
-  color: #8b949e;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  font-size: 0.68em; color: #8b949e;
+  text-transform: uppercase; letter-spacing: 1px;
   margin-bottom: 10px;
 }
-.thermo-score-row {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  margin-bottom: 4px;
-}
-.thermo-score {
-  font-size: 3em;
-  font-weight: 800;
-  line-height: 1;
-}
-.thermo-zone-label {
-  font-size: 0.82em;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-}
-.thermo-bar-wrap {
-  position: relative;
-  margin: 10px 0 6px;
-}
-.thermo-bar {
-  display: flex;
-  height: 10px;
-  border-radius: 5px;
-  overflow: hidden;
-}
+.thermo-score-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+.thermo-score { font-size: 3em; font-weight: 800; line-height: 1; }
+.thermo-zone-label { font-size: 0.82em; font-weight: 700; letter-spacing: 0.3px; }
+.thermo-bar-wrap { position: relative; margin: 10px 0 6px; }
+.thermo-bar { display: flex; height: 10px; border-radius: 5px; overflow: hidden; }
 .thermo-zone { height: 100%; position: relative; }
 .thermo-labels { display: flex; margin-top: 4px; }
 .thermo-zone-name {
-  font-size: 0.48em;
-  color: #6e7681;
-  text-align: center;
-  line-height: 1.2;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  font-size: 0.48em; color: #6e7681;
+  text-align: center; line-height: 1.2;
+  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
 }
-.thermo-marker-row {
-  position: relative;
-  height: 12px;
-  margin-bottom: 0;
-}
+.thermo-marker-row { position: relative; height: 12px; margin-bottom: 0; }
 .thermo-marker {
-  position: absolute;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: absolute; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center;
 }
 .thermo-marker-arrow {
-  width: 0;
-  height: 0;
+  width: 0; height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-top: 8px solid #fff;
 }
-.thermo-percentile {
-  font-size: 0.68em;
-  color: #8b949e;
-  margin-top: 6px;
-}
+.thermo-percentile { font-size: 0.68em; color: #8b949e; margin-top: 6px; }
 
-/* Forward returns */
+/* ── FORWARD RETURNS ── */
 .returns-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .returns-card {
-  background: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 10px;
-  padding: 12px;
+  background: #161b22; border: 1px solid #30363d;
+  border-radius: 10px; padding: 12px;
 }
 .returns-card .ticker {
-  font-size: 0.78em;
-  color: #8b949e;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
+  font-size: 0.78em; color: #8b949e; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;
 }
 .returns-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
 .ret-col { text-align: center; }
 .ret-col .period {
-  font-size: 0.60em;
-  color: #8b949e;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 3px;
+  font-size: 0.60em; color: #8b949e;
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px;
 }
-.ret-col .avg {
-  font-size: 0.95em;
-  font-weight: 700;
-  margin-bottom: 2px;
-}
-.ret-col .wr {
-  font-size: 0.60em;
-  color: #8b949e;
-  margin-bottom: 2px;
-}
-.ret-col .range {
-  font-size: 0.58em;
-  color: #6e7681;
-}
-.returns-card .hist-note {
-  font-size: 0.60em;
-  color: #6e7681;
-  margin-top: 8px;
-  text-align: center;
-}
+.ret-col .avg { font-size: 0.95em; font-weight: 700; margin-bottom: 2px; }
+.ret-col .wr  { font-size: 0.60em; color: #8b949e; margin-bottom: 2px; }
+.ret-col .range { font-size: 0.58em; color: #6e7681; }
+.returns-card .hist-note { font-size: 0.60em; color: #6e7681; margin-top: 8px; text-align: center; }
 
-/* Charts */
-.chart-wrap {
-  background: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 10px;
-  padding: 14px;
-  margin-bottom: 2px;
+/* ── SIGNAL & ANALYSIS ── */
+.signal-block {
+  background: #161b22; border: 1px solid #30363d;
+  border-radius: 10px; padding: 16px;
 }
-.chart-wrap canvas { width: 100% !important; }
-
-/* Quintile edge box */
-.edge-box {
-  background: #0d2818;
-  border: 1px solid #1f6335;
-  border-radius: 8px;
-  padding: 10px 14px;
-  margin-top: 10px;
-  font-size: 0.80em;
-}
-.edge-box .edge-title {
-  color: #3fb950;
-  font-weight: 700;
-  margin-bottom: 4px;
-  font-size: 0.90em;
-}
-.edge-box .edge-text { color: #7ee787; line-height: 1.5; }
-
-/* Signal */
-.signal-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  background: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 10px;
-  padding: 14px;
-  margin-bottom: 10px;
+.signal-top {
+  display: flex; align-items: center;
+  gap: 14px; margin-bottom: 14px;
 }
 .signal-badge {
-  font-size: 1.1em;
-  font-weight: 800;
-  padding: 8px 16px;
-  border-radius: 8px;
-  letter-spacing: 2px;
-  flex-shrink: 0;
+  font-size: 1.1em; font-weight: 800;
+  padding: 8px 16px; border-radius: 8px;
+  letter-spacing: 2px; flex-shrink: 0;
 }
 .badge-hold { background: #2d2a00; color: #e3b341; border: 1px solid #9e6a03; }
 .badge-buy  { background: #0d2818; color: #3fb950; border: 1px solid #1f6335; }
 .badge-sell { background: #2d1116; color: #f85149; border: 1px solid #6e1c1c; }
-.signal-text { font-size: 0.80em; color: #8b949e; line-height: 1.5; }
-.signal-text strong { color: #e6edf3; display: block; margin-bottom: 3px; }
+.cross-market-text { font-size: 0.80em; color: #8b949e; line-height: 1.5; }
 
-/* Agent cards */
-.agent-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.agent-card {
-  background: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 10px;
-  padding: 12px;
-}
-.agent-card .agent-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-.agent-flag { font-size: 1.2em; line-height: 1; }
-.agent-name {
-  font-size: 0.72em;
-  font-weight: 700;
-  color: #8b949e;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.conviction-badge {
-  margin-left: auto;
-  font-size: 0.58em;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-weight: 700;
-  background: #21262d;
-  color: #8b949e;
+.agent-divider { border: none; border-top: 1px solid #30363d; margin: 14px 0 12px; }
+.agent-section-label {
+  font-size: 0.64em; color: #58a6ff;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  font-weight: 700; margin-bottom: 8px;
 }
 .agent-narrative {
-  font-size: 0.73em;
-  color: #c9d1d9;
-  line-height: 1.55;
-  margin-bottom: 8px;
+  font-size: 0.78em; color: #c9d1d9;
+  line-height: 1.6; margin-bottom: 10px;
 }
-.agent-factors { list-style: none; padding: 0; margin: 0; }
+.agent-factors { list-style: none; padding: 0; margin: 0 0 10px; }
 .agent-factors li {
-  font-size: 0.65em;
-  color: #8b949e;
-  padding: 3px 0;
-  padding-left: 12px;
-  position: relative;
-  line-height: 1.4;
+  font-size: 0.68em; color: #8b949e;
+  padding: 4px 0 4px 14px;
+  position: relative; line-height: 1.4;
   border-top: 1px solid #21262d;
 }
-.agent-factors li::before {
-  content: '›';
-  position: absolute;
-  left: 0;
-  color: #58a6ff;
+.agent-factors li::before { content: '›'; position: absolute; left: 0; color: #58a6ff; }
+.watch-for-label {
+  font-size: 0.64em; color: #e3b341;
+  text-transform: uppercase; letter-spacing: 1px;
+  font-weight: 700; margin-bottom: 4px;
+}
+.watch-for-text {
+  font-size: 0.72em; color: #e3b341;
+  line-height: 1.5;
+  background: #2d2a00; border: 1px solid #9e6a03;
+  border-radius: 6px; padding: 8px 10px; margin-bottom: 10px;
+}
+.outlook-label {
+  font-size: 0.64em; color: #3fb950;
+  text-transform: uppercase; letter-spacing: 1px;
+  font-weight: 700; margin-top: 14px; margin-bottom: 6px;
+}
+.outlook-text {
+  font-size: 0.76em; color: #7ee787; line-height: 1.6;
+  background: #0d2818; border: 1px solid #1f6335;
+  border-radius: 6px; padding: 10px 12px;
 }
 
-/* Market data grid */
-.mkt-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
+/* ── CHARTS ── */
+.chart-wrap {
+  background: #161b22; border: 1px solid #30363d;
+  border-radius: 10px; padding: 14px; margin-bottom: 2px;
 }
+.chart-wrap canvas { width: 100% !important; }
+
+/* ── EDGE BOX ── */
+.edge-box {
+  background: #0d2818; border: 1px solid #1f6335;
+  border-radius: 8px; padding: 10px 14px;
+  margin-top: 10px; font-size: 0.80em;
+}
+.edge-box .edge-title { color: #3fb950; font-weight: 700; margin-bottom: 4px; font-size: 0.90em; }
+.edge-box .edge-text  { color: #7ee787; line-height: 1.5; }
+
+/* ── MARKET DATA ── */
+.mkt-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
 .mkt-item {
-  background: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 8px;
-  padding: 10px 8px;
-  text-align: center;
+  background: #161b22; border: 1px solid #30363d;
+  border-radius: 8px; padding: 10px 8px; text-align: center;
 }
 .mkt-item .mkt-label {
-  font-size: 0.60em;
-  color: #8b949e;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
+  font-size: 0.60em; color: #8b949e;
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;
 }
-.mkt-item .mkt-value {
-  font-size: 0.88em;
-  font-weight: 700;
-  color: #e6edf3;
-}
-.mkt-item .mkt-sub {
-  font-size: 0.58em;
-  color: #6e7681;
-  margin-top: 2px;
-}
+.mkt-item .mkt-value { font-size: 0.88em; font-weight: 700; color: #e6edf3; }
+.mkt-item .mkt-sub   { font-size: 0.58em; color: #6e7681; margin-top: 2px; }
 
-/* Error */
+/* ── ERROR ── */
 .error-state {
-  text-align: center;
-  padding: 20px 16px;
-  color: #f85149;
-  font-size: 0.82em;
-  background: #2d1116;
-  border: 1px solid #6e1c1c;
-  border-radius: 8px;
-  margin: 10px 16px;
+  text-align: center; padding: 20px 16px;
+  color: #f85149; font-size: 0.82em;
+  background: #2d1116; border: 1px solid #6e1c1c;
+  border-radius: 8px; margin: 10px 16px;
 }
 
-/* Footer */
+/* ── FOOTER ── */
 .footer {
-  padding: 16px;
-  text-align: center;
-  color: #6e7681;
-  font-size: 0.70em;
+  padding: 16px; text-align: center;
+  color: #6e7681; font-size: 0.70em;
   border-top: 1px solid #21262d;
-  margin-top: 10px;
-  line-height: 1.6;
+  margin-top: 10px; line-height: 1.6;
 }
 
-/* Color utilities */
+/* ── UTILITIES ── */
 .clr-green  { color: #3fb950; }
 .clr-yellow { color: #e3b341; }
 .clr-red    { color: #f85149; }
 .clr-blue   { color: #58a6ff; }
 .clr-muted  { color: #8b949e; }
 
-/* Range buttons */
 .range-btn {
-  background: #21262d;
-  border: 1px solid #30363d;
-  border-radius: 6px;
-  padding: 5px 12px;
-  font-size: 0.72em;
-  color: #8b949e;
-  cursor: pointer;
-  font-weight: 600;
+  background: #21262d; border: 1px solid #30363d;
+  border-radius: 6px; padding: 5px 12px;
+  font-size: 0.72em; color: #8b949e;
+  cursor: pointer; font-weight: 600;
   transition: all 0.2s;
 }
-.range-btn:hover { border-color: #58a6ff; color: #58a6ff; }
+.range-btn:hover  { border-color: #58a6ff; color: #58a6ff; }
 .range-btn.active { background: #0d419d; border-color: #58a6ff; color: #fff; }
 
 @media (max-width: 480px) {
-  .thermo-grid      { grid-template-columns: 1fr; }
-  .returns-grid     { grid-template-columns: 1fr; }
-  .agent-grid       { grid-template-columns: 1fr; }
-  .mkt-grid         { grid-template-columns: repeat(4, 1fr); }
-  .returns-cols     { grid-template-columns: repeat(4, 1fr); }
-  .header h1        { font-size: 1.2em; }
-  .lang-switch      { font-size: 0.68em; padding: 4px 8px; }
+  .thermo-grid  { grid-template-columns: 1fr; }
+  .returns-grid { grid-template-columns: 1fr; }
+  .mkt-grid     { grid-template-columns: repeat(4, 1fr); }
+  .returns-cols { grid-template-columns: repeat(4, 1fr); }
+  .header h1    { font-size: 1.2em; }
+  .lang-switch  { font-size: 0.68em; padding: 4px 8px; }
+  .signal-top   { flex-wrap: wrap; }
 }
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <div class="header">
-  <a class="lang-switch" href="index.html">EN</a>
-  <h1>GRISI 情緒儀表板</h1>
+  <a class="lang-switch" href="index.html">&#127482;&#127480; EN</a>
+  <h1>&#127481;&#127484; GRISI 情緒儀表板</h1>
   <div class="sub">全球散戶投資人情緒指數</div>
   <div class="date" id="header-date">載入中...</div>
 </div>
 
-<!-- 1. 當前情緒溫度計 -->
+<!-- 1. 當前情緒 -->
 <div class="section">
   <div class="section-title">當前情緒</div>
   <div class="thermo-grid">
-    <div class="thermo-card" id="us-thermo-card">
+    <div class="thermo-card">
       <div class="market-label">美國市場</div>
       <div class="thermo-score-row">
         <span class="thermo-score" id="us-score">--</span>
         <span class="thermo-zone-label" id="us-label">載入中...</span>
       </div>
       <div class="thermo-bar-wrap">
-        <div class="thermo-marker-row" id="us-marker-row">
+        <div class="thermo-marker-row">
           <div class="thermo-marker" id="us-marker" style="left:50%">
             <div class="thermo-marker-arrow"></div>
           </div>
@@ -400,14 +274,14 @@ body {
       </div>
       <div class="thermo-percentile" id="us-pct">百分位: --%</div>
     </div>
-    <div class="thermo-card" id="tw-thermo-card">
+    <div class="thermo-card">
       <div class="market-label">台灣市場</div>
       <div class="thermo-score-row">
         <span class="thermo-score" id="tw-score">--</span>
         <span class="thermo-zone-label" id="tw-label">載入中...</span>
       </div>
       <div class="thermo-bar-wrap">
-        <div class="thermo-marker-row" id="tw-marker-row">
+        <div class="thermo-marker-row">
           <div class="thermo-marker" id="tw-marker" style="left:50%">
             <div class="thermo-marker-arrow"></div>
           </div>
@@ -437,21 +311,43 @@ body {
   </div>
 </div>
 
-<!-- 3. 歷史驗證 — 五分位柱狀圖 -->
+<!-- 3. 訊號與分析 (MERGED) -->
 <div class="section">
-  <div class="section-title">歷史驗證 — 分組報酬</div>
-  <div class="chart-wrap">
-    <canvas id="quintileChart" height="200"></canvas>
-  </div>
-  <div class="edge-box">
-    <div class="edge-title">恐懼時買入，貪婪時賣出</div>
-    <div class="edge-text" id="edge-text">載入中...</div>
+  <div class="section-title">訊號與分析</div>
+  <div class="signal-block">
+
+    <!-- 訊號徽章 + 跨市場觀點 -->
+    <div class="signal-top">
+      <div class="signal-badge badge-hold" id="signal-badge">觀望</div>
+      <div class="cross-market-text" id="cross-market-text">載入中...</div>
+    </div>
+
+    <!-- 美國分析 -->
+    <hr class="agent-divider">
+    <div class="agent-section-label">&#127482;&#127480; 美國分析</div>
+    <div class="agent-narrative" id="us-narrative">載入中...</div>
+    <ul class="agent-factors" id="us-factors"></ul>
+    <div class="watch-for-label">觀察重點</div>
+    <div class="watch-for-text" id="us-watch-for">載入中...</div>
+
+    <!-- 台灣分析 -->
+    <hr class="agent-divider">
+    <div class="agent-section-label">&#127481;&#127484; 台灣分析</div>
+    <div class="agent-narrative" id="tw-narrative">載入中...</div>
+    <ul class="agent-factors" id="tw-factors"></ul>
+    <div class="watch-for-label">觀察重點</div>
+    <div class="watch-for-text" id="tw-watch-for">載入中...</div>
+
+    <!-- 前瞻展望 -->
+    <div class="outlook-label">前瞻展望</div>
+    <div class="outlook-text" id="forward-outlook">載入中...</div>
+
   </div>
 </div>
 
-<!-- 4. 情緒指數 vs 市場走勢 -->
+<!-- 4. 情緒指數 vs 走勢 -->
 <div class="section">
-  <div class="section-title">情緒指數 vs 市場走勢</div>
+  <div class="section-title">情緒指數 vs 走勢</div>
   <div style="display:flex;gap:6px;margin-bottom:10px;">
     <button class="range-btn" data-days="63">3個月</button>
     <button class="range-btn active" data-days="252">1年</button>
@@ -467,44 +363,22 @@ body {
   </div>
 </div>
 
-<!-- 5. 訊號 -->
+<!-- 5. 歷史驗證 -->
 <div class="section">
-  <div class="section-title">訊號</div>
-  <div class="signal-row" id="signal-row">
-    <div class="signal-badge badge-hold" id="signal-badge">觀望</div>
-    <div class="signal-text" id="signal-text">載入中...</div>
+  <div class="section-title">歷史驗證</div>
+  <div class="chart-wrap">
+    <canvas id="quintileChart" height="200"></canvas>
+  </div>
+  <div class="edge-box">
+    <div class="edge-title">恐懼時買入，貪婪時賣出</div>
+    <div class="edge-text" id="edge-text">載入中...</div>
   </div>
 </div>
 
-<!-- 6. 文化行為代理分析 -->
-<div class="section">
-  <div class="section-title">文化行為代理分析</div>
-  <div class="agent-grid">
-    <div class="agent-card" id="us-agent-card">
-      <div class="agent-header">
-        <span class="agent-flag">&#127482;&#127480;</span>
-        <span class="agent-name">美國代理</span>
-        <span class="conviction-badge" id="us-conviction">--</span>
-      </div>
-      <div class="agent-narrative" id="us-narrative">載入中...</div>
-      <ul class="agent-factors" id="us-factors"></ul>
-    </div>
-    <div class="agent-card" id="tw-agent-card">
-      <div class="agent-header">
-        <span class="agent-flag">&#127481;&#127484;</span>
-        <span class="agent-name">台灣代理</span>
-        <span class="conviction-badge" id="tw-conviction">--</span>
-      </div>
-      <div class="agent-narrative" id="tw-narrative">載入中...</div>
-      <ul class="agent-factors" id="tw-factors"></ul>
-    </div>
-  </div>
-</div>
-
-<!-- 7. 市場數據 -->
+<!-- 6. 市場數據 -->
 <div class="section">
   <div class="section-title">市場數據</div>
-  <div class="mkt-grid" id="mkt-grid">
+  <div class="mkt-grid">
     <div class="mkt-item"><div class="mkt-label">SPY</div><div class="mkt-value" id="mkt-spy">--</div><div class="mkt-sub" id="mkt-spy-sub"></div></div>
     <div class="mkt-item"><div class="mkt-label">VIX</div><div class="mkt-value" id="mkt-vix">--</div><div class="mkt-sub">恐慌指數</div></div>
     <div class="mkt-item"><div class="mkt-label">加權指數</div><div class="mkt-value" id="mkt-taiex">--</div><div class="mkt-sub" id="mkt-taiex-sub"></div></div>
@@ -518,7 +392,7 @@ body {
 
 <div class="footer">
   GRISI — 16年回測（2010–2026）。反向指標：散戶貪婪預示較低未來報酬。<br>
-  資料日期：<span id="footer-date">2026-03-16</span>。由 Claude Agent 管道生成。
+  資料日期：<span id="footer-date">--</span>。由 Claude Agent 管道生成。
 </div>
 
 <script>
@@ -534,13 +408,7 @@ const ZONES = [
 ];
 
 const ZONE_TEXT_COLORS = [
-  '#3fb950', // 極度恐懼
-  '#56d364', // 恐懼
-  '#7ee787', // 謹慎
-  '#e3b341', // 中性
-  '#f0883e', // 樂觀
-  '#f85149', // 貪婪
-  '#ff7b72', // 極度貪婪
+  '#3fb950', '#56d364', '#7ee787', '#e3b341', '#f0883e', '#f85149', '#ff7b72'
 ];
 
 function getZoneIndex(score) {
@@ -549,9 +417,6 @@ function getZoneIndex(score) {
   }
   return ZONES.length - 1;
 }
-
-function sentimentLabel(score) { return ZONES[getZoneIndex(score)].label; }
-function scoreTextColor(score) { return ZONE_TEXT_COLORS[getZoneIndex(score)]; }
 
 // ── Thermometer renderer ──────────────────────────────────────────────────────
 function renderThermometer(prefix, score, pctile) {
@@ -572,9 +437,7 @@ function renderThermometer(prefix, score, pctile) {
   labelsEl.innerHTML = '';
 
   ZONES.forEach((z, i) => {
-    const width = z.max - z.min;
-    const pct   = width + '%';
-
+    const pct = (z.max - z.min) + '%';
     const seg = document.createElement('div');
     seg.className = 'thermo-zone';
     seg.style.width      = pct;
@@ -590,24 +453,19 @@ function renderThermometer(prefix, score, pctile) {
     nameEl.className   = 'thermo-zone-name';
     nameEl.style.width = pct;
     nameEl.textContent = z.label;
-    if (i === zi) {
-      nameEl.style.color      = clr;
-      nameEl.style.fontWeight = '700';
-    }
+    if (i === zi) { nameEl.style.color = clr; nameEl.style.fontWeight = '700'; }
     labelsEl.appendChild(nameEl);
   });
 
-  const markerEl    = document.getElementById(prefix + '-marker');
-  markerEl.style.left = Math.max(2, Math.min(98, score)) + '%';
-
+  document.getElementById(prefix + '-marker').style.left =
+    Math.max(2, Math.min(98, score)) + '%';
   document.getElementById(prefix + '-pct').textContent = '百分位: ' + pctile + '%';
 }
 
 // ── Format helpers ────────────────────────────────────────────────────────────
 function fmtPct(v, decimals) {
   decimals = (decimals === undefined) ? 2 : decimals;
-  const sign = v >= 0 ? '+' : '';
-  return sign + v.toFixed(decimals) + '%';
+  return (v >= 0 ? '+' : '') + v.toFixed(decimals) + '%';
 }
 function fmtNum(v, decimals) {
   decimals = (decimals === undefined) ? 1 : decimals;
@@ -629,7 +487,67 @@ function renderReturnCols(containerId, data, periods, keys) {
   }).join('');
 }
 
-// ── Quintile Chart ────────────────────────────────────────────────────────────
+// ── Signal & merged agent rendering ──────────────────────────────────────────
+function renderSignalAndAnalysis(agentData) {
+  const summary = agentData.summary || {};
+  const usAgent = agentData.us_agent || {};
+  const twAgent = agentData.tw_agent || {};
+
+  // 訊號徽章
+  const raw   = summary.actionable_signal || summary.actionable_tw || '';
+  let sigWord = 'HOLD';
+  if (/BUY/i.test(raw))  sigWord = 'BUY';
+  if (/SELL/i.test(raw)) sigWord = 'SELL';
+  const sigDisplay = sigWord === 'BUY' ? '買入' : sigWord === 'SELL' ? '賣出' : '觀望';
+
+  const badge = document.getElementById('signal-badge');
+  badge.textContent = sigDisplay;
+  badge.className   = 'signal-badge';
+  badge.classList.add(sigWord === 'BUY' ? 'badge-buy' : sigWord === 'SELL' ? 'badge-sell' : 'badge-hold');
+
+  // 跨市場觀點（優先用 TW 欄位）
+  const crossView = summary.cross_market_view_tw || summary.cross_market_view || '';
+  document.getElementById('cross-market-text').textContent = crossView;
+
+  // 美國分析
+  const usNarrative = usAgent.narrative_tw || usAgent.narrative || '';
+  document.getElementById('us-narrative').textContent = usNarrative;
+
+  const usFactorsEl = document.getElementById('us-factors');
+  usFactorsEl.innerHTML = '';
+  const usFactors = usAgent.key_factors_tw || usAgent.key_factors || [];
+  usFactors.forEach(f => {
+    const li = document.createElement('li');
+    li.textContent = f;
+    usFactorsEl.appendChild(li);
+  });
+
+  const usWatchFor = usAgent.watch_for_tw || usAgent.what_quant_misses || usAgent.forward_outlook || '';
+  document.getElementById('us-watch-for').textContent = usWatchFor;
+
+  // 台灣分析
+  const twNarrative = twAgent.narrative_tw || twAgent.narrative || '';
+  document.getElementById('tw-narrative').textContent = twNarrative;
+
+  const twFactorsEl = document.getElementById('tw-factors');
+  twFactorsEl.innerHTML = '';
+  const twFactors = twAgent.key_factors_tw || twAgent.key_factors || [];
+  twFactors.forEach(f => {
+    const li = document.createElement('li');
+    li.textContent = f;
+    twFactorsEl.appendChild(li);
+  });
+
+  const twWatchFor = twAgent.watch_for_tw || twAgent.what_quant_misses || twAgent.forward_outlook || '';
+  document.getElementById('tw-watch-for').textContent = twWatchFor;
+
+  // 前瞻展望
+  const outlook = summary.forward_outlook_tw ||
+    [twAgent.forward_outlook, usAgent.forward_outlook].filter(Boolean).join(' | ') || raw;
+  document.getElementById('forward-outlook').textContent = outlook;
+}
+
+// ── Quintile chart ────────────────────────────────────────────────────────────
 function buildQuintileChart(usReturns, twReturns) {
   const labels = ['Q1\n極度恐懼', 'Q2\n恐懼', 'Q3\n中性', 'Q4\n貪婪', 'Q5\n極度貪婪'];
   const ctx    = document.getElementById('quintileChart').getContext('2d');
@@ -650,44 +568,50 @@ function buildQuintileChart(usReturns, twReturns) {
       responsive: true, maintainAspectRatio: true,
       plugins: {
         legend: { labels: { color: '#8b949e', font: { size: 11 }, boxWidth: 12 } },
-        tooltip: { callbacks: { label: c => ` ${c.dataset.label}: +${c.parsed.y.toFixed(2)}%` } }
+        tooltip: { callbacks: { label: c => ` ${c.dataset.label}: ${c.parsed.y.toFixed(2)}%` } }
       },
       scales: {
         x: { ticks: { color: '#8b949e', font: { size: 10 } }, grid: { color: '#21262d' } },
-        y: { ticks: { color: '#8b949e', font: { size: 10 }, callback: v => '+' + v.toFixed(1) + '%' }, grid: { color: '#21262d' } }
+        y: { ticks: { color: '#8b949e', font: { size: 10 }, callback: v => v.toFixed(1) + '%' }, grid: { color: '#21262d' } }
       }
     }
   });
 }
 
-// ── Overlay Chart (TW: TW score + TAIEX) ─────────────────────────────────────
-let overlayChart    = null;
-let overlayFullData = null;
+// ── Overlay chart (TW: TW score + TAIEX) ─────────────────────────────────────
+let _overlayChart  = null;
+let _overlayData   = null;
+let _overlayScores = null;
 
 function dateFmtFn(n) {
-  if (n <= 90)  return d => { const dt = new Date(d); return dt.toLocaleDateString('zh-TW', { month: '2-digit', day: '2-digit' }); };
+  if (n <= 90)  return d => {
+    const dt = new Date(d);
+    return dt.toLocaleDateString('zh-TW', { month: '2-digit', day: '2-digit' });
+  };
   if (n <= 400) return d => d.substring(0, 7);
   return d => d.substring(0, 4);
 }
 
 function buildOverlayChart(overlayData, rangeDays) {
-  overlayFullData = overlayData;
+  _overlayData = overlayData;
   const allDates  = overlayData.dates;
   const allScores = overlayData.tw_score;
-  const twiiMap   = {};
-  overlayData.twii_dates.forEach((d, i) => { twiiMap[d] = overlayData.twii[i]; });
+
+  const twiiMap = {};
+  (overlayData.twii_dates || overlayData.dates).forEach((d, i) => {
+    twiiMap[d] = (overlayData.twii || overlayData.tw_price || [])[i];
+  });
 
   const n      = rangeDays > 0 ? Math.min(rangeDays, allDates.length) : allDates.length;
   const dates  = allDates.slice(-n);
   const scores = allScores.slice(-n);
   const prices = dates.map(d => twiiMap[d] !== undefined ? twiiMap[d] : null);
+  _overlayScores = scores;
 
-  if (overlayChart) { overlayChart.destroy(); overlayChart = null; }
-  const ctx = document.getElementById('overlayChart').getContext('2d');
-
+  if (_overlayChart) { _overlayChart.destroy(); _overlayChart = null; }
+  const ctx     = document.getElementById('overlayChart').getContext('2d');
   const fmtDate = dateFmtFn(n);
 
-  // "NOW" dot plugin
   const nowDotPlugin = {
     id: 'nowDot',
     afterDatasetsDraw(chart) {
@@ -698,18 +622,14 @@ function buildOverlayChart(overlayData, rangeDays) {
         if (ds0.data[i] != null) { lastIdx = i; break; }
       }
       if (lastIdx < 0) return;
-      const pt = meta0.data[lastIdx];
-      const { ctx: c } = chart;
-      const zi  = getZoneIndex(scores[lastIdx]);
-      const clr = ZONE_TEXT_COLORS[zi];
+      const pt  = meta0.data[lastIdx];
+      const c   = chart.ctx;
+      const clr = ZONE_TEXT_COLORS[getZoneIndex(_overlayScores[lastIdx])];
       c.save();
       c.beginPath();
       c.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
-      c.fillStyle = clr;
-      c.fill();
-      c.strokeStyle = '#fff';
-      c.lineWidth = 1.5;
-      c.stroke();
+      c.fillStyle = clr; c.fill();
+      c.strokeStyle = '#fff'; c.lineWidth = 1.5; c.stroke();
       c.fillStyle = '#fff';
       c.font = 'bold 9px sans-serif';
       c.textAlign = 'right';
@@ -728,30 +648,28 @@ function buildOverlayChart(overlayData, rangeDays) {
         const s = scores[i]; if (s == null) continue;
         const x0 = scales.x.getPixelForValue(i);
         const x1 = scales.x.getPixelForValue(i + 1);
-        if (s < 30)      { c.fillStyle = '#2ea043'; c.fillRect(x0, top, x1 - x0, bottom - top); }
+        if      (s < 30) { c.fillStyle = '#2ea043'; c.fillRect(x0, top, x1 - x0, bottom - top); }
         else if (s > 70) { c.fillStyle = '#da3633'; c.fillRect(x0, top, x1 - x0, bottom - top); }
       }
       c.restore();
     }
   };
 
-  overlayChart = new Chart(ctx, {
+  _overlayChart = new Chart(ctx, {
     type: 'line',
     plugins: [zonePlugin, nowDotPlugin],
     data: {
       labels: dates,
       datasets: [
         {
-          label: '情緒分數',
+          label: '台灣情緒分數',
           data: scores,
           yAxisID: 'y-score',
           borderColor: '#e3b341',
           backgroundColor: 'transparent',
           borderWidth: 2.5,
           pointRadius: n <= 63 ? 2 : 0,
-          tension: 0.2,
-          order: 1,
-          z: 10
+          tension: 0.2, order: 1, z: 10
         },
         {
           label: '加權指數',
@@ -761,9 +679,7 @@ function buildOverlayChart(overlayData, rangeDays) {
           backgroundColor: 'rgba(227,179,65,0.07)',
           borderWidth: 1,
           pointRadius: 0,
-          fill: true,
-          tension: 0.2,
-          order: 2
+          fill: true, tension: 0.2, order: 2
         }
       ]
     },
@@ -775,17 +691,14 @@ function buildOverlayChart(overlayData, rangeDays) {
         tooltip: { callbacks: {
           title: items => items[0].label,
           label: c => c.datasetIndex === 0
-            ? ` 分數: ${c.parsed.y?.toFixed(1)}`
-            : ` 加權: ${c.parsed.y?.toFixed(0)}`
+            ? ' 分數: ' + c.parsed.y?.toFixed(1)
+            : ' 加權: ' + c.parsed.y?.toFixed(0)
         }}
       },
       scales: {
         x: {
-          ticks: {
-            color: '#8b949e', font: { size: 9 }, maxTicksLimit: 8,
-            callback: (v, i) => fmtDate(dates[i] || ''),
-            maxRotation: 0
-          },
+          ticks: { color: '#8b949e', font: { size: 9 }, maxTicksLimit: 8,
+                   callback: (v, i) => fmtDate(dates[i] || ''), maxRotation: 0 },
           grid: { color: '#21262d' }
         },
         'y-score': {
@@ -809,39 +722,19 @@ document.querySelectorAll('.range-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.range-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    if (overlayFullData) buildOverlayChart(overlayFullData, parseInt(btn.dataset.days));
+    if (_overlayData) buildOverlayChart(_overlayData, parseInt(btn.dataset.days));
   });
 });
 
-// ── Signal rendering ──────────────────────────────────────────────────────────
-function renderSignal(summary) {
-  const raw = summary.actionable_signal || '';
-  let sigWord    = 'HOLD';
-  let sigDisplay = '觀望';
-  if (/BUY/i.test(raw))  { sigWord = 'BUY';  sigDisplay = '買入'; }
-  if (/SELL/i.test(raw)) { sigWord = 'SELL'; sigDisplay = '賣出'; }
-
-  const badge = document.getElementById('signal-badge');
-  badge.textContent = sigDisplay;
-  badge.className   = 'signal-badge';
-  if      (sigWord === 'BUY')  badge.classList.add('badge-buy');
-  else if (sigWord === 'SELL') badge.classList.add('badge-sell');
-  else                         badge.classList.add('badge-hold');
-
-  document.getElementById('signal-text').innerHTML =
-    `<strong>跨市場觀點</strong>${summary.cross_market_view || ''}<br>
-     <span style="color:#e6edf3;margin-top:5px;display:block">${raw}</span>`;
-}
-
-// ── Market data rendering ─────────────────────────────────────────────────────
+// ── Market data ───────────────────────────────────────────────────────────────
 function renderMarketData(snap) {
   const us  = snap.us_market || {};
   const tw  = snap.tw_market || {};
   const ret = snap.tw_retail_indicators || {};
   const gl  = snap.global_context || {};
 
-  document.getElementById('mkt-spy').textContent      = '$' + fmtNum(us.SPY_close || 0);
-  document.getElementById('mkt-spy-sub').textContent  = fmtPct(us.SPY_20d_return_pct || 0, 2) + ' 20日';
+  document.getElementById('mkt-spy').textContent     = '$' + fmtNum(us.SPY_close || 0);
+  document.getElementById('mkt-spy-sub').textContent = fmtPct(us.SPY_20d_return_pct || 0, 2) + ' 20日';
 
   const vixEl = document.getElementById('mkt-vix');
   vixEl.textContent = fmtNum(us.VIX || 0);
@@ -850,8 +743,8 @@ function renderMarketData(snap) {
   document.getElementById('mkt-taiex').textContent     = fmtNum(tw.TAIEX_close || 0, 0);
   document.getElementById('mkt-taiex-sub').textContent = 'RSI ' + (tw.TAIEX_RSI14 || '--');
 
-  document.getElementById('mkt-tsmc').textContent      = fmtNum(tw.TSMC_close || 0, 0);
-  document.getElementById('mkt-tsmc-sub').textContent  = (tw.TSMC_vs_52w_high_pct || '--') + '% 前高';
+  document.getElementById('mkt-tsmc').textContent     = fmtNum(tw.TSMC_close || 0, 0);
+  document.getElementById('mkt-tsmc-sub').textContent = (tw.TSMC_vs_52w_high_pct || '--') + '% 前高';
 
   document.getElementById('mkt-gold').textContent = '$' + fmtNum(gl.Gold || 0, 0);
   document.getElementById('mkt-10y').textContent  = (us.US_10Y_yield || '--') + '%';
@@ -870,7 +763,7 @@ function renderMarketData(snap) {
   document.getElementById('mkt-foreign-sub').textContent = days + dir;
 }
 
-// ── Main data fetch ───────────────────────────────────────────────────────────
+// ── Main load ─────────────────────────────────────────────────────────────────
 async function loadDashboard() {
   try {
     const [fwdData, agentData, quintileData, dashData, overlayData] = await Promise.all([
@@ -881,19 +774,15 @@ async function loadDashboard() {
       fetch('data/overlay_data.json').then(r => r.json()),
     ]);
 
-    const date = agentData.date || dashData.snapshot?.date || '2026-03-16';
+    const date = agentData.date || dashData.snapshot?.date || '--';
     document.getElementById('header-date').textContent = '資料日期：' + date;
     document.getElementById('footer-date').textContent = date;
 
-    // 1. Thermometers
-    const usScore = fwdData.us_current_score;
-    const twScore = fwdData.tw_current_score;
-    const usPct   = quintileData.us_percentile;
-    const twPct   = quintileData.tw_percentile;
-    renderThermometer('us', usScore, usPct);
-    renderThermometer('tw', twScore, twPct);
+    // 1. 溫度計
+    renderThermometer('us', fwdData.us_current_score, quintileData.us_percentile);
+    renderThermometer('tw', fwdData.tw_current_score, quintileData.tw_percentile);
 
-    // 2. Forward returns
+    // 2. 預期報酬
     renderReturnCols('spy-returns', fwdData.us_forward,
       ['5日','10日','20日','60日'],
       ['spy_fwd_5d','spy_fwd_10d','spy_fwd_20d','spy_fwd_60d']);
@@ -906,48 +795,30 @@ async function loadDashboard() {
     document.getElementById('taiex-n').textContent =
       (fwdData.tw_forward.taiex_fwd_20d.n || '--') + ' 歷史相似天數';
 
-    // 3. Quintile chart
-    buildQuintileChart(quintileData.us['20d'].returns, quintileData.tw['20d'].returns);
-    const usQ1ret = quintileData.us['20d'].returns[0].toFixed(2);
-    const usQ5ret = quintileData.us['20d'].returns[4].toFixed(2);
-    document.getElementById('edge-text').textContent =
-      `你在這裡：極度恐懼區間（歷史分布最底部20%）。` +
-      `歷史上 SPY 從此區間出發的20日平均報酬為 +${usQ1ret}%，遠高於極度貪婪區間的 +${usQ5ret}%。` +
-      `恐懼是更好的進場時機。`;
+    // 3. 訊號與分析（合併）
+    renderSignalAndAnalysis(agentData);
 
-    // 4. Overlay chart — default 1Y (252 trading days)
+    // 4. 疊加圖表 — 預設1年
     buildOverlayChart(overlayData, 252);
 
-    // 5. Signal
-    renderSignal(agentData.summary);
+    // 5. 歷史驗證
+    buildQuintileChart(quintileData.us['20d'].returns, quintileData.tw['20d'].returns);
+    const q1 = quintileData.tw['20d'].returns[0].toFixed(2);
+    const q5 = quintileData.tw['20d'].returns[4].toFixed(2);
+    document.getElementById('edge-text').textContent =
+      '你在這裡：極度恐懼區間（歷史分布最底部20%）。' +
+      '歷史上加權指數從此區間出發的20日平均報酬為 +' + q1 + '%，遠高於極度貪婪區間的 +' + q5 + '%。' +
+      '恐懼是更好的進場時機。';
 
-    // 6. Agent narratives
-    const usAgent = agentData.us_agent;
-    const twAgent = agentData.tw_agent;
-
-    document.getElementById('us-conviction').textContent = usAgent.conviction || '--';
-    document.getElementById('us-narrative').textContent  = usAgent.narrative  || '';
-    const usFactorsEl = document.getElementById('us-factors');
-    (usAgent.key_factors || []).forEach(f => {
-      const li = document.createElement('li'); li.textContent = f; usFactorsEl.appendChild(li);
-    });
-
-    document.getElementById('tw-conviction').textContent = twAgent.conviction || '--';
-    document.getElementById('tw-narrative').textContent  = twAgent.narrative  || '';
-    const twFactorsEl = document.getElementById('tw-factors');
-    (twAgent.key_factors || []).forEach(f => {
-      const li = document.createElement('li'); li.textContent = f; twFactorsEl.appendChild(li);
-    });
-
-    // 7. Market data
+    // 6. 市場數據
     renderMarketData(dashData.snapshot);
 
   } catch (err) {
     console.error(err);
-    const errDiv = document.createElement('div');
-    errDiv.className = 'error-state';
-    errDiv.textContent = '資料載入失敗。' + err.message;
-    document.body.insertBefore(errDiv, document.body.children[1]);
+    const d = document.createElement('div');
+    d.className   = 'error-state';
+    d.textContent = '資料載入失敗：' + err.message;
+    document.body.insertBefore(d, document.body.children[1]);
   }
 }
 
@@ -955,4 +826,3 @@ loadDashboard();
 </script>
 </body>
 </html>
-<!-- deployed Tue Mar 17 20:14:16     2026 -->
