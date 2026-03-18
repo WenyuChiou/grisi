@@ -397,19 +397,31 @@ function fmtNum(v, decimals) {
 // ── Thermometer renderer (single card) ───────────────────────────────────────
 function renderThermometer(score, pctile, zoneReturns, mktKey) {
   const cfg = MARKETS[mktKey];
+  const card = document.querySelector('.thermo-card');
+  card.classList.remove('extreme-zone', 'extreme-fear', 'extreme-greed');
+  document.getElementById('thermo-market-label').textContent = cfg.labelLong;
+
+  // Null guard — if score is missing, show placeholder
+  if (score == null) {
+    document.getElementById('mkt-score').textContent = '--';
+    document.getElementById('mkt-score').style.color = '#8b949e';
+    document.getElementById('mkt-zone-label').textContent = '無資料';
+    document.getElementById('mkt-zone-label').style.color = '#8b949e';
+    document.getElementById('mkt-expected').textContent = '';
+    document.getElementById('mkt-marker').style.left = '50%';
+    document.getElementById('mkt-pct').textContent = '百分位: --%';
+    return;
+  }
+
   const zi  = getZoneIndex(score);
   const clr = ZONE_TEXT_COLORS[zi];
   const zone = ZONES[zi];
 
-  const card = document.querySelector('.thermo-card');
-  card.classList.remove('extreme-zone', 'extreme-fear', 'extreme-greed');
   if (zone.extreme) {
     card.classList.add('extreme-zone');
     if (zi === 0) card.classList.add('extreme-fear');
     if (zi === ZONES.length - 1) card.classList.add('extreme-greed');
   }
-
-  document.getElementById('thermo-market-label').textContent = cfg.labelLong;
 
   const scoreEl = document.getElementById('mkt-score');
   scoreEl.textContent = score.toFixed(1);
@@ -420,6 +432,7 @@ function renderThermometer(score, pctile, zoneReturns, mktKey) {
   labelEl.style.color = clr;
 
   const expectedEl = document.getElementById('mkt-expected');
+  expectedEl.textContent = '';
   if (zoneReturns) {
     const zd = findZoneReturn(zoneReturns, score);
     if (zd) {
@@ -431,8 +444,6 @@ function renderThermometer(score, pctile, zoneReturns, mktKey) {
         const sign = avg >= 0 ? '+' : '';
         expectedEl.style.color = avg >= 0 ? '#3fb950' : '#f85149';
         expectedEl.textContent = '預期報酬: ' + sign + avg.toFixed(2) + '% / 20天 (勝率 ' + win.toFixed(0) + '%) — 基於近 ' + (zoneReturns.period || '10yr') + ' 數據';
-      } else {
-        expectedEl.textContent = '';
       }
     }
   }
@@ -765,7 +776,7 @@ let _allData = null;
 
 function switchMarket(mktKey) {
   if (!_allData) return;
-  const { fwdData, agentData, quintileData, overlayData, zoneReturns } = _allData;
+  const { fwdData, agentData, quintileData, dashData, overlayData, zoneReturns } = _allData;
   const cfg = MARKETS[mktKey];
 
   // Update buttons
@@ -776,8 +787,14 @@ function switchMarket(mktKey) {
     b.style.borderColor = active ? cfg.color : '';
   });
 
-  // Score
-  const score  = fwdData[cfg.scoreKey];
+  // Score — try forward_outlook first, fall back to dashboard_data
+  let score = fwdData[cfg.scoreKey];
+  if (score == null) {
+    const dashScoreArr = dashData[cfg.scoreProp];
+    if (dashScoreArr && dashScoreArr.length > 0) {
+      score = dashScoreArr[dashScoreArr.length - 1];
+    }
+  }
   const pctile = quintileData[mktKey + '_percentile'];
   renderThermometer(score, pctile, zoneReturns, mktKey);
 
@@ -791,11 +808,26 @@ function switchMarket(mktKey) {
   document.getElementById('mkt-returns-n').textContent =
     fwdBlock && fwdBlock[nKey] ? (fwdBlock[nKey].n || '--') + ' 歷史相似天數' : '';
 
-  // Overlay chart (keep current range)
-  buildOverlayChart(overlayData, _currentRange, mktKey);
+  // Overlay chart — skip if no score data for this market
+  const overlayScores = overlayData && overlayData[cfg.scoreProp];
+  const hasOverlay = overlayScores && overlayScores.length > 0;
+  if (hasOverlay) {
+    buildOverlayChart(overlayData, _currentRange, mktKey);
+  } else {
+    if (_overlayChart) { _overlayChart.destroy(); _overlayChart = null; }
+    const ctx = document.getElementById('overlayChart').getContext('2d');
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.fillStyle = '#6e7681'; ctx.font = '14px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(cfg.labelLong + ' 的歷史走勢資料即將推出。', ctx.canvas.width / 2, ctx.canvas.height / 2);
+  }
 
-  // Agent
-  renderAgentSection(agentData, mktKey);
+  // Agent — try phase2 data first, fall back to dashboard_data.agents
+  let effectiveAgentData = agentData;
+  if (!agentData[cfg.agentKey] && dashData.agents && dashData.agents[cfg.agentKey]) {
+    effectiveAgentData = Object.assign({}, agentData);
+    effectiveAgentData[cfg.agentKey] = dashData.agents[cfg.agentKey];
+  }
+  renderAgentSection(effectiveAgentData, mktKey);
 
   // Quintile
   const qData = quintileData[mktKey] && quintileData[mktKey]['20d'] ? quintileData[mktKey]['20d'].returns : null;
@@ -832,7 +864,7 @@ async function loadDashboard() {
       fetch('data/ic_data.json').then(r => r.json()),
     ]);
 
-    _allData = { fwdData, agentData, quintileData, overlayData, zoneReturns, icData };
+    _allData = { fwdData, agentData, quintileData, dashData, overlayData, zoneReturns, icData };
 
     if (icData && icData.markets) {
       const tbl = document.getElementById('ic-table');
