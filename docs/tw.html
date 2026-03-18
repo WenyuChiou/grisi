@@ -268,9 +268,9 @@ body {
 <div class="section">
   <div class="section-title">情緒指數 vs 走勢</div>
   <div style="display:flex;gap:6px;margin-bottom:10px;">
-    <button class="range-btn" data-days="3">3個月</button>
-    <button class="range-btn active" data-days="12">1年</button>
-    <button class="range-btn" data-days="36">3年</button>
+    <button class="range-btn" data-days="13">3個月</button>
+    <button class="range-btn active" data-days="52">1年</button>
+    <button class="range-btn" data-days="156">3年</button>
     <button class="range-btn" data-days="0">全部</button>
   </div>
   <div class="chart-wrap">
@@ -622,7 +622,7 @@ let _overlayChart  = null;
 let _overlayData   = null;
 let _overlayScores = null;
 let _currentMkt    = 'tw';
-let _currentRange  = 12;
+let _currentRange  = 52;
 
 function timeConfig(n) {
   if (n <= 90)   return { unit: 'week',    displayFormats: { week: 'MM/dd' } };

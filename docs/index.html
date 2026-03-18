@@ -420,9 +420,9 @@ body {
 <div class="section">
   <div class="section-title">Sentiment vs Market</div>
   <div style="display:flex;gap:6px;margin-bottom:10px;">
-    <button class="range-btn" data-days="3">3M</button>
-    <button class="range-btn active" data-days="12">1Y</button>
-    <button class="range-btn" data-days="36">3Y</button>
+    <button class="range-btn" data-days="13">3M</button>
+    <button class="range-btn active" data-days="52">1Y</button>
+    <button class="range-btn" data-days="156">3Y</button>
     <button class="range-btn" data-days="0">All</button>
   </div>
   <div class="chart-wrap">
@@ -774,7 +774,7 @@ let _overlayChart  = null;
 let _overlayData   = null;
 let _overlayScores = null;
 let _currentMkt    = 'us';
-let _currentRange  = 12;
+let _currentRange  = 52;
 
 function timeConfig(n) {
   if (n <= 90)   return { unit: 'week',    displayFormats: { week: 'MM/dd' } };
