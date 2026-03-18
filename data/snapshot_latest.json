@@ -15,59 +15,59 @@
     "SPY_vs_52w_high_pct": 96.4,
     "SPY_5d_return_pct": -0.94,
     "SPY_20d_return_pct": -1.77,
-    "VIX": 22.37,
+    "VIX": 21.71,
     "US_10Y_yield": 4.2
   },
   "tw_market": {
-    "TAIEX_close": 34267.0,
-    "TAIEX_RSI14": 43.4,
-    "TAIEX_SMA20": 33766.0,
-    "TAIEX_vs_52w_high_pct": 96.8,
-    "TSMC_close": 1900.0,
-    "TSMC_vs_52w_high_pct": 94.6
+    "TAIEX_close": 34349.0,
+    "TAIEX_RSI14": 43.9,
+    "TAIEX_SMA20": 33771.0,
+    "TAIEX_vs_52w_high_pct": 97.0,
+    "TSMC_close": 1905.0,
+    "TSMC_vs_52w_high_pct": 94.8
   },
   "tw_retail_indicators": {
     "margin_balance": 8074444,
     "margin_5d_change_pct": 1.87,
     "margin_5d_trend": "INCREASING",
-    "institutional_net_TWD": 97.7,
-    "retail_net_est_TWD": -97.7,
-    "foreign_net_TWD": 4.7,
-    "foreign_consecutive_days": 1,
+    "institutional_net_TWD": 185.4,
+    "retail_net_est_TWD": -185.4,
+    "foreign_net_TWD": 93.3,
+    "foreign_consecutive_days": 2,
     "foreign_consecutive_direction": "buy",
     "TSMC_margin_balance": 24963,
     "TSMC_margin_30d_change_pct": 20.15
   },
   "jp_market": {
-    "NIKKEI_close": 55133.18,
-    "NIKKEI_RSI14": 37.1,
-    "NIKKEI_SMA20": 55864.29,
+    "NIKKEI_close": 55239.4,
+    "NIKKEI_RSI14": 37.6,
+    "NIKKEI_SMA20": 55869.6,
     "NIKKEI_vs_52w_high_pct": NaN,
-    "NIKKEI_5d_return_pct": 0.2,
-    "NIKKEI_20d_return_pct": -2.53,
-    "jp_moodring_score": 58.1
+    "NIKKEI_5d_return_pct": 0.39,
+    "NIKKEI_20d_return_pct": -2.35,
+    "jp_moodring_score": 58.6
   },
   "kr_market": {
-    "KOSPI_close": 5887.74,
-    "KOSPI_RSI14": 46.9,
-    "KOSPI_SMA20": 5702.05,
+    "KOSPI_close": 5925.03,
+    "KOSPI_RSI14": 47.5,
+    "KOSPI_SMA20": 5703.91,
     "KOSPI_vs_52w_high_pct": NaN,
-    "KOSPI_5d_return_pct": 4.95,
-    "KOSPI_20d_return_pct": 6.62,
-    "kr_moodring_score": 76.7
+    "KOSPI_5d_return_pct": 5.62,
+    "KOSPI_20d_return_pct": 7.29,
+    "kr_moodring_score": 78.0
   },
   "eu_market": {
-    "STOXX50_close": 5769.25,
-    "STOXX50_RSI14": 30.0,
-    "STOXX50_SMA20": 5921.06,
+    "STOXX50_close": 5812.81,
+    "STOXX50_RSI14": 33.3,
+    "STOXX50_SMA20": 5906.54,
     "STOXX50_vs_52w_high_pct": NaN,
-    "STOXX50_5d_return_pct": -1.16,
-    "STOXX50_20d_return_pct": -4.19,
-    "eu_moodring_score": 53.0
+    "STOXX50_5d_return_pct": 0.31,
+    "STOXX50_20d_return_pct": -4.76,
+    "eu_moodring_score": 53.2
   },
   "global_context": {
     "Gold": 4994.0,
-    "USDJPY": 158.74,
-    "USDTWD": 31.83
+    "USDJPY": 159.01,
+    "USDTWD": 31.86
   }
 }
