@@ -433,9 +433,9 @@ body {
   </div>
 </div>
 
-<!-- 4. SIGNAL & ANALYSIS -->
+<!-- 4. RETAIL INVESTOR SENTIMENT -->
 <div class="section">
-  <div class="section-title">Signal &amp; Analysis</div>
+  <div class="section-title">What Retail Investors Are Thinking</div>
   <div class="signal-block" id="signal-block">
     <div id="agent-content">Loading...</div>
   </div>
@@ -678,7 +678,7 @@ function renderAgentSection(agentData, mktKey) {
     el.innerHTML = `
       <div class="signal-top">
         <div class="signal-badge badge-hold">HOLD</div>
-        <div class="cross-market-text">Agent analysis coming soon for ${cfg.label} market.</div>
+        <div class="cross-market-text">Retail sentiment coming soon for ${cfg.label} market.</div>
       </div>
       <div class="coming-soon">Automated analysis for ${cfg.labelLong} is not yet available. Check back after the next daily update.</div>`;
     return;
@@ -704,7 +704,7 @@ function renderAgentSection(agentData, mktKey) {
       <div class="cross-market-text">${crossView}</div>
     </div>
     <hr class="agent-divider">
-    <div class="agent-section-label">${cfg.label} Analysis</div>
+    <div class="agent-section-label">${cfg.label} Retail Investors Are Thinking</div>
     <div class="agent-narrative">${narrative}</div>
     <ul class="agent-factors">${factorsHtml}</ul>
     <div class="watch-for-label">Watch For</div>

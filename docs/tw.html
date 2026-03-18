@@ -281,9 +281,9 @@ body {
   </div>
 </div>
 
-<!-- 4. 訊號與分析 -->
+<!-- 4. 散戶心聲 -->
 <div class="section">
-  <div class="section-title">訊號與分析</div>
+  <div class="section-title">散戶心聲</div>
   <div class="signal-block" id="signal-block">
     <div id="agent-content">載入中...</div>
   </div>
@@ -525,9 +525,9 @@ function renderAgentSection(agentData, mktKey) {
     el.innerHTML = `
       <div class="signal-top">
         <div class="signal-badge badge-hold">觀望</div>
-        <div class="cross-market-text">${cfg.label}市場的 Agent 分析即將推出。</div>
+        <div class="cross-market-text">${cfg.label}市場的散戶心聲即將更新。</div>
       </div>
-      <div class="coming-soon">${cfg.labelLong}的自動化分析尚未開放，請等待下次每日更新後查看。</div>`;
+      <div class="coming-soon">${cfg.labelLong}的散戶心聲尚未更新，請等待下次每日更新。</div>`;
     return;
   }
 
@@ -552,7 +552,7 @@ function renderAgentSection(agentData, mktKey) {
       <div class="cross-market-text">${crossView}</div>
     </div>
     <hr class="agent-divider">
-    <div class="agent-section-label">${cfg.label}分析</div>
+    <div class="agent-section-label">${cfg.label}散戶在想什麼</div>
     <div class="agent-narrative">${narrative}</div>
     <ul class="agent-factors">${factorsHtml}</ul>
     <div class="watch-for-label">觀察重點</div>
