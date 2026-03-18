@@ -481,8 +481,84 @@ def update_overlay_json(snapshot, jp_score=None, kr_score=None, eu_score=None):
     print("[SAVE] overlay_data.json updated")
 
 
+def generate_narrative(mkt_data, mkt_name, retail=None, global_ctx=None, score=None):
+    """Generate a short narrative for a market based on current data."""
+    if not mkt_data:
+        return None
+
+    prefix_map = {
+        'US': ('SPY', 'SPY_close', 'SPY_RSI14', 'SPY_5d_return_pct', 'SPY_20d_return_pct'),
+        'TW': ('TAIEX', 'TAIEX_close', None, None, None),
+        'JP': ('Nikkei', 'NIKKEI_close', 'NIKKEI_RSI14', 'NIKKEI_5d_return_pct', 'NIKKEI_20d_return_pct'),
+        'KR': ('KOSPI', 'KOSPI_close', 'KOSPI_RSI14', 'KOSPI_5d_return_pct', 'KOSPI_20d_return_pct'),
+        'EU': ('STOXX50', 'STOXX50_close', 'STOXX50_RSI14', 'STOXX50_5d_return_pct', 'STOXX50_20d_return_pct'),
+    }
+
+    idx_name, close_key, rsi_key, r5d_key, r20d_key = prefix_map.get(mkt_name, (None,)*5)
+    if not idx_name:
+        return None
+
+    close = mkt_data.get(close_key, '?')
+    rsi = mkt_data.get(rsi_key, '?') if rsi_key else '?'
+    r5d = mkt_data.get(r5d_key) if r5d_key else None
+    r20d = mkt_data.get(r20d_key) if r20d_key else None
+
+    parts = [f"{idx_name} at {close:,.0f}" if isinstance(close, (int, float)) else f"{idx_name} at {close}"]
+
+    if rsi != '?':
+        zone = 'oversold' if rsi < 30 else 'near oversold' if rsi < 35 else 'overbought' if rsi > 70 else 'neutral'
+        parts.append(f"RSI {rsi} ({zone})")
+
+    if r5d is not None:
+        parts.append(f"5d return {r5d:+.1f}%")
+    if r20d is not None:
+        parts.append(f"20d return {r20d:+.1f}%")
+
+    if score is not None:
+        if score < 25:
+            mood = "extreme fear — historically strong buy signal"
+        elif score < 40:
+            mood = "fearful — contrarian opportunity building"
+        elif score < 60:
+            mood = "neutral — no strong directional signal"
+        elif score < 75:
+            mood = "greedy — caution warranted"
+        else:
+            mood = "extreme greed — historically poor entry point"
+        parts.append(f"Moodring score {score:.1f} ({mood})")
+
+    narrative = ". ".join(parts) + "."
+
+    # US-specific additions
+    if mkt_name == 'US':
+        vix = mkt_data.get('VIX')
+        if vix:
+            vix_desc = 'elevated' if vix > 20 else 'calm' if vix < 15 else 'moderate'
+            narrative += f" VIX at {vix} ({vix_desc})."
+        if global_ctx:
+            gold = global_ctx.get('Gold')
+            if gold:
+                narrative += f" Gold ${gold:,.0f}."
+
+    # TW-specific additions
+    if mkt_name == 'TW' and retail:
+        fw = retail.get('foreign_net_TWD')
+        consec = retail.get('foreign_consecutive_days', 0)
+        direction = retail.get('foreign_consecutive_direction', '')
+        margin_chg = retail.get('margin_5d_change_pct')
+        if fw is not None:
+            narrative += f" Foreign investors net {'buy' if fw > 0 else 'sell'} TWD {abs(fw):.1f}B, {consec}d consecutive {direction}."
+        if margin_chg is not None:
+            narrative += f" Margin balance 5d change {margin_chg:+.1f}%."
+        tsmc_margin = retail.get('TSMC_margin_30d_change_pct')
+        if tsmc_margin is not None:
+            narrative += f" TSMC margin 30d change {tsmc_margin:+.1f}%."
+
+    return narrative
+
+
 def update_agent_results(snapshot, us_data, tw_data, tw_retail, jp_data, kr_data, eu_data, global_ctx):
-    """Update phase2_agent_results.json with today's date and scores."""
+    """Update phase2_agent_results.json with today's date, scores, and narratives."""
     path = os.path.join(DATA_DIR, 'phase2_agent_results.json')
     if not os.path.exists(path):
         print("[SKIP] phase2_agent_results.json not found")
@@ -505,6 +581,28 @@ def update_agent_results(snapshot, us_data, tw_data, tw_retail, jp_data, kr_data
         agents['us_base_score'] = us_scores[-1]
     if tw_scores:
         agents['tw_base_score'] = tw_scores[-1]
+
+    # Generate fresh narratives from today's data
+    us_mkt = snapshot.get('us_market', {})
+    tw_mkt = snapshot.get('tw_market', {})
+    jp_mkt = snapshot.get('jp_market', {})
+    kr_mkt = snapshot.get('kr_market', {})
+    eu_mkt = snapshot.get('eu_market', {})
+    retail = snapshot.get('tw_retail_indicators', {})
+    gl = snapshot.get('global_context', {})
+
+    narr_map = {
+        'us_agent': generate_narrative(us_mkt, 'US', global_ctx=gl, score=us_scores[-1] if us_scores else None),
+        'tw_agent': generate_narrative(tw_mkt, 'TW', retail=retail, score=tw_scores[-1] if tw_scores else None),
+        'jp_agent': generate_narrative(jp_mkt, 'JP', score=jp_mkt.get('jp_moodring_score')),
+        'kr_agent': generate_narrative(kr_mkt, 'KR', score=kr_mkt.get('kr_moodring_score')),
+        'eu_agent': generate_narrative(eu_mkt, 'EU', score=eu_mkt.get('eu_moodring_score')),
+    }
+
+    for agent_key, narr in narr_map.items():
+        if narr and agent_key in agents:
+            agents[agent_key]['narrative_en'] = narr
+            agents[agent_key]['narrative'] = narr
 
     agents = sanitize_for_json(agents)
     with open(path, 'w', encoding='utf-8') as f:
