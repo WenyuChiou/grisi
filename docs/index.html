@@ -452,7 +452,25 @@ body {
   </div>
 </div>
 
-<!-- 6. MARKET DATA -->
+<!-- 6. IC BACKTEST VALIDATION -->
+<div class="section" id="ic-section">
+  <div class="section-title">Backtest Validation (IC)</div>
+  <div style="background:#161b22;border:1px solid #30363d;border-radius:10px;padding:14px;">
+    <div style="display:grid;grid-template-columns:auto repeat(4,1fr);gap:4px;font-size:0.85em;text-align:center;">
+      <div style="color:#8b949e;text-align:left;font-weight:700;">Market</div>
+      <div style="color:#8b949e;font-weight:600;">5d IC</div>
+      <div style="color:#8b949e;font-weight:600;">10d IC</div>
+      <div style="color:#8b949e;font-weight:600;">20d IC</div>
+      <div style="color:#8b949e;font-weight:600;">60d IC</div>
+    </div>
+    <div id="ic-table" style="display:grid;grid-template-columns:auto repeat(4,1fr);gap:4px;font-size:0.85em;text-align:center;margin-top:6px;"></div>
+    <div style="font-size:0.78em;color:#8b949e;margin-top:10px;line-height:1.5;" id="ic-explanation">
+      IC (Information Coefficient) measures correlation between sentiment score and future returns. Negative IC = contrarian signal works. All p &lt; 0.0001.
+    </div>
+  </div>
+</div>
+
+<!-- 7. MARKET DATA -->
 <div class="section">
   <div class="section-title">Market Data</div>
   <div class="mkt-grid" id="mkt-data-grid">
@@ -951,16 +969,27 @@ document.querySelectorAll('.market-btn').forEach(btn => {
 // ── Main load ─────────────────────────────────────────────────────────────────
 async function loadDashboard() {
   try {
-    const [fwdData, agentData, quintileData, dashData, overlayData, zoneReturns] = await Promise.all([
+    const [fwdData, agentData, quintileData, dashData, overlayData, zoneReturns, icData] = await Promise.all([
       fetch('data/forward_outlook.json').then(r => r.json()),
       fetch('data/phase2_agent_results.json').then(r => r.json()),
       fetch('data/quintile_data.json').then(r => r.json()),
       fetch('data/dashboard_data.json').then(r => r.json()),
       fetch('data/overlay_data.json').then(r => r.json()),
       fetch('data/zone_returns.json').then(r => r.json()),
+      fetch('data/ic_data.json').then(r => r.json()),
     ]);
 
-    _allData = { fwdData, agentData, quintileData, overlayData, zoneReturns };
+    _allData = { fwdData, agentData, quintileData, overlayData, zoneReturns, icData };
+
+    // Render IC table (all markets, static)
+    if (icData && icData.markets) {
+      const tbl = document.getElementById('ic-table');
+      tbl.innerHTML = Object.entries(icData.markets).map(([k, m]) => {
+        const fmt = v => `<span style="color:${v < -0.10 ? '#3fb950' : v < -0.05 ? '#e3b341' : '#8b949e'};font-weight:600;">${v.toFixed(3)}</span>`;
+        return `<div style="text-align:left;color:#e6edf3;font-weight:600;">${m.name}</div>` +
+          `<div>${fmt(m.ic_5d)}</div><div>${fmt(m.ic_10d)}</div><div>${fmt(m.ic_20d)}</div><div>${fmt(m.ic_60d)}</div>`;
+      }).join('');
+    }
 
     const date = agentData.date || dashData.snapshot?.date || '--';
     document.getElementById('header-date').textContent = 'As of ' + date;

@@ -1,0 +1,57 @@
+{
+  "period": "2010-2026 (16yr)",
+  "markets": {
+    "us": {
+      "name": "US (SPY)",
+      "name_tw": "美國 (SPY)",
+      "ic_5d": -0.0971,
+      "ic_10d": -0.1437,
+      "ic_20d": -0.1754,
+      "ic_60d": -0.1795,
+      "pval_20d": 0.0001,
+      "significant": true
+    },
+    "tw": {
+      "name": "TW (TAIEX)",
+      "name_tw": "台灣 (TAIEX)",
+      "ic_5d": -0.0803,
+      "ic_10d": -0.1149,
+      "ic_20d": -0.128,
+      "ic_60d": -0.0981,
+      "pval_20d": 0.0001,
+      "significant": true
+    },
+    "jp": {
+      "name": "JP (Nikkei)",
+      "name_tw": "日本 (Nikkei)",
+      "ic_5d": -0.0545,
+      "ic_10d": -0.0931,
+      "ic_20d": -0.1194,
+      "ic_60d": -0.1683,
+      "pval_20d": 0.0001,
+      "significant": true
+    },
+    "kr": {
+      "name": "KR (KOSPI)",
+      "name_tw": "韓國 (KOSPI)",
+      "ic_5d": -0.1046,
+      "ic_10d": -0.1342,
+      "ic_20d": -0.1794,
+      "ic_60d": -0.1662,
+      "pval_20d": 0.0001,
+      "significant": true
+    },
+    "eu": {
+      "name": "EU (STOXX50)",
+      "name_tw": "歐洲 (STOXX50)",
+      "ic_5d": -0.1033,
+      "ic_10d": -0.1332,
+      "ic_20d": -0.1451,
+      "ic_60d": -0.1264,
+      "pval_20d": 0.0001,
+      "significant": true
+    }
+  },
+  "explanation_en": "IC (Information Coefficient) measures the correlation between our sentiment score and future market returns. Negative IC confirms the contrarian signal: higher greed predicts lower returns. All markets significant at p < 0.0001.",
+  "explanation_tw": "IC（資訊係數）衡量情緒分數與未來市場報酬的相關性。負 IC 確認反向信號有效：散戶越貪婪，未來報酬越低。所有市場在 p < 0.0001 下顯著。"
+}
