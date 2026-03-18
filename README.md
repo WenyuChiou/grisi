@@ -1,53 +1,110 @@
-# GRISI
+# 💍 MoodRing — 全球散戶情緒指數
 
-**Global Retail Investor Sentiment Index**
+[English](#english) | 中文
+
+每日更新的反向指標，覆蓋五大全球市場。
+**散戶恐懼時，市場傾向上漲。散戶貪婪時，市場容易下跌。**
+
+> 打開 Dashboard → 看分數 → 看歷史勝率 → 做決定。
+
+**[🇺🇸 Dashboard (EN)](https://wenyuchiou.github.io/moodring/index.html)** · **[🇹🇼 Dashboard (中文)](https://wenyuchiou.github.io/moodring/tw.html)**
+
+---
+
+## 最新讀數
+
+| 市場 | 分數 | 情緒 | 20天預期報酬 | 勝率 |
+|------|------|------|-------------|------|
+| 🇺🇸 美國 (SPY) | 32 | 謹慎 | +1.80% | 66% |
+| 🇹🇼 台灣 (TAIEX) | 44 | 中性 | -0.21% | 60% |
+| 🇯🇵 日本 (Nikkei) | 33 | 謹慎 | +1.69% | 67% |
+| 🇰🇷 韓國 (KOSPI) | 35 | 謹慎 | +1.17% | 65% |
+| 🇪🇺 歐洲 (STOXX50) | 33 | 謹慎 | +1.38% | 65% |
+
+---
+
+## 跟傳統指標的差異
+
+| | CNN 恐懼貪婪 | AAII 調查 | **MoodRing** |
+|--|-------------|----------|-------------|
+| 方法 | 7 個固定指標 | 每週問卷 | **Z-score + 行為調整** |
+| 市場 | 僅美國 | 僅美國 | **美、台、日、韓、歐** |
+| 未來預測 | 無 | 無 | **有（歷史條件報酬）** |
+| 行為模型 | 無 | 無 | **損失趨避、FOMO、羊群、錨定** |
+| 散戶心態 | 無 | 無 | **AI 模擬散戶怎麼想** |
+| 賣出信號 | 弱 | 無 | **台股貪婪 >70 = 報酬趨零** |
+| 回測 IC | 未公開 | 弱 | **IC = -0.175 (p < 0.0001)** |
+
+### 行為指標
+
+不只是價格指標，MoodRing 加入學術研究的**行為調整層**：
+
+| 參數 | 學術來源 | 美國 | 台灣 |
+|------|---------|------|------|
+| 損失趨避 | Kahneman & Tversky (1979) | 2.0x | 2.8x |
+| 羊群效應 | Banerjee (1992) | 0.60 | 0.80 |
+| FOMO | 行為金融學 | 0.30 | 0.30 |
+| 錨定效應 | Tversky & Kahneman (1974) | 0.50 | 0.75 |
+| 過度自信 | Barber & Odean (2001) | 0.30 | 0.00 |
+
+## 極度恐懼時進場報酬（近10年）
+
+| 市場 | 20天平均 | 勝率 |
+|------|---------|------|
+| 🇰🇷 韓國 | **+9.16%** | **85%** |
+| 🇹🇼 台灣 | +6.45% | 87% |
+| 🇯🇵 日本 | +5.81% | 75% |
+| 🇪🇺 歐洲 | +4.28% | 77% |
+| 🇺🇸 美國 | +4.17% | 72% |
+
+## 運作原理
+
+```
+市場數據（Yahoo Finance + FinMind）
+  → 5 個 Z-score 指標（252天滾動，無前瞻偏差）
+  → 行為調整（損失趨避 × FOMO × 羊群效應）
+  → 分數 0-100
+  → 歷史條件報酬查詢
+  → AI 散戶模擬：散戶現在在想什麼？
+```
+
+## 資料來源
+
+| 資料 | 來源 |
+|------|------|
+| 美、日、韓、歐股價 | Yahoo Finance |
+| 台股 + 融資 + 三大法人 | Yahoo Finance + FinMind (TWSE) |
+| 行為參數 | 展望理論文獻 |
+
+---
+
+*非投資建議。過去表現不代表未來結果。*
+
+---
+
+<a id="english"></a>
+
+## English
+
+### 💍 MoodRing — Global Retail Investor Sentiment Index
 
 A daily contrarian indicator for 5 global markets, powered by behavioral finance + AI.
 
-**[Dashboard (EN)](https://wenyuchiou.github.io/grisi/index.html)** · **[Dashboard (中文)](https://wenyuchiou.github.io/grisi/tw.html)**
+When retail investors are fearful, markets rise. When greedy, markets underperform.
 
----
+**[Dashboard (EN)](https://wenyuchiou.github.io/moodring/index.html)** · **[Dashboard (中文)](https://wenyuchiou.github.io/moodring/tw.html)**
 
-## What Makes This Different
+### What Makes This Different
 
-| | CNN Fear & Greed | AAII Survey | **GRISI** |
-|--|-----------------|------------|-----------|
-| Method | 7 fixed indicators | Weekly poll | **Rolling Z-score + behavioral adjustment** |
+| | CNN Fear & Greed | AAII Survey | **MoodRing** |
+|--|-----------------|------------|-------------|
+| Method | 7 fixed indicators | Weekly poll | **Z-score + behavioral adjustment** |
 | Markets | US only | US only | **US, TW, JP, KR, EU** |
-| Forward returns | No | No | **Yes — "at this score, what happened historically?"** |
+| Forward returns | No | No | **Yes** |
 | Behavioral model | No | No | **Loss aversion, FOMO, herding, anchoring** |
-| Retail investor voice | No | No | **AI simulates how retail investors think** |
-| Sell signal | Weak | None | **TW Greed >70 = near-zero return** |
 | Backtested IC | Not published | Weak | **IC = -0.175 (p < 0.0001)** |
-| Update | Daily | Weekly | **Daily (automated)** |
 
-### Behavioral Indicators (not just price-based)
-
-Traditional indices use price/volume data. GRISI adds a **behavioral adjustment layer** based on academic research:
-
-| Parameter | Theory | US Value | TW Value | Effect |
-|-----------|--------|----------|----------|--------|
-| Loss Aversion | Kahneman & Tversky (1979) | 2.0x | 2.8x | Fear amplified more than greed |
-| Herding | Banerjee (1992) | 0.60 | 0.80 | TW retail follows crowd more |
-| FOMO | Behavioral Finance | 0.30 | 0.30 | Activates near ATH with momentum |
-| Anchoring | Tversky & Kahneman (1974) | 0.50 | 0.75 | TW fixated on round numbers |
-| Overconfidence | Barber & Odean (2001) | 0.30 | 0.00 | US retail thinks they're smarter |
-
-These parameters only activate at **extreme scores** (conditional gates), adding zero noise during normal markets.
-
----
-
-## Latest Reading
-
-| Market | Score | Sentiment | 20d Expected Return | Win Rate |
-|--------|-------|-----------|---------------------|----------|
-| US (SPY) | 32 | Cautious | +1.80% | 66% |
-| TW (TAIEX) | 44 | Neutral | -0.21% | 60% |
-| JP (Nikkei) | 33 | Cautious | +1.69% | 67% |
-| KR (KOSPI) | 35 | Cautious | +1.17% | 65% |
-| EU (STOXX50) | 33 | Cautious | +1.38% | 65% |
-
-## Extreme Fear Returns (10yr, 2016–2026)
+### Extreme Fear Returns (10yr)
 
 | Market | 20d Avg | Win Rate |
 |--------|---------|----------|
@@ -57,25 +114,12 @@ These parameters only activate at **extreme scores** (conditional gates), adding
 | Europe (STOXX50) | +4.28% | 77% |
 | US (SPY) | +4.17% | 72% |
 
-## How It Works
-
-```
-Market data (Yahoo Finance, FinMind)
-  → 5 Z-score indicators per market (252-day rolling, no lookahead)
-  → Behavioral adjustment (loss aversion × FOMO × herding)
-  → Score 0–100 (high = greedy, low = fearful)
-  → Historical forward return lookup
-  → AI retail investor voice: "what are retail investors thinking right now?"
-```
-
-## Data Sources
+### Data Sources
 
 | Data | Source |
 |------|--------|
 | US, JP, KR, EU prices | Yahoo Finance |
-| TW prices + margin + institutional flows | Yahoo Finance + FinMind (TWSE) |
+| TW prices + margin + institutional | Yahoo Finance + FinMind (TWSE) |
 | Behavioral parameters | Prospect Theory literature |
-
----
 
 *Not financial advice. Past performance ≠ future results.*
