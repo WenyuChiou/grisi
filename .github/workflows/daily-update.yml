@@ -17,7 +17,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install dependencies
-        run: pip install yfinance pandas numpy scipy FinMind requests
+        run: pip install yfinance pandas numpy scipy FinMind requests tqdm
       - name: Run daily update
         run: python src/daily_update.py
       - name: Sync data to docs
