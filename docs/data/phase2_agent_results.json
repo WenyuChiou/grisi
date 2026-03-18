@@ -61,6 +61,18 @@
     "cross_market_view_en": "US still fearful (31.5) but TW warming up (44.2). Divergence at 12.7 — foreign investors buying TW while US remains technically weak. Historically, US fear + TW neutral suggests global risk persists but Asia may lead the bounce.",
     "cross_market_view_tw": "美股仍偏恐懼 (31.5) 但台股回溫 (44.2)。分歧擴大至 12.7 — 外資買台股但美股技術面仍弱。歷史上此組合意味全球風險仍在，但亞洲可能領先反彈。",
     "actionable_en": "HOLD — US approaching oversold but reversal not confirmed. TW foreign buying is positive but needs 3+ days to confirm. Wait for confirmation before entering.",
-    "actionable_tw": "觀望 — 美股接近超賣但未確認反轉。台股外資翻多是正面信號但需連買 3 天以上確認。不急進場，等確認。"
+    "actionable_tw": "觀望 — 美股接近超賣但未確認反轉。台股外資翻多是正面信號但需連買 3 天以上確認。不急進場，等確認。",
+    "thresholds_en": {
+      "us_buy": "Below 30 (Fear) — historically +1.70% / 20d, 67% win. Below 15 (Extreme Fear) — +4.17%, 72% win. Currently 2.4 pts from Fear.",
+      "us_sell": "US greed sell signal is WEAK — even at score >70, SPY still averages +2.03%. US structural bull market overrides retail greed. Use TW greed as Asia sell proxy instead.",
+      "tw_buy": "Below 30 (Fear) — historically +1.90% / 20d, 75% win. Below 15 (Extreme Fear) — +6.45%, 87% win. Currently 9.9 pts from Fear.",
+      "tw_sell": "Above 70 (Greed) — historically +0.16% / 20d, only 53% win. Above 85 (Euphoria) — NEGATIVE -1.13%. Reduce TW exposure when score >70."
+    },
+    "thresholds_tw": {
+      "us_buy": "低於 30 (恐懼) — 歷史報酬 +1.70% / 20天, 67%勝率。低於 15 (極度恐懼) — +4.17%, 72%勝率。目前距離 Fear 還有 2.4 分。",
+      "us_sell": "美股貪婪賣出信號較弱 — 即使分數 >70，SPY 仍平均漲 +2.03%。美股結構性牛市壓過散戶貪婪。可用台股貪婪作為亞洲賣出參考。",
+      "tw_buy": "低於 30 (恐懼) — 歷史報酬 +1.90% / 20天, 75%勝率。低於 15 (極度恐懼) — +6.45%, 87%勝率。目前距離 Fear 還有 9.9 分。",
+      "tw_sell": "高於 70 (貪婪) — 歷史報酬僅 +0.16%, 53%勝率。高於 85 (極度貪婪) — 負報酬 -1.13%。分數 >70 時建議減碼台股。"
+    }
   }
 }
