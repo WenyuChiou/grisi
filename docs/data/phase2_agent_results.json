@@ -11,30 +11,30 @@
   "us_base_score": 32.4,
   "tw_base_score": 39.9,
   "us_agent": {
-    "adjusted_score_delta": -1,
-    "sentiment_level": "FEARFUL",
-    "conviction": "HIGH",
-    "narrative": "SPY slipped to $668.95 with RSI at 32.9 — firmly in oversold territory now. VIX at 23.22 is elevated but not panicking. Gold at $4,858 continues its safe-haven bid. The 10Y yield at 4.22% means no rate cut relief. Score of 32.4 is in the fear zone — historically these levels see 73%+ positive forward returns over 20 days.",
-    "key_factors": [
-      "RSI 32.9 near oversold threshold (30) — tactical bounce territory",
-      "SPY below both SMA20 ($679.3) and SMA60 ($685.6) — downtrend intact",
-      "Gold $4,858 — safe-haven demand persistent"
-    ],
-    "what_quant_misses": "Market is approaching the 30 RSI level where systematic mean-reversion strategies often trigger. The VIX term structure and credit spreads matter more than spot VIX at these levels.",
-    "forward_outlook": "SPY likely to see a bounce attempt from oversold conditions. Historical win rate at Moodring ~32 is strong (>70% positive 20d). Key resistance: SMA20 at $679. If VIX spikes above 30, expect acceleration of the fear trade before reversal."
-  },
-  "tw_agent": {
-    "adjusted_score_delta": 2,
+    "adjusted_score_delta": -2,
     "sentiment_level": "CAUTIOUS",
     "conviction": "MEDIUM",
-    "narrative": "外資連2天買超，今天淨買+90.2億，但大盤已經反彈到34,349了。台積電回到1,905。融資餘額月增0.0%，散戶信心還在。TAIEX RSI回到正常區間，外資方向翻轉是最大的正面信號。",
+    "narrative": "SPY bounced slightly to $670.79 but RSI at 31.8 is getting close to oversold territory — that's usually where 'buy the dip' crowd starts getting loud again. Still below both SMA20 and SMA60 though, so the trend is clearly down. VIX dropped from 23.5 to 22.4 which is a slight relief but Gold is still at $5,003 — smart money hasn't changed its mind. The 10Y at 4.20% means no Fed relief coming.",
     "key_factors": [
-      "外資連2天買超 — 方向翻轉是關鍵信號",
-      "TAIEX RSI回到正常區間",
-      "融資月增0.0% — 散戶信心仍在"
+      "RSI 31.8 approaching oversold (<30) — historically a tactical bounce zone",
+      "SPY still below SMA20 ($680.2) and SMA60 ($685.7) — downtrend intact",
+      "Gold $5,003 — safe-haven demand unchanged, structural fear persists"
     ],
-    "what_quant_misses": "外資轉買的連續性比單日金額更重要。如果能連買5天以上，通常代表外資策略性布局而非短期避險。",
-    "forward_outlook": "外資轉買+大盤技術面好轉，短期偏多看待。但全球不確定性仍高，反彈幅度可能有限。關注外資買超是否持續。"
+    "what_quant_misses": "RSI approaching 30 is a key technical level that pure z-score models don't weight properly. Also, VIX term structure matters — if front-month VIX is higher than back months (backwardation), that's a stronger fear signal than the spot VIX number alone.",
+    "forward_outlook": "SPY may see a tactical bounce as RSI approaches 30. Historical win rate at this Moodring level (73% positive in 20 days) supports cautious optimism. But the bounce is likely to be sold into — no fundamental catalyst for sustained rally. Base case: SPY +1% to +4% over 20 days. Key level: SPY needs to reclaim SMA20 ($680) to confirm any reversal."
+  },
+  "tw_agent": {
+    "adjusted_score_delta": 3,
+    "sentiment_level": "NEUTRAL",
+    "conviction": "MEDIUM",
+    "narrative": "今天最大的變化：外資轉買了！從連賣3天-438億到今天淨買+4.7億，雖然量不大但方向翻轉了。大盤也從33,343反彈到33,837(+1.5%)，台積電回到1870。融資餘額5天還是增+1.87%，但速度比上週的+3.42%放慢了，代表散戶追高的力道在減弱。不過台積電融資月增還是+20%，散戶信仰還在。",
+    "key_factors": [
+      "外資翻多：從連賣3天-438億到今天淨買+4.7億——方向性轉變(來源:FinMind/TWSE)",
+      "大盤反彈至33,837，站回SMA20(33,642)——短期技術面轉好",
+      "融資增速放緩：5天+1.87%(vs上週+3.42%)——散戶追高力道減弱"
+    ],
+    "what_quant_misses": "外資從連賣轉買是一個質性轉折點，量化模型只看到累積流量的z-score，但「方向翻轉」本身的信號意義更大。另外大盤站回SMA20也是一個技術面的微妙變化。",
+    "forward_outlook": "短期偏中性轉樂觀。外資翻多+大盤站回均線+融資增速放緩，三個信號都在好轉。但台積電融資月增20%仍高，如果外資只是短期回補而非趨勢性買入，散戶可能再次被套。觀察重點：外資能否連續買超3天以上。Moodring分數~44在中性區間，不構成強烈反向信號。"
   },
   "summary": {
     "us_final_score": 31.5,
@@ -42,45 +42,5 @@
     "divergence": 12.7,
     "cross_market_view": "US仍偏恐懼(31.5)但TW今天明顯回溫(44.2)，分歧擴大到12.7。外資在台股翻多但美股仍處技術性弱勢，形成短期分歧。歷史上US偏恐懼+TW中性的組合通常意味著全球風險還在，但亞洲市場可能領先反彈。",
     "actionable_signal": "HOLD — US接近超賣但未確認反轉。TW外資翻多是正面信號但需確認持續性(連買3天+)。不急進場，等確認信號。"
-  },
-  "jp_agent": {
-    "adjusted_score_delta": 0,
-    "sentiment_level": "NEUTRAL",
-    "conviction": "MEDIUM",
-    "narrative": "Nikkei at 55,239 with RSI 37.6. Score 58.6 is mid-range — neither fearful nor greedy. JPY at 159.5 remains weak which supports exporters but signals global risk appetite concerns.",
-    "key_factors": [
-      "Nikkei RSI 37.6 — neutral zone",
-      "USDJPY 159.5 — weak yen supports exporters",
-      "Score 58.6 — mid-range, no extreme signal"
-    ],
-    "what_quant_misses": "BOJ policy expectations and yen carry trade dynamics are the dominant factor for Japanese equities right now.",
-    "forward_outlook": "Neutral outlook. Nikkei likely range-bound unless US provides directional catalyst."
-  },
-  "kr_agent": {
-    "adjusted_score_delta": 0,
-    "sentiment_level": "GREEDY",
-    "conviction": "MEDIUM",
-    "narrative": "KOSPI at 5,925 with strong 5d return of +5.6%. Score 78.0 is in greedy territory — historically these levels see mean-reversion risk. RSI 47.5 is neutral but momentum is strong.",
-    "key_factors": [
-      "KOSPI 5d return +5.6% — strong momentum",
-      "Score 78.0 in greedy zone — caution warranted",
-      "RSI 47.5 — not yet overbought"
-    ],
-    "what_quant_misses": "Samsung/SK Hynix memory cycle and geopolitical risk premium are Korea-specific factors that z-scores don't capture.",
-    "forward_outlook": "Score 78 is historically where returns start to deteriorate. Contrarian signal suggests caution on new long positions."
-  },
-  "eu_agent": {
-    "adjusted_score_delta": 0,
-    "sentiment_level": "CAUTIOUS",
-    "conviction": "LOW",
-    "narrative": "STOXX50 at 5,752 with RSI 29.9 near oversold. 20d return -5.8% is the worst among all markets. Score 50.4 is dead center — no strong signal either way.",
-    "key_factors": [
-      "RSI 29.9 approaching oversold",
-      "20d return -5.8% — worst performer",
-      "Score 50.4 — neutral, no edge"
-    ],
-    "what_quant_misses": "ECB rate path and Ukraine situation create asymmetric risk that pure technical indicators don't reflect.",
-    "forward_outlook": "Oversold RSI may trigger a bounce but the fundamental backdrop is weak. Wait for score to drop below 40 for a stronger contrarian signal."
-  },
-  "global_narrative": "Global markets diverge sharply: US (32.4) and EU (50.4) in fear/neutral while Korea (78.0) is greedy. US RSI at 32.9 and EU RSI at 29.9 both near oversold. Cross-market divergence suggests regional rotation rather than global risk-off. Best contrarian opportunity: US at score 32 with strong historical win rates."
+  }
 }
