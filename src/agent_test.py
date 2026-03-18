@@ -15,7 +15,7 @@ except ImportError:
     import anthropic
 
 # Load real market snapshot
-with open("proposals/market-agent-thermometer/src/snapshot_20260316.json", "r", encoding="utf-8") as f:
+with open("data/snapshot_20260316.json", "r", encoding="utf-8") as f:
     snapshot = json.load(f)
 
 client = anthropic.Anthropic()
@@ -268,7 +268,7 @@ def main():
             print(f"  {name:40s} [{bar}] {score:3d} {r['sentiment_level']} / {r['action']}")
 
     # Save results
-    output_path = "proposals/market-agent-thermometer/src/agent_test_results.json"
+    output_path = "data/agent_test_results.json"
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
     print(f"\nResults saved to: {output_path}")

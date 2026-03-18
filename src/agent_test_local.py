@@ -13,7 +13,7 @@ import ollama
 MODEL = "qwen2.5:14b"  # Best balance of quality + multilingual + speed
 
 # Load real market snapshot
-with open("proposals/market-agent-thermometer/src/snapshot_20260316.json", "r", encoding="utf-8") as f:
+with open("data/snapshot_20260316.json", "r", encoding="utf-8") as f:
     snapshot = json.load(f)
 
 # ============================================================
@@ -258,7 +258,7 @@ def main():
     analyze_results(all_results)
 
     # Save
-    output_path = "proposals/market-agent-thermometer/src/agent_test_results_local.json"
+    output_path = "data/agent_test_results_local.json"
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(all_results, f, indent=2, ensure_ascii=False)
     print(f"\nResults saved to: {output_path}")

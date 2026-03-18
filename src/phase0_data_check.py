@@ -341,7 +341,7 @@ def main():
         print("→ Review failed steps and find alternatives before Phase 1")
 
     # Save results
-    output_path = "proposals/market-agent-thermometer/src/phase0_results.json"
+    output_path = "data/phase0_results.json"
     try:
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(all_results, f, indent=2, ensure_ascii=False, default=str)

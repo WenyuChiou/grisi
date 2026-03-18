@@ -207,7 +207,7 @@ snapshot = {
 }
 
 # Save
-output_path = "proposals/market-agent-thermometer/src/snapshot_20260316.json"
+output_path = "data/snapshot_20260316.json"
 with open(output_path, "w", encoding="utf-8") as f:
     json.dump(snapshot, f, indent=2, ensure_ascii=False)
 
