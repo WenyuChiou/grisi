@@ -1,0 +1,46 @@
+{
+  "date": "2026-03-17",
+  "data_sources": {
+    "market_prices": "Yahoo Finance (yfinance)",
+    "tw_margin": "FinMind API (TWSE OpenData)",
+    "tw_institutional": "FinMind API (三大法人)",
+    "scoring_method": "Rolling 252-day Z-score normalization",
+    "behavioral_params": "Kahneman & Tversky (1979), Banerjee (1992)"
+  },
+  "us_market": {
+    "SPY_close": 670.79,
+    "SPY_RSI14": 31.8,
+    "SPY_SMA20": 680.19,
+    "SPY_SMA60": 685.71,
+    "SPY_vs_52w_high_pct": 96.4,
+    "SPY_5d_return_pct": -0.94,
+    "SPY_20d_return_pct": -1.77,
+    "VIX": 22.37,
+    "US_10Y_yield": 4.2
+  },
+  "tw_market": {
+    "TAIEX_close": 33837.0,
+    "TAIEX_RSI14": 45.2,
+    "TAIEX_SMA20": 33642.0,
+    "TAIEX_vs_52w_high_pct": 95.5,
+    "TSMC_close": 1870.0,
+    "TSMC_vs_52w_high_pct": 93.1
+  },
+  "global_context": {
+    "USDJPY": 158.94,
+    "USDTWD": 31.88,
+    "Gold": 5003.0
+  },
+  "tw_retail_indicators": {
+    "margin_balance": 8074444,
+    "margin_5d_change_pct": 1.87,
+    "margin_5d_trend": "INCREASING",
+    "institutional_net_TWD": 97.7,
+    "retail_net_est_TWD": -97.7,
+    "foreign_net_TWD": 4.7,
+    "foreign_consecutive_days": 1,
+    "foreign_consecutive_direction": "buy",
+    "TSMC_margin_balance": 24963,
+    "TSMC_margin_30d_change_pct": 20.15
+  }
+}
