@@ -68,5 +68,110 @@
       "p75": 8.19,
       "n": 1340
     }
+  },
+  "jp_current_score": 33.4,
+  "jp_forward": {
+    "jp_fwd_5d": {
+      "mean": 0.37,
+      "median": 0.74,
+      "positive_pct": 59.3,
+      "p25": -1.36,
+      "p75": 2.53,
+      "n": 783
+    },
+    "jp_fwd_10d": {
+      "mean": 0.78,
+      "median": 1.22,
+      "positive_pct": 62.9,
+      "p25": -1.42,
+      "p75": 3.32,
+      "n": 778
+    },
+    "jp_fwd_20d": {
+      "mean": 1.48,
+      "median": 1.83,
+      "positive_pct": 62.9,
+      "p25": -1.93,
+      "p75": 5.12,
+      "n": 773
+    },
+    "jp_fwd_60d": {
+      "mean": 4.15,
+      "median": 3.43,
+      "positive_pct": 70.3,
+      "p25": -0.83,
+      "p75": 9.31,
+      "n": 767
+    }
+  },
+  "kr_current_score": 34.5,
+  "kr_forward": {
+    "kr_fwd_5d": {
+      "mean": 0.32,
+      "median": 0.63,
+      "positive_pct": 60.8,
+      "p25": -1.02,
+      "p75": 2.07,
+      "n": 872
+    },
+    "kr_fwd_10d": {
+      "mean": 0.78,
+      "median": 1.07,
+      "positive_pct": 63.7,
+      "p25": -0.99,
+      "p75": 2.84,
+      "n": 868
+    },
+    "kr_fwd_20d": {
+      "mean": 1.6,
+      "median": 1.7,
+      "positive_pct": 69.4,
+      "p25": -0.72,
+      "p75": 4.43,
+      "n": 865
+    },
+    "kr_fwd_60d": {
+      "mean": 3.75,
+      "median": 3.91,
+      "positive_pct": 66.7,
+      "p25": -2.58,
+      "p75": 7.77,
+      "n": 859
+    }
+  },
+  "eu_current_score": 32.6,
+  "eu_forward": {
+    "eu_fwd_5d": {
+      "mean": 0.5,
+      "median": 0.85,
+      "positive_pct": 62.5,
+      "p25": -1.4,
+      "p75": 2.45,
+      "n": 781
+    },
+    "eu_fwd_10d": {
+      "mean": 0.95,
+      "median": 1.42,
+      "positive_pct": 64.3,
+      "p25": -1.43,
+      "p75": 3.61,
+      "n": 776
+    },
+    "eu_fwd_20d": {
+      "mean": 1.44,
+      "median": 1.81,
+      "positive_pct": 65.5,
+      "p25": -1.54,
+      "p75": 4.75,
+      "n": 770
+    },
+    "eu_fwd_60d": {
+      "mean": 2.94,
+      "median": 2.87,
+      "positive_pct": 67.8,
+      "p25": -1.26,
+      "p75": 8.22,
+      "n": 762
+    }
   }
 }

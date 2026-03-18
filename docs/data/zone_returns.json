@@ -13,7 +13,19 @@
       "tw_20d_avg": 6.45,
       "tw_20d_win": 87.3,
       "tw_60d_avg": 14.46,
-      "tw_n": 63
+      "tw_n": 63,
+      "jp_20d_avg": 5.3,
+      "jp_20d_win": 71.4,
+      "jp_60d_avg": 16.88,
+      "jp_n": 42,
+      "kr_20d_avg": 8.29,
+      "kr_20d_win": 82.1,
+      "kr_60d_avg": 19.91,
+      "kr_n": 28,
+      "eu_20d_avg": 4.18,
+      "eu_20d_win": 75.0,
+      "eu_60d_avg": 12.68,
+      "eu_n": 44
     },
     {
       "name": "Fear",
@@ -27,7 +39,19 @@
       "tw_20d_avg": 1.9,
       "tw_20d_win": 75.3,
       "tw_60d_avg": 5.03,
-      "tw_n": 89
+      "tw_n": 89,
+      "jp_20d_avg": 2.93,
+      "jp_20d_win": 75.2,
+      "jp_60d_avg": 7.6,
+      "jp_n": 133,
+      "kr_20d_avg": 1.7,
+      "kr_20d_win": 78.3,
+      "kr_60d_avg": 6.97,
+      "kr_n": 115,
+      "eu_20d_avg": 2.54,
+      "eu_20d_win": 74.1,
+      "eu_60d_avg": 5.92,
+      "eu_n": 116
     },
     {
       "name": "Cautious",
@@ -41,7 +65,19 @@
       "tw_20d_avg": -0.21,
       "tw_20d_win": 59.9,
       "tw_60d_avg": 4.47,
-      "tw_n": 187
+      "tw_n": 187,
+      "jp_20d_avg": 1.65,
+      "jp_20d_win": 66.8,
+      "jp_60d_avg": 3.4,
+      "jp_n": 274,
+      "kr_20d_avg": 1.17,
+      "kr_20d_win": 64.5,
+      "kr_60d_avg": 3.84,
+      "kr_n": 293,
+      "eu_20d_avg": 1.47,
+      "eu_20d_win": 66.8,
+      "eu_60d_avg": 2.85,
+      "eu_n": 286
     },
     {
       "name": "Neutral",
@@ -55,7 +91,19 @@
       "tw_20d_avg": 1.41,
       "tw_20d_win": 64.8,
       "tw_60d_avg": 3.51,
-      "tw_n": 1465
+      "tw_n": 1465,
+      "jp_20d_avg": 0.99,
+      "jp_20d_win": 60.4,
+      "jp_60d_avg": 3.58,
+      "jp_n": 1265,
+      "kr_20d_avg": 0.74,
+      "kr_20d_win": 54.2,
+      "kr_60d_avg": 2.45,
+      "kr_n": 1307,
+      "eu_20d_avg": 0.29,
+      "eu_20d_win": 55.7,
+      "eu_60d_avg": 1.02,
+      "eu_n": 1370
     },
     {
       "name": "Optimism",
@@ -69,7 +117,19 @@
       "tw_20d_avg": 0.49,
       "tw_20d_win": 56.7,
       "tw_60d_avg": 2.63,
-      "tw_n": 402
+      "tw_n": 402,
+      "jp_20d_avg": 0.46,
+      "jp_20d_win": 55.3,
+      "jp_60d_avg": 1.34,
+      "jp_n": 591,
+      "kr_20d_avg": 0.3,
+      "kr_20d_win": 55.4,
+      "kr_60d_avg": 1.52,
+      "kr_n": 596,
+      "eu_20d_avg": 0.18,
+      "eu_20d_win": 51.1,
+      "eu_60d_avg": 1.32,
+      "eu_n": 554
     },
     {
       "name": "Greed",
@@ -83,7 +143,19 @@
       "tw_20d_avg": 0.16,
       "tw_20d_win": 53.1,
       "tw_60d_avg": 2.0,
-      "tw_n": 113
+      "tw_n": 113,
+      "jp_20d_avg": -0.59,
+      "jp_20d_win": 42.5,
+      "jp_60d_avg": -0.27,
+      "jp_n": 120,
+      "kr_20d_avg": 0.54,
+      "kr_20d_win": 64.6,
+      "kr_60d_avg": 3.3,
+      "kr_n": 96,
+      "eu_20d_avg": 1.9,
+      "eu_20d_win": 75.8,
+      "eu_60d_avg": 5.42,
+      "eu_n": 124
     },
     {
       "name": "Euphoria",
@@ -97,7 +169,19 @@
       "tw_20d_avg": -1.13,
       "tw_20d_win": 50.0,
       "tw_60d_avg": 3.71,
-      "tw_n": 12
+      "tw_n": 12,
+      "jp_20d_avg": -1.45,
+      "jp_20d_win": 14.3,
+      "jp_60d_avg": 0.26,
+      "jp_n": 7,
+      "kr_20d_avg": null,
+      "kr_20d_win": null,
+      "kr_60d_avg": null,
+      "kr_n": 1,
+      "eu_20d_avg": 1.34,
+      "eu_20d_win": 100.0,
+      "eu_60d_avg": 5.11,
+      "eu_n": 11
     }
   ]
 }
