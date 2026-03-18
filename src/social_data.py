@@ -1,5 +1,5 @@
 """
-GRISI Phase 1C: Social/Sentiment Data Collector
+Moodring Phase 1C: Social/Sentiment Data Collector
 ================================================
 Collect Taiwan retail-specific data for incremental alpha testing.
 
@@ -186,7 +186,7 @@ def build_social_features(margin_df, institutional_df, daytrade_df):
 
 def main():
     print("=" * 60)
-    print("GRISI Phase 1C: Social/Sentiment Data Collection")
+    print("Moodring Phase 1C: Social/Sentiment Data Collection")
     print(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     print("=" * 60)
 

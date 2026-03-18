@@ -1,125 +1,128 @@
-# 💍 MoodRing — 全球散戶情緒指數
+# Moodring — Market Mood Indicator
 
-[English](#english) | 中文
+> **When retail investors are greedy, markets tend to underperform. When they're fearful, markets outperform.**
 
-每日更新的反向指標，覆蓋五大全球市場。
-**散戶恐懼時，市場傾向上漲。散戶貪婪時，市場容易下跌。**
+[![Dashboard](https://img.shields.io/badge/Live_Dashboard-EN-blue)](https://wenyuchiou.github.io/openclaw-workspace/proposals/market-agent-thermometer/docs/index.html)
+[![Dashboard](https://img.shields.io/badge/Live_Dashboard-中文-orange)](https://wenyuchiou.github.io/openclaw-workspace/proposals/market-agent-thermometer/docs/tw.html)
 
-> 打開 Dashboard → 看分數 → 看歷史勝率 → 做決定。
+## What is Moodring?
 
-**[🇺🇸 Dashboard (EN)](https://wenyuchiou.github.io/moodring/index.html)** · **[🇹🇼 Dashboard (中文)](https://wenyuchiou.github.io/moodring/tw.html)**
+A quantitative contrarian sentiment index for US, Taiwan, Japan, Korea, and Europe markets, backtested over 16 years (2010–2026).
 
----
+**Core finding:** When the Moodring score is in the "Extreme Fear" quintile, SPY averages **+2.43%** over the next 20 days (73% win rate). In "Extreme Greed," only **+0.82%**.
 
-## 最新讀數
-
-| 市場 | 分數 | 情緒 | 20天預期報酬 | 勝率 |
-|------|------|------|-------------|------|
-| 🇺🇸 美國 (SPY) | 32 | 謹慎 | +1.80% | 66% |
-| 🇹🇼 台灣 (TAIEX) | 44 | 中性 | -0.21% | 60% |
-| 🇯🇵 日本 (Nikkei) | 33 | 謹慎 | +1.69% | 67% |
-| 🇰🇷 韓國 (KOSPI) | 35 | 謹慎 | +1.17% | 65% |
-| 🇪🇺 歐洲 (STOXX50) | 33 | 謹慎 | +1.38% | 65% |
-
----
-
-## 跟傳統指標的差異
-
-| | CNN 恐懼貪婪 | AAII 調查 | **MoodRing** |
-|--|-------------|----------|-------------|
-| 方法 | 7 個固定指標 | 每週問卷 | **Z-score + 行為調整** |
-| 市場 | 僅美國 | 僅美國 | **美、台、日、韓、歐** |
-| 未來預測 | 無 | 無 | **有（歷史條件報酬）** |
-| 行為模型 | 無 | 無 | **損失趨避、FOMO、羊群、錨定** |
-| 散戶心態 | 無 | 無 | **AI 模擬散戶怎麼想** |
-| 賣出信號 | 弱 | 無 | **台股貪婪 >70 = 報酬趨零** |
-| 回測 IC | 未公開 | 弱 | **IC = -0.175 (p < 0.0001)** |
-
-### 行為指標
-
-不只是價格指標，MoodRing 加入學術研究的**行為調整層**：
-
-| 參數 | 學術來源 | 美國 | 台灣 |
-|------|---------|------|------|
-| 損失趨避 | Kahneman & Tversky (1979) | 2.0x | 2.8x |
-| 羊群效應 | Banerjee (1992) | 0.60 | 0.80 |
-| FOMO | 行為金融學 | 0.30 | 0.30 |
-| 錨定效應 | Tversky & Kahneman (1974) | 0.50 | 0.75 |
-| 過度自信 | Barber & Odean (2001) | 0.30 | 0.00 |
-
-## 極度恐懼時進場報酬（近10年）
-
-| 市場 | 20天平均 | 勝率 |
-|------|---------|------|
-| 🇰🇷 韓國 | **+9.16%** | **85%** |
-| 🇹🇼 台灣 | +6.45% | 87% |
-| 🇯🇵 日本 | +5.81% | 75% |
-| 🇪🇺 歐洲 | +4.28% | 77% |
-| 🇺🇸 美國 | +4.17% | 72% |
-
-## 運作原理
+## How It Works
 
 ```
-市場數據（Yahoo Finance + FinMind）
-  → 5 個 Z-score 指標（252天滾動，無前瞻偏差）
-  → 行為調整（損失趨避 × FOMO × 羊群效應）
-  → 分數 0-100
-  → 歷史條件報酬查詢
-  → AI 散戶模擬：散戶現在在想什麼？
+Market Data (yfinance + FinMind)
+    → Rolling Z-score normalization (252-day, no lookahead)
+    → 5 components per market (equal weight)
+    → Behavioral adjustment (loss aversion, FOMO, herding)
+    → 0–100 score (high = greedy, low = fearful)
+    → Forward return statistics at current level
 ```
 
-## 資料來源
+### US Score Components
+| Component | Signal | Source |
+|-----------|--------|--------|
+| VIX Complacency | Low VIX = complacent retail | yfinance |
+| SPY Position | Near ATH = FOMO | yfinance |
+| Momentum | Strong 20d return = chasing | yfinance |
+| Correlation Regime | VIX-SPY decorrelation = stress | yfinance |
+| Risk Appetite | Gold/SPY ratio = risk-off | yfinance |
 
-| 資料 | 來源 |
-|------|------|
-| 美、日、韓、歐股價 | Yahoo Finance |
-| 台股 + 融資 + 三大法人 | Yahoo Finance + FinMind (TWSE) |
-| 行為參數 | 展望理論文獻 |
+### TW Score Components
+| Component | Signal | Source |
+|-----------|--------|--------|
+| Rate Pressure | US 10Y yield = hot money flow | yfinance |
+| Global Risk Appetite | Gold/SPY ratio | yfinance |
+| Vol Complacency | Low realized vol = complacent | yfinance |
+| TAIEX Position | Near ATH = greedy | yfinance |
+| Volume Excitement | Volume surge = retail piling in | yfinance |
 
----
+### JP Score Components
+| Component | Signal | Source |
+|-----------|--------|--------|
+| RSI Position | High RSI = overbought retail | yfinance |
+| Nikkei Position | Near ATH = FOMO | yfinance |
+| Momentum | Strong 20d return = chasing | yfinance |
 
-*非投資建議。過去表現不代表未來結果。*
+### KR Score Components
+| Component | Signal | Source |
+|-----------|--------|--------|
+| RSI Position | High RSI = overbought retail | yfinance |
+| KOSPI Position | Near ATH = FOMO | yfinance |
+| Momentum | Strong 20d return = chasing | yfinance |
 
----
+### EU Score Components
+| Component | Signal | Source |
+|-----------|--------|--------|
+| RSI Position | High RSI = overbought retail | yfinance |
+| STOXX50 Position | Near ATH = FOMO | yfinance |
+| Momentum | Strong 20d return = chasing | yfinance |
 
-<a id="english"></a>
+### Behavioral Layer (Phase 2)
+Psychometric parameters from behavioral finance literature amplify the base score at extremes:
+- **Loss Aversion** (Kahneman & Tversky, 1979): US 2.0x, TW 2.8x
+- **Herding** (Banerjee, 1992): US 0.60, TW 0.80
+- **FOMO**: activates when momentum > 0 near ATH
+- **Conditional gates**: adjustments only fire at extreme scores (>65 or <35), zero noise in normal markets
 
-## English
+## Backtest Results
 
-### 💍 MoodRing — Global Retail Investor Sentiment Index
+| Market | Horizon | IC | p-value | Significant |
+|--------|---------|-----|---------|-------------|
+| US (SPY) | 20d | **-0.175** | < 0.0001 | Yes |
+| US (SPY) | 60d | **-0.180** | < 0.0001 | Yes |
+| TW (TAIEX) | 20d | **-0.128** | < 0.0001 | Yes |
+| TW (TAIEX) | 60d | **-0.098** | < 0.0001 | Yes |
 
-A daily contrarian indicator for 5 global markets, powered by behavioral finance + AI.
+Negative IC = contrarian signal works (high greed → low future returns).
 
-When retail investors are fearful, markets rise. When greedy, markets underperform.
+## Project Structure
 
-**[Dashboard (EN)](https://wenyuchiou.github.io/moodring/index.html)** · **[Dashboard (中文)](https://wenyuchiou.github.io/moodring/tw.html)**
+```
+├── docs/
+│   ├── index.html          # EN dashboard (GitHub Pages)
+│   ├── tw.html             # TW dashboard (GitHub Pages)
+│   ├── landing.html        # Landing page
+│   └── research/           # Proposal & theoretical docs
+├── data/
+│   ├── base_features.csv   # Market features (2010-2026)
+│   ├── target_returns.csv  # Forward returns (5/10/20/60d)
+│   ├── phase2_scores.csv   # Base + behavioral scores
+│   ├── forward_outlook.json # Conditional returns at current level
+│   ├── dashboard_data.json # Dashboard display data
+│   └── ...                 # Backtest results, snapshots
+└── src/
+    ├── backtest.py         # Scoring engine + evaluation
+    ├── phase2_agents.py    # Behavioral model + narrative generator
+    ├── historical_data.py  # Data download pipeline
+    ├── daily_update.py     # Daily auto-update pipeline
+    └── social_data.py      # TW margin/institutional data
+```
 
-### What Makes This Different
+## Quick Start
 
-| | CNN Fear & Greed | AAII Survey | **MoodRing** |
-|--|-----------------|------------|-------------|
-| Method | 7 fixed indicators | Weekly poll | **Z-score + behavioral adjustment** |
-| Markets | US only | US only | **US, TW, JP, KR, EU** |
-| Forward returns | No | No | **Yes** |
-| Behavioral model | No | No | **Loss aversion, FOMO, herding, anchoring** |
-| Backtested IC | Not published | Weak | **IC = -0.175 (p < 0.0001)** |
+```bash
+# 1. Download historical data
+python src/historical_data.py
 
-### Extreme Fear Returns (10yr)
+# 2. Run backtest
+python src/backtest.py
 
-| Market | 20d Avg | Win Rate |
-|--------|---------|----------|
-| Korea (KOSPI) | **+9.16%** | **85%** |
-| Taiwan (TAIEX) | +6.45% | 87% |
-| Japan (Nikkei) | +5.81% | 75% |
-| Europe (STOXX50) | +4.28% | 77% |
-| US (SPY) | +4.17% | 72% |
+# 3. Run Phase 2 (behavioral + agents)
+python src/phase2_agents.py
+```
 
-### Data Sources
+## Tech Stack
 
-| Data | Source |
-|------|--------|
-| US, JP, KR, EU prices | Yahoo Finance |
-| TW prices + margin + institutional | Yahoo Finance + FinMind (TWSE) |
-| Behavioral parameters | Prospect Theory literature |
+- **Data**: yfinance (US), FinMind (TW), pandas, numpy
+- **Statistics**: scipy (Spearman IC, p-values)
+- **Behavioral Model**: Prospect Theory parameters, conditional activation gates
+- **Dashboard**: Chart.js, vanilla HTML/CSS/JS, GitHub Pages
+- **Narrative**: Claude (claude-opus-4-6) for cultural sentiment interpretation
 
-*Not financial advice. Past performance ≠ future results.*
+## License
+
+Research project — not financial advice.

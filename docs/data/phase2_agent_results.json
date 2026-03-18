@@ -5,8 +5,8 @@
     "market_prices": "Yahoo Finance (yfinance)",
     "tw_margin_data": "FinMind API (TWSE OpenData)",
     "tw_institutional": "FinMind API (TWSE)",
-    "scoring_method": "Rolling 252-day Z-score, 5 equal-weighted components",
-    "behavioral_theory": "Prospect Theory (Kahneman & Tversky, 1979)"
+    "scoring_method": "Rolling 252-day Z-score, equal-weighted 5 components per market",
+    "behavioral_theory": "Prospect Theory (Kahneman & Tversky, 1979), Herding Model (Banerjee, 1992)"
   },
   "us_base_score": 33.5,
   "tw_base_score": 41.2,
@@ -14,98 +14,33 @@
     "adjusted_score_delta": -2,
     "sentiment_level": "CAUTIOUS",
     "conviction": "MEDIUM",
-    "narrative_en": "Dude I'm getting wrecked. My calls are bleeding and SPY just keeps fading below SMA20. RSI at 31.8 though — last time it was this low I paper-handed and then it ripped 5% in a week. Part of me wants to YOLO into 0DTE calls because if this bounces I'll make it all back. But Gold at $5K?? My boomer uncle just texted me he moved everything to treasuries. Reddit's split 50/50 — 'generational buying opportunity' vs 'we're going to SPY 600'. I'm paralyzed.",
-    "narrative_tw": "我的美股 call 快歸零了... SPY 一直跌破均線。RSI 都 31.8 了，上次這麼低我沒買結果噴上去，這次要不要衝一波？但黃金都 $5,000 了，聰明錢在逃。Reddit 一半喊抄底一半喊崩盤，我到底該聽誰的？",
-    "key_factors_en": [
-      "RSI 31.8 — last time this low, I didn't buy and regretted it for weeks (FOMO kicking in)",
-      "Gold $5,003 — my uncle moved to bonds, that's when I usually buy, but this time feels different",
-      "Reddit split 50/50 bull/bear — when everyone's confused, I freeze"
+    "narrative": "SPY bounced slightly to $670.79 but RSI at 31.8 is getting close to oversold territory — that's usually where 'buy the dip' crowd starts getting loud again. Still below both SMA20 and SMA60 though, so the trend is clearly down. VIX dropped from 23.5 to 22.4 which is a slight relief but Gold is still at $5,003 — smart money hasn't changed its mind. The 10Y at 4.20% means no Fed relief coming.",
+    "key_factors": [
+      "RSI 31.8 approaching oversold (<30) — historically a tactical bounce zone",
+      "SPY still below SMA20 ($680.2) and SMA60 ($685.7) — downtrend intact",
+      "Gold $5,003 — safe-haven demand unchanged, structural fear persists"
     ],
-    "key_factors_tw": [
-      "RSI 31.8 — 上次這麼低沒買結果噴上去，後悔好幾週（FOMO 發作中）",
-      "黃金 $5,003 — 避險資金在跑，但上次大家恐慌時是底部",
-      "Reddit 多空各半 — 大家都不確定的時候我就癱瘓"
-    ],
-    "watch_for_en": "If VIX spikes above 30, that's when retail REALLY panics and starts selling at the bottom — that's historically the best entry. Right now VIX 22 is 'uncomfortable' but not 'capitulation'.",
-    "watch_for_tw": "如果 VIX 衝破 30，散戶會真正恐慌開始底部殺出 — 那是歷史上最佳進場點。目前 VIX 22 是「不舒服」但還不是「投降」。",
-    "forward_outlook_en": "I'm telling myself to wait but my finger is hovering over the buy button. History says 73% win rate from here. But my gut says 'what if it drops another 5%?' Classic retail paralysis.",
-    "forward_outlook_tw": "理智告訴我等，但手指已經在買入鍵上了。歷史說從這裡進場勝率 73%。但直覺說『萬一再跌 5% 呢？』典型散戶癱瘓症。"
+    "what_quant_misses": "RSI approaching 30 is a key technical level that pure z-score models don't weight properly. Also, VIX term structure matters — if front-month VIX is higher than back months (backwardation), that's a stronger fear signal than the spot VIX number alone.",
+    "forward_outlook": "SPY may see a tactical bounce as RSI approaches 30. Historical win rate at this Moodring level (73% positive in 20 days) supports cautious optimism. But the bounce is likely to be sold into — no fundamental catalyst for sustained rally. Base case: SPY +1% to +4% over 20 days. Key level: SPY needs to reclaim SMA20 ($680) to confirm any reversal."
   },
   "tw_agent": {
     "adjusted_score_delta": 3,
     "sentiment_level": "NEUTRAL",
     "conviction": "MEDIUM",
-    "narrative_en": "Foreign investors finally bought today (+4.7B TWD) after dumping 438B over 3 days!! LINE group is going CRAZY — everyone's saying 'told you it was the bottom!' TSMC back to 1870, I bought one share on margin at 1845 and I'm up a little. Should I add another? But last time I chased on margin I got margin-called and I'm still traumatized. Margin growth is slowing though (+1.87% vs +3.42% last week)... maybe the worst is over?",
-    "narrative_tw": "外資今天終於買了！+4.7 億！群組炸了，一堆人喊「早跟你說是底了！」台積電回 1870，我上個月 1845 融資買一張小賺中。要不要再加一張？可是上次融資追高被斷頭到現在還有陰影... 融資增速放緩了（+1.87% vs 上週 +3.42%），是不是最壞的過去了？但萬一外資只買一天又跑怎麼辦？",
-    "key_factors_en": [
-      "LINE group exploding — everyone claiming they called the bottom, FOMO is building fast",
-      "I'm up on my margin position at 1845 but last margin call traumatized me — sell or add?",
-      "Foreign buy was tiny (+4.7B vs -438B sell) — is this real reversal or dead cat bounce?"
+    "narrative": "今天最大的變化：外資轉買了！從連賣3天-438億到今天淨買+4.7億，雖然量不大但方向翻轉了。大盤也從33,343反彈到33,837(+1.5%)，台積電回到1870。融資餘額5天還是增+1.87%，但速度比上週的+3.42%放慢了，代表散戶追高的力道在減弱。不過台積電融資月增還是+20%，散戶信仰還在。",
+    "key_factors": [
+      "外資翻多：從連賣3天-438億到今天淨買+4.7億——方向性轉變(來源:FinMind/TWSE)",
+      "大盤反彈至33,837，站回SMA20(33,642)——短期技術面轉好",
+      "融資增速放緩：5天+1.87%(vs上週+3.42%)——散戶追高力道減弱"
     ],
-    "key_factors_tw": [
-      "LINE 群組炸鍋 — 大家都說自己早就看到底部了，FOMO 在升溫",
-      "我 1845 融資的那張小賺，但上次被斷頭的記憶太深 — 該賣還是加碼？",
-      "外資才買 +4.7 億，之前賣了 -438 億 — 這是真反轉還是死貓跳？"
-    ],
-    "watch_for_en": "Need foreign investors to buy 3+ consecutive days. If they sell again tomorrow, LINE group mood will flip from euphoria to despair in 2 seconds.",
-    "watch_for_tw": "外資要連買 3 天以上才算翻多。如果明天又賣，群組風向 2 秒鐘從狂喜變絕望。",
-    "forward_outlook_en": "I want to believe but I've been hurt before. The smart move is probably to wait, but waiting means watching everyone else make money if it bounces. Peak retail dilemma.",
-    "forward_outlook_tw": "我想相信但被傷過太多次。理性的做法是等，但等的代價是看著別人賺錢。散戶的終極困境。"
-  },
-  "jp_agent": {
-    "adjusted_score_delta": -1,
-    "sentiment_level": "CAUTIOUS",
-    "conviction": "MEDIUM",
-    "narrative_en": "Nikkei is at 53,751 but feels shaky. USD/JPY at 158.9 is insane — every time the yen weakens this much, Bank of Japan does something and the market drops 5% in a day. Remember last July? I was up 20% for the year then BOJ hiked and I lost it all in a week. Now I'm just sitting in my Nomura account watching. 2ch is full of people saying 'this time is different' but they said that before Black Monday 1987 too...",
-    "narrative_tw": "日經在 53,751 但感覺很脆弱。USD/JPY 158.9 太誇張了——每次日圓這麼弱，日銀就會出手然後市場一天跌 5%。記得去年七月嗎？全年漲 20% 結果日銀升息一週全吐回去。現在就坐在野村帳戶前面看...",
-    "key_factors_en": ["USD/JPY 158.9 — BOJ intervention risk is the elephant in the room", "Nikkei near all-time highs but retail burned by July 2024 crash", "2ch sentiment: cautiously bullish but everyone has PTSD from BOJ surprises"],
-    "key_factors_tw": ["USD/JPY 158.9 — 日銀干預風險是最大隱憂", "日經接近歷史高點但散戶被 2024 年 7 月崩盤嚇到", "散戶心態：謹慎偏多但對日銀突襲有 PTSD"],
-    "watch_for_en": "Any BOJ meeting or yen intervention rumor. If USD/JPY breaks 160, expect panic selling in Nikkei.",
-    "watch_for_tw": "關注日銀會議或日圓干預傳聞。如果 USD/JPY 破 160，預期日經會出現恐慌賣壓。"
-  },
-  "kr_agent": {
-    "adjusted_score_delta": -2,
-    "sentiment_level": "CAUTIOUS",
-    "conviction": "MEDIUM",
-    "narrative_en": "KOSPI is stuck and I'm losing patience. Samsung is going nowhere, SK Hynix is the only thing keeping the index alive. Every Korean retail investor I know on KakaoTalk is talking about US stocks instead — 'why buy KOSPI when you can buy NVIDIA?' The government keeps announcing 'value-up programs' but nobody believes them anymore. My friend's mom even moved her retirement fund to S&P 500 ETF last month...",
-    "narrative_tw": "KOSPI 卡住不動了，我快沒耐心了。三星不漲，只靠 SK 海力士撐指數。KakaoTalk 群組裡的韓國散戶都在聊美股——「幹嘛買 KOSPI，買 NVIDIA 不好嗎？」政府一直喊 value-up 但沒人信了。我朋友的媽媽上個月把退休金全轉到 S&P 500 ETF 了...",
-    "key_factors_en": ["Korean retail exodus to US stocks — domestic FOMO is dead, replaced by 'KOSPI FOMO-out'", "Samsung stagnation is killing retail confidence", "Government value-up programs met with skepticism — retail has heard it before"],
-    "key_factors_tw": ["韓國散戶出走到美股——國內 FOMO 已死，變成「逃離 KOSPI」", "三星停滯不前打擊散戶信心", "政府 value-up 計劃被嗤之以鼻——散戶聽過太多次了"],
-    "watch_for_en": "Samsung earnings or any semiconductor cycle upturn signal. If Samsung breaks out, Korean retail will flood back overnight.",
-    "watch_for_tw": "關注三星財報或半導體週期回升信號。如果三星突破，韓國散戶會一夜之間湧回來。"
-  },
-  "eu_agent": {
-    "adjusted_score_delta": -1,
-    "sentiment_level": "CAUTIOUS",
-    "conviction": "LOW",
-    "narrative_en": "European stocks are actually doing well but nobody's excited about it. STOXX50 at 5,769 is near highs but European retail doesn't have the same YOLO culture as US or Asia. My trading app (Trade Republic) barely sends me notifications anymore because I haven't traded in weeks. ECB cut rates but everyone's still worried about the economy. Germany is a mess, France is a mess. I keep thinking 'maybe I should just buy US stocks like everyone else'...",
-    "narrative_tw": "歐股其實不差但沒人興奮。STOXX50 在 5,769 接近高點，但歐洲散戶不像美國或亞洲那麼瘋。我的 Trade Republic app 都不太推通知了因為我好幾週沒交易。ECB 降息但大家還是擔心經濟。德國爛、法國爛。我一直在想『要不要學大家去買美股算了』...",
-    "key_factors_en": ["European retail apathy — near highs but no excitement, classic 'wall of worry' rally", "ECB rate cuts not generating the FOMO that Fed cuts would", "Retail capital flowing to US markets — European FOMO is for American stocks, not European ones"],
-    "key_factors_tw": ["歐洲散戶冷淡——接近高點但沒有興奮感，典型的「擔憂之牆」反彈", "ECB 降息但沒產生像 Fed 那樣的 FOMO", "散戶資金流向美股——歐洲的 FOMO 是對美股的，不是對歐股的"],
-    "watch_for_en": "Any major fiscal stimulus from Germany or EU defense spending boost. That could wake up European retail.",
-    "watch_for_tw": "關注德國財政刺激或歐盟國防支出增加。這可能喚醒歐洲散戶。"
+    "what_quant_misses": "外資從連賣轉買是一個質性轉折點，量化模型只看到累積流量的z-score，但「方向翻轉」本身的信號意義更大。另外大盤站回SMA20也是一個技術面的微妙變化。",
+    "forward_outlook": "短期偏中性轉樂觀。外資翻多+大盤站回均線+融資增速放緩，三個信號都在好轉。但台積電融資月增20%仍高，如果外資只是短期回補而非趨勢性買入，散戶可能再次被套。觀察重點：外資能否連續買超3天以上。Moodring分數~44在中性區間，不構成強烈反向信號。"
   },
   "summary": {
     "us_final_score": 31.5,
     "tw_final_score": 44.2,
     "divergence": 12.7,
-    "signal_en": "HOLD",
-    "signal_tw": "觀望",
-    "cross_market_view_en": "US retail is paralyzed between FOMO and fear (score 31.5). TW retail just got excited by one day of foreign buying (score 44.2). The divergence (12.7) tells us Asia is leading sentiment recovery — but one day doesn't make a trend.",
-    "cross_market_view_tw": "美國散戶在 FOMO 和恐懼之間癱瘓（分數 31.5）。台灣散戶因為外資買一天就興奮了（分數 44.2）。分歧 12.7 代表亞洲情緒領先回溫——但一天不代表趨勢。",
-    "actionable_en": "HOLD — Retail investors are confused, which historically means we're NOT at the bottom yet. Real bottoms happen when retail is SELLING in panic (score <20), not when they're 'cautiously hopeful'. Wait for VIX >30 or GRISI <20.",
-    "actionable_tw": "觀望 — 散戶還在猶豫，歷史上代表還沒到底。真正的底部是散戶恐慌殺出（分數 <20），不是「謹慎樂觀」。等 VIX >30 或 GRISI <20。",
-    "thresholds_en": {
-      "us_buy": "Below 30 (Fear) — +1.70% / 20d, 67% win. Below 15 (Extreme Fear) — +4.17%, 72% win. Currently 2.4 pts from Fear.",
-      "us_sell": "US greed sell signal is WEAK — even at >70, SPY still averages +2.03%. US structural bull market overrides retail greed.",
-      "tw_buy": "Below 30 (Fear) — +1.90% / 20d, 75% win. Below 15 (Extreme Fear) — +6.45%, 87% win. Currently 9.9 pts from Fear.",
-      "tw_sell": "Above 70 (Greed) — only +0.16%, 53% win. Above 85 (Euphoria) — NEGATIVE -1.13%. Reduce TW when score >70."
-    },
-    "thresholds_tw": {
-      "us_buy": "低於 30 (恐懼) — +1.70% / 20天, 67%勝率。低於 15 (極度恐懼) — +4.17%, 72%勝率。距 Fear 2.4 分。",
-      "us_sell": "美股貪婪賣出信號弱 — 分數 >70 仍漲 +2.03%。結構性牛市壓過散戶貪婪。",
-      "tw_buy": "低於 30 (恐懼) — +1.90% / 20天, 75%勝率。低於 15 (極度恐懼) — +6.45%, 87%勝率。距 Fear 9.9 分。",
-      "tw_sell": "高於 70 (貪婪) — 僅 +0.16%, 53%勝率。高於 85 — 負報酬 -1.13%。分數 >70 減碼。"
-    }
+    "cross_market_view": "US仍偏恐懼(31.5)但TW今天明顯回溫(44.2)，分歧擴大到12.7。外資在台股翻多但美股仍處技術性弱勢，形成短期分歧。歷史上US偏恐懼+TW中性的組合通常意味著全球風險還在，但亞洲市場可能領先反彈。",
+    "actionable_signal": "HOLD — US接近超賣但未確認反轉。TW外資翻多是正面信號但需確認持續性(連買3天+)。不急進場，等確認信號。"
   }
 }

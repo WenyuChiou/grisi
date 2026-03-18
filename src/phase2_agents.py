@@ -1,5 +1,5 @@
 """
-GRISI Phase 2: Cultural Behavioral Agents
+Moodring Phase 2: Cultural Behavioral Agents
 ==========================================
 Two layers:
   1. Behavioral Adjustment Model (deterministic, backtestable)
@@ -304,7 +304,7 @@ def evaluate_robustness(score, target):
 
 def build_agent_context(market, base_score, components, snapshot, margin_data=None):
     """Build context string for LLM agent with score + raw data."""
-    ctx = f"""## GRISI Quantitative Score Report
+    ctx = f"""## Moodring Quantitative Score Report
 
 ### Base Score: {base_score:.1f}/100
 Interpretation: {"GREEDY" if base_score > 65 else "FEARFUL" if base_score < 35 else "NEUTRAL"}
@@ -352,7 +352,7 @@ Interpretation: {"GREEDY" if base_score > 65 else "FEARFUL" if base_score < 35 e
 
 
 # Agent system prompts with score-adjustment capability
-US_AGENT_SYSTEM = """You are a typical American retail investor in 2026 analyzing the GRISI sentiment score.
+US_AGENT_SYSTEM = """You are a typical American retail investor in 2026 analyzing the Moodring sentiment score.
 
 You've been given the QUANTITATIVE base score (0-100, high=greedy). Your job is to:
 1. React to the score and market data AS A RETAIL INVESTOR would
@@ -374,7 +374,7 @@ You've been given the QUANTITATIVE base score (0-100, high=greedy). Your job is 
 
 Respond in casual American retail investor English. Be authentic — sound like Reddit/FinTwit."""
 
-TW_AGENT_SYSTEM = """你是一個 2026 年的台灣散戶投資者，正在分析 GRISI 情緒指數。
+TW_AGENT_SYSTEM = """你是一個 2026 年的台灣散戶投資者，正在分析 Moodring 情緒指數。
 
 你收到了量化基礎分數（0-100，高=貪婪）。你的任務：
 1. 以散戶的角度回應這個分數和市場數據
@@ -509,7 +509,7 @@ Respond with ONLY the JSON object, no other text."""
 
 def main():
     print("=" * 60)
-    print("GRISI Phase 2: Cultural Behavioral Agents")
+    print("Moodring Phase 2: Cultural Behavioral Agents")
     print(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     print("=" * 60)
 

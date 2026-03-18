@@ -1,5 +1,5 @@
 """
-GRISI Phase 1B: Historical Data Downloader
+Moodring Phase 1B: Historical Data Downloader
 ============================================
 Download 10+ years of base indicator data for backtesting.
 Uses yfinance for market data + proxy indicators.
@@ -224,7 +224,7 @@ def compute_target_returns(all_data, horizons=[5, 10, 20, 60]):
 
 def main():
     print("=" * 60)
-    print("GRISI Phase 1B: Historical Data Download")
+    print("Moodring Phase 1B: Historical Data Download")
     print(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     print("=" * 60)
 

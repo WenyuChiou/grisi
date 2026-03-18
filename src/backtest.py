@@ -1,5 +1,5 @@
 """
-GRISI Phase 1B: Backtest Engine
+Moodring Phase 1B: Backtest Engine
 =================================
 Evaluate base scoring formula against historical data.
 
@@ -138,7 +138,7 @@ def evaluate_signal(score, target, label=''):
     """
     Evaluate a sentiment score against future returns.
 
-    If GRISI works as contrarian indicator:
+    If Moodring works as contrarian indicator:
     - High score (greedy retail) → LOW future returns
     - Low score (fearful retail) → HIGH future returns
     → We expect NEGATIVE IC (high score predicts low returns)
@@ -255,7 +255,7 @@ def evaluate_robustness(score, target, label=''):
 
 def main():
     print("=" * 60)
-    print("GRISI Phase 1B: Backtest Evaluation")
+    print("Moodring Phase 1B: Backtest Evaluation")
     print(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     print("=" * 60)
 

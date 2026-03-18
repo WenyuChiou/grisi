@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MoodRing 情緒儀表板</title>
+<title>Moodring 儀表板 — 中文</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Microsoft JhengHei', 'Segoe UI', sans-serif;
   background: #0d1117;
   color: #e6edf3;
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
   padding-bottom: 40px;
 }
 
+/* Header */
 .header {
   padding: 20px 16px 12px;
   text-align: center;
@@ -24,8 +24,8 @@ body {
   position: relative;
 }
 .header h1 { font-size: 1.5em; font-weight: 700; letter-spacing: 0.5px; }
-.header .sub { color: #8b949e; font-size: 0.90em; margin-top: 3px; }
-.header .date { color: #58a6ff; font-size: 0.92em; margin-top: 6px; }
+.header .sub { color: #8b949e; font-size: 0.78em; margin-top: 3px; }
+.header .date { color: #58a6ff; font-size: 0.82em; margin-top: 6px; }
 .lang-switch {
   position: absolute;
   top: 20px;
@@ -34,7 +34,7 @@ body {
   border: 1px solid #30363d;
   border-radius: 6px;
   padding: 5px 10px;
-  font-size: 1.0em;
+  font-size: 0.75em;
   color: #58a6ff;
   text-decoration: none;
   font-weight: 600;
@@ -42,35 +42,11 @@ body {
 }
 .lang-switch:hover { background: #21262d; }
 
-/* ── MARKET SELECTOR ── */
-.market-selector {
-  display: flex;
-  gap: 8px;
-  padding: 12px 16px;
-  border-bottom: 1px solid #21262d;
-  flex-wrap: wrap;
-}
-.market-btn {
-  background: #21262d;
-  border: 1px solid #30363d;
-  border-radius: 8px;
-  padding: 8px 16px;
-  color: #8b949e;
-  font-weight: 700;
-  font-size: 1.05em;
-  cursor: pointer;
-  transition: all 0.18s;
-  flex: 1;
-  min-width: 52px;
-  text-align: center;
-}
-.market-btn:hover { border-color: #58a6ff; color: #e6edf3; }
-.market-btn.active { color: #fff; }
-
+/* Sections */
 .section { padding: 14px 16px; border-bottom: 1px solid #21262d; }
 .section:last-child { border-bottom: none; }
 .section-title {
-  font-size: 1.05em;
+  font-size: 0.70em;
   color: #58a6ff;
   text-transform: uppercase;
   letter-spacing: 1.4px;
@@ -78,220 +54,340 @@ body {
   font-weight: 700;
 }
 
-/* ── THERMOMETER ── */
-.thermo-card {
+/* Score cards */
+.score-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.score-card {
   background: #161b22;
   border: 1px solid #30363d;
   border-radius: 10px;
   padding: 14px;
 }
-.thermo-card .market-label { font-size: 0.92em; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-.thermo-score-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 2px; }
-.thermo-score { font-size: 3em; font-weight: 800; line-height: 1; }
-.thermo-zone-label { font-size: 0.92em; font-weight: 700; letter-spacing: 0.3px; }
-.thermo-expected { font-size: 1.05em; font-weight: 600; margin-bottom: 8px; letter-spacing: 0.2px; }
-.thermo-bar-wrap { position: relative; margin: 8px 0 6px; }
-.thermo-bar { display: flex; height: 10px; border-radius: 5px; overflow: hidden; }
-.thermo-zone { height: 100%; position: relative; }
-.thermo-labels { display: flex; margin-top: 4px; }
-.thermo-zone-name { font-size: 0.48em; color: #6e7681; text-align: center; line-height: 1.2; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.thermo-marker-row { position: relative; height: 12px; margin-bottom: 0; }
-.thermo-marker { position: absolute; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
-.thermo-marker-arrow { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 8px solid #fff; }
-.thermo-percentile { font-size: 0.92em; color: #8b949e; margin-top: 6px; }
+.score-card .market-label {
+  font-size: 0.70em;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.score-card .score-number {
+  font-size: 2.6em;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.score-card .sentiment-label {
+  font-size: 0.78em;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.gauge-bar {
+  height: 6px;
+  background: #21262d;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+.gauge-fill { height: 100%; border-radius: 3px; transition: width 0.8s ease; }
+.score-card .percentile {
+  font-size: 0.70em;
+  color: #8b949e;
+}
 
-/* ── FORWARD RETURNS ── */
-.returns-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 12px; }
-.returns-card .ticker { font-size: 0.90em; color: #8b949e; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-.returns-card .hist-note { font-size: 1.0em; color: #6e7681; margin-top: 8px; text-align: center; }
+/* Forward returns */
+.returns-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.returns-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 12px;
+}
+.returns-card .ticker {
+  font-size: 0.78em;
+  color: #8b949e;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+.returns-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+.ret-col { text-align: center; }
+.ret-col .period {
+  font-size: 0.60em;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 3px;
+}
+.ret-col .avg {
+  font-size: 0.95em;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.ret-col .wr {
+  font-size: 0.60em;
+  color: #8b949e;
+  margin-bottom: 2px;
+}
+.ret-col .range {
+  font-size: 0.58em;
+  color: #6e7681;
+}
+.returns-card .hist-note {
+  font-size: 0.60em;
+  color: #6e7681;
+  margin-top: 8px;
+  text-align: center;
+}
 
-/* Range bar rows */
-.rbar-row { margin-bottom: 10px; }
-.rbar-row:last-of-type { margin-bottom: 0; }
-.rbar-label { font-size: 1.0em; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 700; }
-.rbar-track-wrap { display: flex; align-items: center; gap: 5px; }
-.rbar-p25 { font-size: 0.58em; color: #8b949e; white-space: nowrap; min-width: 34px; text-align: right; }
-.rbar-p75 { font-size: 0.58em; color: #8b949e; white-space: nowrap; min-width: 34px; text-align: left; }
-.rbar-track { flex: 1; height: 8px; border-radius: 4px; position: relative; overflow: visible; background: #21262d; }
-.rbar-neg { position: absolute; top: 0; height: 100%; background: rgba(248,81,73,0.55); border-radius: 4px 0 0 4px; }
-.rbar-pos { position: absolute; top: 0; height: 100%; background: rgba(63,185,80,0.55); border-radius: 0 4px 4px 0; }
-.rbar-dot { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 9px; height: 9px; background: #fff; border-radius: 50%; border: 1.5px solid #0d1117; z-index: 3; }
-.rbar-meta { font-size: 1.0em; color: #8b949e; margin-top: 3px; text-align: center; }
-.rbar-avg { font-weight: 700; color: #e6edf3; }
-.rbar-wr-green  { color: #3fb950; }
-.rbar-wr-yellow { color: #e3b341; }
-.rbar-wr-red    { color: #f85149; }
+/* Charts */
+.chart-wrap {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 2px;
+}
+.chart-wrap canvas { width: 100% !important; }
 
-/* ── SIGNAL & ANALYSIS ── */
-.signal-block { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 16px; }
-.signal-top { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
-.signal-badge { font-size: 1.1em; font-weight: 800; padding: 8px 16px; border-radius: 8px; letter-spacing: 2px; flex-shrink: 0; }
+/* Quintile edge box */
+.edge-box {
+  background: #0d2818;
+  border: 1px solid #1f6335;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  font-size: 0.80em;
+}
+.edge-box .edge-title {
+  color: #3fb950;
+  font-weight: 700;
+  margin-bottom: 4px;
+  font-size: 0.90em;
+}
+.edge-box .edge-text { color: #7ee787; line-height: 1.5; }
+
+/* Signal */
+.signal-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+.signal-badge {
+  font-size: 1.1em;
+  font-weight: 800;
+  padding: 8px 16px;
+  border-radius: 8px;
+  letter-spacing: 2px;
+  flex-shrink: 0;
+}
 .badge-hold { background: #2d2a00; color: #e3b341; border: 1px solid #9e6a03; }
 .badge-buy  { background: #0d2818; color: #3fb950; border: 1px solid #1f6335; }
 .badge-sell { background: #2d1116; color: #f85149; border: 1px solid #6e1c1c; }
-.cross-market-text { font-size: 0.92em; color: #8b949e; line-height: 1.5; }
-.agent-divider { border: none; border-top: 1px solid #30363d; margin: 14px 0 12px; }
-.agent-section-label { font-size: 0.64em; color: #58a6ff; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin-bottom: 8px; }
-.agent-narrative { font-size: 0.90em; color: #c9d1d9; line-height: 1.6; margin-bottom: 10px; }
-.agent-factors { list-style: none; padding: 0; margin: 0 0 10px; }
-.agent-factors li { font-size: 0.92em; color: #8b949e; padding: 4px 0 4px 14px; position: relative; line-height: 1.4; border-top: 1px solid #21262d; }
-.agent-factors li::before { content: '›'; position: absolute; left: 0; color: #58a6ff; }
-.watch-for-label { font-size: 0.64em; color: #e3b341; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px; }
-.watch-for-text { font-size: 1.05em; color: #e3b341; line-height: 1.5; background: #2d2a00; border: 1px solid #9e6a03; border-radius: 6px; padding: 8px 10px; margin-bottom: 10px; }
-.outlook-label { font-size: 0.64em; color: #3fb950; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-top: 14px; margin-bottom: 6px; }
-.outlook-text { font-size: 0.76em; color: #7ee787; line-height: 1.6; background: #0d2818; border: 1px solid #1f6335; border-radius: 6px; padding: 10px 12px; }
-.coming-soon { font-size: 0.90em; color: #6e7681; font-style: italic; padding: 10px 0; }
+.signal-text { font-size: 0.80em; color: #8b949e; line-height: 1.5; }
+.signal-text strong { color: #e6edf3; display: block; margin-bottom: 3px; }
 
-/* ── CHARTS ── */
-.chart-wrap { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 14px; margin-bottom: 2px; }
-.chart-wrap canvas { width: 100% !important; }
-
-/* ── EDGE BOX ── */
-.edge-box { background: #0d2818; border: 1px solid #1f6335; border-radius: 8px; padding: 10px 14px; margin-top: 10px; font-size: 0.92em; }
-.edge-box .edge-title { color: #3fb950; font-weight: 700; margin-bottom: 4px; font-size: 0.90em; }
-.edge-box .edge-text  { color: #7ee787; line-height: 1.5; }
-
-/* ── MARKET DATA ── */
-.mkt-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-.mkt-item { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 10px 8px; text-align: center; }
-.mkt-item .mkt-label { font-size: 1.0em; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-.mkt-item .mkt-value { font-size: 1.0em; font-weight: 700; color: #e6edf3; }
-.mkt-item .mkt-sub   { font-size: 0.58em; color: #6e7681; margin-top: 2px; }
-
-/* ── ERROR ── */
-.error-state { text-align: center; padding: 20px 16px; color: #f85149; font-size: 0.92em; background: #2d1116; border: 1px solid #6e1c1c; border-radius: 8px; margin: 10px 16px; }
-
-/* ── FOOTER ── */
-.footer { padding: 16px; text-align: center; color: #6e7681; font-size: 1.05em; border-top: 1px solid #21262d; margin-top: 10px; line-height: 1.6; }
-
-/* ── UTILITIES ── */
-.range-btn { background: #21262d; border: 1px solid #30363d; border-radius: 6px; padding: 5px 12px; font-size: 1.05em; color: #8b949e; cursor: pointer; font-weight: 600; transition: all 0.2s; }
-.range-btn:hover  { border-color: #58a6ff; color: #58a6ff; }
-.range-btn.active { background: #0d419d; border-color: #58a6ff; color: #fff; }
-
-.hidden { display: none !important; }
-
-@keyframes extremePulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
+/* Agent cards */
+.agent-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.agent-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 12px;
 }
-.thermo-card.extreme-zone { animation: extremePulse 2s ease-in-out infinite; }
-.thermo-card.extreme-fear { border-color: #238636; box-shadow: 0 0 15px rgba(63,185,80,0.3); }
-.thermo-card.extreme-greed { border-color: #da3633; box-shadow: 0 0 15px rgba(248,81,73,0.3); }
-
-/* Desktop */
-@media (min-width: 769px) {
-  .section { padding: 18px 24px; }
-  .market-selector { gap: 10px; }
-  .market-btn { padding: 10px 20px; font-size: 0.9em; }
-  .thermo-card { padding: 24px; }
-  .thermo-card .thermo-score { font-size: 4em; }
-  .rbar-row { padding: 6px 0; }
-  .rbar-label { font-size: 0.92em; min-width: 70px; }
-  .rbar-p25, .rbar-p75 { font-size: 1.05em; min-width: 55px; }
-  .rbar-meta { font-size: 0.90em; }
-  .chart-wrap { padding: 20px; }
-  .chart-wrap canvas { max-height: 350px; }
-  .signal-block { padding: 20px; }
-  .mkt-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
-  .mkt-item { padding: 14px 10px; }
-  .range-btn { padding: 7px 16px; font-size: 0.8em; }
-  .header h1 { font-size: 1.8em; }
+.agent-card .agent-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.agent-flag { font-size: 1.2em; line-height: 1; }
+.agent-name {
+  font-size: 0.72em;
+  font-weight: 700;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.conviction-badge {
+  margin-left: auto;
+  font-size: 0.58em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  background: #21262d;
+  color: #8b949e;
+}
+.agent-narrative {
+  font-size: 0.73em;
+  color: #c9d1d9;
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+.agent-factors { list-style: none; padding: 0; margin: 0; }
+.agent-factors li {
+  font-size: 0.65em;
+  color: #8b949e;
+  padding: 3px 0;
+  padding-left: 12px;
+  position: relative;
+  line-height: 1.4;
+  border-top: 1px solid #21262d;
+}
+.agent-factors li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: #58a6ff;
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
-  body { max-width: 900px; }
+/* Market data grid */
+.mkt-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
 }
+.mkt-item {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.mkt-item .mkt-label {
+  font-size: 0.60em;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.mkt-item .mkt-value {
+  font-size: 0.88em;
+  font-weight: 700;
+  color: #e6edf3;
+}
+.mkt-item .mkt-sub {
+  font-size: 0.58em;
+  color: #6e7681;
+  margin-top: 2px;
+}
+
+/* Error */
+.error-state {
+  text-align: center;
+  padding: 20px 16px;
+  color: #f85149;
+  font-size: 0.82em;
+  background: #2d1116;
+  border: 1px solid #6e1c1c;
+  border-radius: 8px;
+  margin: 10px 16px;
+}
+
+/* Footer */
+.footer {
+  padding: 16px;
+  text-align: center;
+  color: #6e7681;
+  font-size: 0.70em;
+  border-top: 1px solid #21262d;
+  margin-top: 10px;
+  line-height: 1.6;
+}
+
+/* Color utilities */
+.clr-green { color: #3fb950; }
+.clr-yellow { color: #e3b341; }
+.clr-red    { color: #f85149; }
+.clr-blue   { color: #58a6ff; }
+.clr-muted  { color: #8b949e; }
 
 @media (max-width: 480px) {
-  .mkt-grid { grid-template-columns: repeat(4, 1fr); }
-  .header h1 { font-size: 1.2em; }
-  .lang-switch { font-size: 0.92em; padding: 4px 8px; }
-  .signal-top { flex-wrap: wrap; }
-  .market-btn { padding: 7px 10px; font-size: 0.90em; }
+  .score-grid       { grid-template-columns: 1fr 1fr; }
+  .returns-grid     { grid-template-columns: 1fr; }
+  .agent-grid       { grid-template-columns: 1fr; }
+  .mkt-grid         { grid-template-columns: repeat(4, 1fr); }
+  .returns-cols     { grid-template-columns: repeat(4, 1fr); }
+  .header h1        { font-size: 1.2em; }
+  .lang-switch      { font-size: 0.68em; padding: 4px 8px; }
 }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
-  <a class="lang-switch" href="index.html">&#127482;&#127480; EN</a>
-  <h1>&#127481;&#127484; MoodRing 情緒儀表板</h1>
-  <div class="sub">全球散戶投資人情緒指數</div>
+  <a class="lang-switch" href="index.html">EN</a>
+  <h1>Moodring 情緒儀表板</h1>
+  <div class="sub">市場情緒指標</div>
   <div class="date" id="header-date">載入中...</div>
-</div>
-
-<!-- 市場選擇器 -->
-<div class="market-selector">
-  <button class="market-btn" data-market="us">美國</button>
-  <button class="market-btn active" data-market="tw">台灣</button>
-  <button class="market-btn" data-market="jp">日本</button>
-  <button class="market-btn" data-market="kr">韓國</button>
-  <button class="market-btn" data-market="eu">歐洲</button>
 </div>
 
 <!-- 1. 當前情緒 -->
 <div class="section">
   <div class="section-title">當前情緒</div>
-  <div class="thermo-card">
-    <div class="market-label" id="thermo-market-label">台灣市場</div>
-    <div class="thermo-score-row">
-      <span class="thermo-score" id="mkt-score">--</span>
-      <span class="thermo-zone-label" id="mkt-zone-label">載入中...</span>
+  <div class="score-grid">
+    <div class="score-card" id="us-score-card">
+      <div class="market-label">美國市場</div>
+      <div class="score-number" id="us-score">--</div>
+      <div class="sentiment-label" id="us-label">載入中...</div>
+      <div class="gauge-bar"><div class="gauge-fill" id="us-gauge" style="width:0%"></div></div>
+      <div class="percentile" id="us-pct">百分位: --%</div>
     </div>
-    <div class="thermo-expected" id="mkt-expected"></div>
-    <div class="thermo-bar-wrap">
-      <div class="thermo-marker-row">
-        <div class="thermo-marker" id="mkt-marker" style="left:50%">
-          <div class="thermo-marker-arrow"></div>
-        </div>
-      </div>
-      <div class="thermo-bar" id="mkt-bar"></div>
-      <div class="thermo-labels" id="mkt-zone-labels"></div>
+    <div class="score-card" id="tw-score-card">
+      <div class="market-label">台灣市場</div>
+      <div class="score-number" id="tw-score">--</div>
+      <div class="sentiment-label" id="tw-label">載入中...</div>
+      <div class="gauge-bar"><div class="gauge-fill" id="tw-gauge" style="width:0%"></div></div>
+      <div class="percentile" id="tw-pct">百分位: --%</div>
     </div>
-    <div class="thermo-percentile" id="mkt-pct">百分位: --%</div>
+    <div class="score-card" id="jp-score-card">
+      <div class="market-label">日本 (日經225)</div>
+      <div class="score-number" id="jp-score">--</div>
+      <div class="sentiment-label" id="jp-label">載入中...</div>
+      <div class="gauge-bar"><div class="gauge-fill" id="jp-gauge" style="width:0%"></div></div>
+      <div class="percentile" id="jp-pct">百分位: --%</div>
+    </div>
+    <div class="score-card" id="kr-score-card">
+      <div class="market-label">韓國 (KOSPI)</div>
+      <div class="score-number" id="kr-score">--</div>
+      <div class="sentiment-label" id="kr-label">載入中...</div>
+      <div class="gauge-bar"><div class="gauge-fill" id="kr-gauge" style="width:0%"></div></div>
+      <div class="percentile" id="kr-pct">百分位: --%</div>
+    </div>
+    <div class="score-card" id="eu-score-card">
+      <div class="market-label">歐洲 (STOXX 50)</div>
+      <div class="score-number" id="eu-score">--</div>
+      <div class="sentiment-label" id="eu-label">載入中...</div>
+      <div class="gauge-bar"><div class="gauge-fill" id="eu-gauge" style="width:0%"></div></div>
+      <div class="percentile" id="eu-pct">百分位: --%</div>
+    </div>
   </div>
 </div>
 
 <!-- 2. 預期未來報酬 -->
 <div class="section">
   <div class="section-title">預期未來報酬</div>
-  <div class="returns-card">
-    <div class="ticker" id="fwd-ticker">加權指數（台股）</div>
-    <div id="mkt-returns"></div>
-    <div class="hist-note" id="mkt-returns-n"></div>
+  <div class="returns-grid">
+    <div class="returns-card">
+      <div class="ticker">SPY（美股）</div>
+      <div class="returns-cols" id="spy-returns"></div>
+      <div class="hist-note" id="spy-n"></div>
+    </div>
+    <div class="returns-card">
+      <div class="ticker">加權指數（台股）</div>
+      <div class="returns-cols" id="taiex-returns"></div>
+      <div class="hist-note" id="taiex-n"></div>
+    </div>
   </div>
 </div>
 
-<!-- 3. 情緒指數 vs 走勢 -->
+<!-- 3. 歷史驗證 — 五分位柱狀圖 -->
 <div class="section">
-  <div class="section-title">情緒指數 vs 走勢</div>
-  <div style="display:flex;gap:6px;margin-bottom:10px;">
-    <button class="range-btn" data-days="63">3個月</button>
-    <button class="range-btn active" data-days="252">1年</button>
-    <button class="range-btn" data-days="756">3年</button>
-    <button class="range-btn" data-days="0">全部</button>
-  </div>
-  <div class="chart-wrap">
-    <canvas id="overlayChart" height="220"></canvas>
-  </div>
-  <div style="font-size:0.68em; color:#8b949e; margin-top:8px; text-align:center;">
-    分數由 MoodRing 引擎計算（252天滾動 Z-score + 行為調整）。
-  </div>
-</div>
-
-<!-- 4. 訊號與分析 -->
-<div class="section">
-  <div class="section-title">訊號與分析</div>
-  <div class="signal-block" id="signal-block">
-    <div id="agent-content">載入中...</div>
-  </div>
-</div>
-
-<!-- 5. 歷史驗證 -->
-<div class="section" id="quintile-section">
-  <div class="section-title">歷史驗證</div>
+  <div class="section-title">歷史驗證 — 分組報酬</div>
   <div class="chart-wrap">
     <canvas id="quintileChart" height="200"></canvas>
   </div>
@@ -301,36 +397,82 @@ body {
   </div>
 </div>
 
-<!-- IC 回測驗證 -->
-<div class="section" id="ic-section">
-  <div class="section-title">回測驗證 (IC)</div>
-  <div style="background:#161b22;border:1px solid #30363d;border-radius:10px;padding:14px;">
-    <div style="display:grid;grid-template-columns:auto repeat(4,1fr);gap:4px;font-size:0.85em;text-align:center;">
-      <div style="color:#8b949e;text-align:left;font-weight:700;">市場</div>
-      <div style="color:#8b949e;font-weight:600;">5天 IC</div>
-      <div style="color:#8b949e;font-weight:600;">10天 IC</div>
-      <div style="color:#8b949e;font-weight:600;">20天 IC</div>
-      <div style="color:#8b949e;font-weight:600;">60天 IC</div>
-    </div>
-    <div id="ic-table" style="display:grid;grid-template-columns:auto repeat(4,1fr);gap:4px;font-size:0.85em;text-align:center;margin-top:6px;"></div>
-    <div style="font-size:0.78em;color:#8b949e;margin-top:10px;line-height:1.5;">
-      <div style="color:#58a6ff;font-weight:700;margin-bottom:6px;">什麼是 IC？</div>
-      <div style="margin-bottom:8px;">IC（資訊係數）衡量這個指標預測未來報酬的能力。範圍 -1 到 +1。</div>
-      <div style="margin-bottom:8px;">我們的 IC 是<span style="color:#3fb950;font-weight:700;">負數</span>——這對反向指標是<strong>好事</strong>。代表：<em>散戶越貪婪，未來報酬越低。</em></div>
-      <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:0.88em;">
-        <span style="color:#3fb950;">|IC| &gt; 0.15</span><span>強信號 — 高信心</span>
-        <span style="color:#e3b341;">|IC| 0.05-0.15</span><span>中等信號 — 有用</span>
-        <span style="color:#8b949e;">|IC| &lt; 0.05</span><span>弱信號 — 可能不可靠</span>
+<!-- 4. 情緒指數 vs 市場走勢 -->
+<div class="section">
+  <div class="section-title">情緒指數 vs 市場走勢（2010–2026）</div>
+  <div class="chart-wrap">
+    <canvas id="overlayChart" height="220"></canvas>
+  </div>
+  <div style="font-size:0.68em; color:#8b949e; margin-top:8px; text-align:center;">
+    低分（綠色區）之後市場上漲 &mdash; 高分（紅色區）之後市場下跌
+  </div>
+</div>
+
+<!-- 5. 訊號 -->
+<div class="section">
+  <div class="section-title">訊號</div>
+  <div class="signal-row" id="signal-row">
+    <div class="signal-badge badge-hold" id="signal-badge">HOLD</div>
+    <div class="signal-text" id="signal-text">載入中...</div>
+  </div>
+</div>
+
+<!-- 6. 文化行為代理分析 -->
+<div class="section">
+  <div class="section-title">文化行為敘事分析</div>
+  <div class="agent-grid">
+    <div class="agent-card" id="us-agent-card">
+      <div class="agent-header">
+        <span class="agent-flag">🇺🇸</span>
+        <span class="agent-name">美國敘事</span>
+        <span class="conviction-badge" id="us-conviction">--</span>
       </div>
-      <div style="color:#8b949e;margin-top:8px;font-size:0.82em;">5 個市場全部統計顯著（p &lt; 0.0001，代表這不是隨機結果的機率 &gt; 99.99%）。</div>
+      <div class="agent-narrative" id="us-narrative">載入中...</div>
+      <ul class="agent-factors" id="us-factors"></ul>
+    </div>
+    <div class="agent-card" id="tw-agent-card">
+      <div class="agent-header">
+        <span class="agent-flag">🇹🇼</span>
+        <span class="agent-name">台灣敘事</span>
+        <span class="conviction-badge" id="tw-conviction">--</span>
+      </div>
+      <div class="agent-narrative" id="tw-narrative">載入中...</div>
+      <ul class="agent-factors" id="tw-factors"></ul>
+    </div>
+    <div class="agent-card" id="jp-agent-card">
+      <div class="agent-header">
+        <span class="agent-flag">🇯🇵</span>
+        <span class="agent-name">日本敘事</span>
+        <span class="conviction-badge" id="jp-conviction">--</span>
+      </div>
+      <div class="agent-narrative" id="jp-narrative">載入中...</div>
+      <ul class="agent-factors" id="jp-factors"></ul>
+    </div>
+    <div class="agent-card" id="kr-agent-card">
+      <div class="agent-header">
+        <span class="agent-flag">🇰🇷</span>
+        <span class="agent-name">韓國敘事</span>
+        <span class="conviction-badge" id="kr-conviction">--</span>
+      </div>
+      <div class="agent-narrative" id="kr-narrative">載入中...</div>
+      <ul class="agent-factors" id="kr-factors"></ul>
+    </div>
+    <div class="agent-card" id="eu-agent-card">
+      <div class="agent-header">
+        <span class="agent-flag">🇪🇺</span>
+        <span class="agent-name">歐洲敘事</span>
+        <span class="conviction-badge" id="eu-conviction">--</span>
+      </div>
+      <div class="agent-narrative" id="eu-narrative">載入中...</div>
+      <ul class="agent-factors" id="eu-factors"></ul>
     </div>
   </div>
 </div>
 
-<!-- 6. 市場數據 -->
+<!-- 7. 市場數據 -->
 <div class="section">
   <div class="section-title">市場數據</div>
-  <div class="mkt-grid" id="mkt-data-grid">
+  <div class="mkt-grid" id="mkt-grid">
     <div class="mkt-item"><div class="mkt-label">SPY</div><div class="mkt-value" id="mkt-spy">--</div><div class="mkt-sub" id="mkt-spy-sub"></div></div>
     <div class="mkt-item"><div class="mkt-label">VIX</div><div class="mkt-value" id="mkt-vix">--</div><div class="mkt-sub">恐慌指數</div></div>
     <div class="mkt-item"><div class="mkt-label">加權指數</div><div class="mkt-value" id="mkt-taiex">--</div><div class="mkt-sub" id="mkt-taiex-sub"></div></div>
@@ -343,408 +485,301 @@ body {
 </div>
 
 <div class="footer">
-  MoodRing — 16年回測（2010–2026）。反向指標：散戶貪婪預示較低未來報酬。<br>
-  資料日期：<span id="footer-date">--</span>。由 Claude Agent 管道生成。
+  Moodring — 16年回測（2010–2026）。反向指標：散戶貪婪預示較低未來報酬。<br>
+  資料日期：<span id="footer-date">2026-03-16</span>。由 Claude 管道生成。
 </div>
 
 <script>
-// ── Market config (TW labels) ─────────────────────────────────────────────────
-const MARKETS = {
-  us: { label: '美國', labelLong: '美國市場', index: 'SPY', scoreProp: 'us_score', scoreDates: 'dates', priceDates: 'spy_dates', prices: 'spy', scoreKey: 'us_current_score', fwdKey: 'us_forward', fwdPrefix: 'spy_fwd_', zonePrefix: 'us_', color: '#58a6ff', agentKey: 'us_agent', fwdTicker: 'SPY（美股）', quintileKey: 'us' },
-  tw: { label: '台灣', labelLong: '台灣市場', index: '加權指數', scoreProp: 'tw_score', scoreDates: 'dates', priceDates: 'twii_dates', prices: 'twii', scoreKey: 'tw_current_score', fwdKey: 'tw_forward', fwdPrefix: 'taiex_fwd_', zonePrefix: 'tw_', color: '#f0883e', agentKey: 'tw_agent', fwdTicker: '加權指數（台股）', quintileKey: 'tw' },
-  jp: { label: '日本', labelLong: '日本市場', index: '日經225', scoreProp: 'jp_score', scoreDates: 'jp_dates', priceDates: 'jp_price_dates', prices: 'jp_price', scoreKey: 'jp_current_score', fwdKey: 'jp_forward', fwdPrefix: 'jp_fwd_', zonePrefix: 'jp_', color: '#f85149', agentKey: 'jp_agent', fwdTicker: '日經225（日本）', quintileKey: 'jp' },
-  kr: { label: '韓國', labelLong: '韓國市場', index: 'KOSPI', scoreProp: 'kr_score', scoreDates: 'kr_dates', priceDates: 'kr_price_dates', prices: 'kr_price', scoreKey: 'kr_current_score', fwdKey: 'kr_forward', fwdPrefix: 'kr_fwd_', zonePrefix: 'kr_', color: '#a371f7', agentKey: 'kr_agent', fwdTicker: 'KOSPI（韓國）', quintileKey: 'kr' },
-  eu: { label: '歐洲', labelLong: '歐洲市場', index: 'STOXX50', scoreProp: 'eu_score', scoreDates: 'eu_dates', priceDates: 'eu_price_dates', prices: 'eu_price', scoreKey: 'eu_current_score', fwdKey: 'eu_forward', fwdPrefix: 'eu_fwd_', zonePrefix: 'eu_', color: '#3fb950', agentKey: 'eu_agent', fwdTicker: 'STOXX50（歐洲）', quintileKey: 'eu' },
-};
-
-// ── Zone definitions (TW labels) ──────────────────────────────────────────────
-const ZONES = [
-  { min:  0, max: 15, label: '極度恐懼', color: '#22c55e', extreme: true },
-  { min: 15, max: 30, label: '恐懼',     color: '#4a7a3a' },
-  { min: 30, max: 40, label: '謹慎',     color: '#2d8f4e' },
-  { min: 40, max: 60, label: '中性',     color: '#a08a20' },
-  { min: 60, max: 70, label: '樂觀',     color: '#c85a2a' },
-  { min: 70, max: 85, label: '貪婪',     color: '#dc2626' },
-  { min: 85, max:100, label: '極度貪婪', color: '#ef4444', extreme: true },
-];
-const ZONE_TEXT_COLORS = ['#3fb950','#56d364','#7ee787','#e3b341','#f0883e','#f85149','#ff7b72'];
-
-function getZoneIndex(score) {
-  for (let i = 0; i < ZONES.length; i++) {
-    if (score >= ZONES[i].min && score < ZONES[i].max) return i;
-  }
-  return ZONES.length - 1;
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function sentimentLabel(score) {
+  if (score < 15) return '極度恐懼';
+  if (score < 30) return '恐懼';
+  if (score < 40) return '謹慎';
+  if (score < 60) return '中性';
+  if (score < 70) return '謹慎樂觀';
+  if (score < 85) return '貪婪';
+  return '極度貪婪';
 }
 
-function findZoneReturn(zoneReturns, score) {
-  if (!zoneReturns || !zoneReturns.zones) return null;
-  for (const z of zoneReturns.zones) {
-    if (score >= z.lo && score < z.hi) return z;
-  }
-  return zoneReturns.zones[zoneReturns.zones.length - 1];
+function scoreColor(score) {
+  if (score < 35)  return '#3fb950';
+  if (score <= 65) return '#e3b341';
+  return '#f85149';
 }
 
-// ── Format helpers ────────────────────────────────────────────────────────────
+function gaugeColor(score) {
+  if (score < 35)  return '#238636';
+  if (score <= 65) return '#9e6a03';
+  return '#da3633';
+}
+
 function fmtPct(v, decimals) {
   decimals = (decimals === undefined) ? 2 : decimals;
-  return (v >= 0 ? '+' : '') + v.toFixed(decimals) + '%';
+  const sign = v >= 0 ? '+' : '';
+  return sign + v.toFixed(decimals) + '%';
 }
+
 function fmtNum(v, decimals) {
   decimals = (decimals === undefined) ? 1 : decimals;
   return v.toLocaleString('zh-TW', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
 }
 
-// ── Thermometer renderer (single card) ───────────────────────────────────────
-function renderThermometer(score, pctile, zoneReturns, mktKey) {
-  const cfg = MARKETS[mktKey];
-  const zi  = getZoneIndex(score);
-  const clr = ZONE_TEXT_COLORS[zi];
-  const zone = ZONES[zi];
-
-  const card = document.querySelector('.thermo-card');
-  card.classList.remove('extreme-zone', 'extreme-fear', 'extreme-greed');
-  if (zone.extreme) {
-    card.classList.add('extreme-zone');
-    if (zi === 0) card.classList.add('extreme-fear');
-    if (zi === ZONES.length - 1) card.classList.add('extreme-greed');
-  }
-
-  document.getElementById('thermo-market-label').textContent = cfg.labelLong;
-
-  const scoreEl = document.getElementById('mkt-score');
-  scoreEl.textContent = score.toFixed(1);
-  scoreEl.style.color = clr;
-
-  const labelEl = document.getElementById('mkt-zone-label');
-  labelEl.textContent = ZONES[zi].label;
-  labelEl.style.color = clr;
-
-  const expectedEl = document.getElementById('mkt-expected');
-  if (zoneReturns) {
-    const zd = findZoneReturn(zoneReturns, score);
-    if (zd) {
-      const avgKey = cfg.zonePrefix + '20d_avg';
-      const winKey = cfg.zonePrefix + '20d_win';
-      const avg = zd[avgKey];
-      const win = zd[winKey];
-      if (avg !== undefined && win !== undefined) {
-        const sign = avg >= 0 ? '+' : '';
-        expectedEl.style.color = avg >= 0 ? '#3fb950' : '#f85149';
-        expectedEl.textContent = '預期報酬: ' + sign + avg.toFixed(2) + '% / 20天 (勝率 ' + win.toFixed(0) + '%) — 基於近 ' + (zoneReturns.period || '10yr') + ' 數據';
-      } else {
-        expectedEl.textContent = '';
-      }
-    }
-  }
-
-  const barEl    = document.getElementById('mkt-bar');
-  const labelsEl = document.getElementById('mkt-zone-labels');
-  barEl.innerHTML    = '';
-  labelsEl.innerHTML = '';
-
-  ZONES.forEach((z, i) => {
-    const pct = (z.max - z.min) + '%';
-    const seg = document.createElement('div');
-    seg.className = 'thermo-zone';
-    seg.style.width      = pct;
-    seg.style.background = z.color;
-    if (z.extreme) { seg.style.boxShadow = i === 0 ? '0 0 8px #22c55e' : '0 0 8px #ef4444'; }
-    if (i === zi) { seg.style.outline = '2px solid ' + clr; seg.style.outlineOffset = '-1px'; seg.style.zIndex = '2'; }
-    barEl.appendChild(seg);
-
-    const nameEl = document.createElement('div');
-    nameEl.className   = 'thermo-zone-name';
-    nameEl.style.width = pct;
-    nameEl.textContent = z.label;
-    if (i === zi) { nameEl.style.color = clr; nameEl.style.fontWeight = '700'; }
-    labelsEl.appendChild(nameEl);
-  });
-
-  document.getElementById('mkt-marker').style.left = Math.max(2, Math.min(98, score)) + '%';
-  document.getElementById('mkt-pct').textContent   = '百分位: ' + (pctile !== undefined ? pctile : '--') + '%';
+// ── Render helpers ────────────────────────────────────────────────────────────
+function renderScoreCard(idPrefix, score, pctile) {
+  if (score == null || isNaN(score)) return;
+  const label = sentimentLabel(score);
+  const clr   = scoreColor(score);
+  const gclr  = gaugeColor(score);
+  document.getElementById(idPrefix + '-score').textContent = score.toFixed(1);
+  document.getElementById(idPrefix + '-score').style.color = clr;
+  document.getElementById(idPrefix + '-label').textContent = label;
+  document.getElementById(idPrefix + '-label').style.color = clr;
+  const fill = document.getElementById(idPrefix + '-gauge');
+  fill.style.width = score + '%';
+  fill.style.background = gclr;
+  document.getElementById(idPrefix + '-pct').textContent = '百分位: ' + pctile + '%';
 }
 
-// ── Forward returns (range bar) ───────────────────────────────────────────────
-function renderRangeBars(containerId, data, periods, keys) {
+function renderReturnCols(containerId, data, periods, keys) {
   const el = document.getElementById(containerId);
-  if (!data) { el.innerHTML = '<div class="coming-soon">此市場尚無預期報酬數據。</div>'; return; }
-
   el.innerHTML = periods.map((p, i) => {
     const d = data[keys[i]];
-    if (!d) return '';
-    const p25  = d.p25;
-    const p75  = d.p75;
-    const mean = d.mean;
-    const wr   = d.positive_pct;
-    const span = p75 - p25;
-    const zeroPos = Math.max(0, Math.min(1, (-p25) / span));
-    const avgPos  = span > 0 ? Math.max(0.02, Math.min(0.98, (mean - p25) / span)) : 0.5;
-    const negWidth = (zeroPos * 100).toFixed(1);
-    const posLeft  = (zeroPos * 100).toFixed(1);
-    const posWidth = ((1 - zeroPos) * 100).toFixed(1);
-    const avgLeft  = (avgPos * 100).toFixed(1);
-    const wrClass  = wr >= 60 ? 'rbar-wr-green' : wr >= 50 ? 'rbar-wr-yellow' : 'rbar-wr-red';
-    const avgSign  = mean >= 0 ? '+' : '';
-    const p25Fmt   = (p25 >= 0 ? '+' : '') + p25.toFixed(1) + '%';
-    const p75Fmt   = '+' + p75.toFixed(1) + '%';
-    return `<div class="rbar-row">
-  <div class="rbar-label">${p}</div>
-  <div class="rbar-track-wrap">
-    <span class="rbar-p25">${p25Fmt}</span>
-    <div class="rbar-track">
-      ${zeroPos > 0 ? `<div class="rbar-neg" style="left:0%;width:${negWidth}%"></div>` : ''}
-      ${zeroPos < 1 ? `<div class="rbar-pos" style="left:${posLeft}%;width:${posWidth}%"></div>` : ''}
-      <div class="rbar-dot" style="left:${avgLeft}%"></div>
-    </div>
-    <span class="rbar-p75">${p75Fmt}</span>
-  </div>
-  <div class="rbar-meta"><span class="rbar-avg">均值 ${avgSign}${mean.toFixed(1)}%</span>&nbsp;·&nbsp;<span class="${wrClass}">${wr.toFixed(0)}% 勝率</span></div>
-</div>`;
+    const clr = d.mean >= 0 ? '#3fb950' : '#f85149';
+    return `<div class="ret-col">
+      <div class="period">${p}</div>
+      <div class="avg" style="color:${clr}">${fmtPct(d.mean)}</div>
+      <div class="wr">${d.positive_pct.toFixed(0)}% 勝率</div>
+      <div class="range">${fmtPct(d.p25, 1)}~${fmtPct(d.p75, 1)}</div>
+    </div>`;
   }).join('');
 }
 
-// ── Agent section renderer ────────────────────────────────────────────────────
-function renderAgentSection(agentData, mktKey) {
-  const cfg     = MARKETS[mktKey];
-  const agent   = agentData[cfg.agentKey];
-  const summary = agentData.summary || {};
-  const el      = document.getElementById('agent-content');
-
-  if (!agent) {
-    el.innerHTML = `
-      <div class="signal-top">
-        <div class="signal-badge badge-hold">觀望</div>
-        <div class="cross-market-text">${cfg.label}市場的 Agent 分析即將推出。</div>
-      </div>
-      <div class="coming-soon">${cfg.labelLong}的自動化分析尚未開放，請等待下次每日更新後查看。</div>`;
-    return;
-  }
-
-  const raw = summary.actionable_tw || summary.actionable_signal || '';
-  let sigWord = summary.signal_en || 'HOLD';
-  if (/BUY/i.test(raw))  sigWord = 'BUY';
-  if (/SELL/i.test(raw)) sigWord = 'SELL';
-  const sigDisplay = sigWord === 'BUY' ? '買入' : sigWord === 'SELL' ? '賣出' : '觀望';
-
-  const narrative  = agent.narrative_tw  || agent.narrative  || '';
-  const factors    = agent.key_factors_tw || agent.key_factors || [];
-  const watchFor   = agent.watch_for_tw  || agent.what_quant_misses || agent.forward_outlook || '';
-  const crossView  = summary.cross_market_view_tw || summary.cross_market_view || '';
-  const outlook    = summary.forward_outlook_tw || agent.forward_outlook || '';
-  const badgeCls   = sigWord === 'BUY' ? 'badge-buy' : sigWord === 'SELL' ? 'badge-sell' : 'badge-hold';
-
-  const factorsHtml = factors.map(f => `<li>${f}</li>`).join('');
-
-  el.innerHTML = `
-    <div class="signal-top">
-      <div class="signal-badge ${badgeCls}">${sigDisplay}</div>
-      <div class="cross-market-text">${crossView}</div>
-    </div>
-    <hr class="agent-divider">
-    <div class="agent-section-label">${cfg.label}分析</div>
-    <div class="agent-narrative">${narrative}</div>
-    <ul class="agent-factors">${factorsHtml}</ul>
-    <div class="watch-for-label">觀察重點</div>
-    <div class="watch-for-text">${watchFor}</div>
-    ${outlook ? `<div class="outlook-label">前瞻展望</div><div class="outlook-text">${outlook}</div>` : ''}`;
-}
-
-// ── Quintile chart ────────────────────────────────────────────────────────────
-let _quintileChart = null;
-
-function buildQuintileChart(returns, mktKey) {
-  const cfg     = MARKETS[mktKey];
-  const section = document.getElementById('quintile-section');
-
-  if (!returns) { section.classList.add('hidden'); return; }
-  section.classList.remove('hidden');
-
+// ── Quintile Chart ────────────────────────────────────────────────────────────
+function buildQuintileChart(usReturns, twReturns) {
   const labels = ['Q1\n極度恐懼', 'Q2\n恐懼', 'Q3\n中性', 'Q4\n貪婪', 'Q5\n極度貪婪'];
-  const ctx    = document.getElementById('quintileChart').getContext('2d');
-
-  if (_quintileChart) { _quintileChart.destroy(); _quintileChart = null; }
-
-  const colors = ['#1f6335','#238636','#2ea043','#3fb950','#56d364'];
-  _quintileChart = new Chart(ctx, {
+  const ctx = document.getElementById('quintileChart').getContext('2d');
+  new Chart(ctx, {
     type: 'bar',
     data: {
-      labels,
-      datasets: [{
-        label: cfg.index + ' 20日平均報酬 (%)',
-        data: returns,
-        backgroundColor: colors,
-        borderRadius: 4,
-        borderSkipped: false
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: true,
-      plugins: {
-        legend: { labels: { color: '#8b949e', font: { size: 11 }, boxWidth: 12 } },
-        tooltip: { callbacks: { label: c => ` ${c.dataset.label}: ${c.parsed.y.toFixed(2)}%` } }
-      },
-      scales: {
-        x: { ticks: { color: '#8b949e', font: { size: 10 } }, grid: { color: '#21262d' } },
-        y: { ticks: { color: '#8b949e', font: { size: 10 }, callback: v => v.toFixed(1) + '%' }, grid: { color: '#21262d' } }
-      }
-    }
-  });
-
-  const q1 = returns[0].toFixed(2);
-  const q5 = returns[4].toFixed(2);
-  document.getElementById('edge-text').textContent =
-    '極度恐懼區間（歷史分布最底部20%）的20日平均報酬為 +' + q1 +
-    '%，遠高於極度貪婪區間的 +' + q5 + '%。恐懼是更好的進場時機。';
-}
-
-// ── Hex color to rgba helper ──────────────────────────────────────────────────
-function hexToRgba(hex, alpha) {
-  const h = hex.replace('#', '');
-  const r = parseInt(h.substring(0, 2), 16);
-  const g = parseInt(h.substring(2, 4), 16);
-  const b = parseInt(h.substring(4, 6), 16);
-  return `rgba(${r},${g},${b},${alpha})`;
-}
-
-// ── Overlay chart ─────────────────────────────────────────────────────────────
-let _overlayChart  = null;
-let _overlayData   = null;
-let _overlayScores = null;
-let _currentMkt    = 'tw';
-let _currentRange  = 252;
-
-function timeConfig(n) {
-  if (n <= 90)   return { unit: 'week',    displayFormats: { week: 'MM/dd' } };
-  if (n <= 400)  return { unit: 'month',   displayFormats: { month: 'yyyy-MM' } };
-  if (n <= 1000) return { unit: 'quarter', displayFormats: { quarter: 'yyyy Q' } };
-  return                { unit: 'year',    displayFormats: { year: 'yyyy' } };
-}
-
-function buildOverlayChart(overlayData, rangeDays, mktKey) {
-  _overlayData  = overlayData;
-  _currentMkt   = mktKey;
-  _currentRange = rangeDays;
-
-  const cfg       = MARKETS[mktKey];
-  const allDates  = overlayData[cfg.scoreDates] || overlayData.dates || [];
-  const allScores = overlayData[cfg.scoreProp]  || [];
-
-  const priceMap = {};
-  const pdKey    = cfg.priceDates;
-  const pvKey    = cfg.prices;
-  (overlayData[pdKey] || []).forEach((d, i) => { priceMap[d] = (overlayData[pvKey] || [])[i]; });
-
-  const n      = rangeDays > 0 ? Math.min(rangeDays, allDates.length) : allDates.length;
-  const dates  = allDates.slice(-n);
-  const scores = allScores.slice(-n);
-  const prices = dates.map(d => priceMap[d] !== undefined ? priceMap[d] : null);
-  _overlayScores = scores;
-
-  if (_overlayChart) { _overlayChart.destroy(); _overlayChart = null; }
-  const ctx     = document.getElementById('overlayChart').getContext('2d');
-  const tCfg = timeConfig(n);
-
-  const nowDotPlugin = {
-    id: 'nowDot',
-    afterDatasetsDraw(chart) {
-      const ds0   = chart.data.datasets[0];
-      const meta0 = chart.getDatasetMeta(0);
-      let lastIdx = -1;
-      for (let i = ds0.data.length - 1; i >= 0; i--) { if (ds0.data[i] != null) { lastIdx = i; break; } }
-      if (lastIdx < 0) return;
-      const pt  = meta0.data[lastIdx];
-      const c   = chart.ctx;
-      const clr = ZONE_TEXT_COLORS[getZoneIndex(_overlayScores[lastIdx])];
-      c.save();
-      c.beginPath(); c.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
-      c.fillStyle = clr; c.fill();
-      c.strokeStyle = '#fff'; c.lineWidth = 1.5; c.stroke();
-      c.fillStyle = '#fff'; c.font = 'bold 9px sans-serif'; c.textAlign = 'right';
-      c.fillText('NOW', pt.x - 7, pt.y - 6);
-      c.restore();
-    }
-  };
-
-  const zonePlugin = {
-    id: 'scoreZones',
-    beforeDraw(chart) {
-      const { ctx: c, chartArea: { left, right, top, bottom }, scales } = chart;
-      const yScore = scales['y-score'];
-      if (!yScore) return;
-      c.save();
-      const y30 = yScore.getPixelForValue(30);
-      const y0 = yScore.getPixelForValue(0);
-      c.fillStyle = 'rgba(63,185,80,0.06)';
-      c.fillRect(left, y30, right - left, y0 - y30);
-      const y100 = yScore.getPixelForValue(100);
-      const y70 = yScore.getPixelForValue(70);
-      c.fillStyle = 'rgba(248,81,73,0.06)';
-      c.fillRect(left, y100, right - left, y70 - y100);
-      c.restore();
-    }
-  };
-
-  const mcol = cfg.color;
-  _overlayChart = new Chart(ctx, {
-    type: 'line',
-    plugins: [zonePlugin, nowDotPlugin],
-    data: {
-      labels: dates,
+      labels: labels,
       datasets: [
-        { label: cfg.label + '情緒分數', data: scores, yAxisID: 'y-score',
-          borderColor: mcol, backgroundColor: 'transparent',
-          borderWidth: 1.2, pointRadius: 0, tension: 0.2, order: 1, z: 10, spanGaps: true },
-        { label: cfg.index, data: prices, yAxisID: 'y-price',
-          borderColor: hexToRgba(mcol, 0.25), backgroundColor: hexToRgba(mcol, 0.07),
-          borderWidth: 1, pointRadius: 0, fill: true, tension: 0.2, order: 2, spanGaps: true }
+        {
+          label: 'SPY 20日平均報酬 (%)',
+          data: usReturns,
+          backgroundColor: ['#1f6335','#238636','#2ea043','#3fb950','#56d364'],
+          borderRadius: 4,
+          borderSkipped: false,
+        },
+        {
+          label: '加權指數 20日平均報酬 (%)',
+          data: twReturns,
+          backgroundColor: ['#0d3a6e','#1158a6','#1a73c8','#2188ff','#58a6ff'],
+          borderRadius: 4,
+          borderSkipped: false,
+        }
       ]
     },
     options: {
-      responsive: true, maintainAspectRatio: true,
-      interaction: { mode: 'index', intersect: false },
+      responsive: true,
+      maintainAspectRatio: true,
       plugins: {
-        legend: { labels: { color: '#8b949e', font: { size: 10 }, boxWidth: 10 } },
-        tooltip: { callbacks: {
-          title: items => items[0].label,
-          label: c => c.datasetIndex === 0 ? ' 分數: ' + c.parsed.y?.toFixed(1) : ' ' + cfg.index + ': ' + c.parsed.y?.toFixed(0)
-        }}
+        legend: {
+          labels: { color: '#8b949e', font: { size: 11 }, boxWidth: 12 }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.dataset.label}: +${ctx.parsed.y.toFixed(2)}%`
+          }
+        }
       },
       scales: {
-        x: { type: 'time', time: { unit: tCfg.unit, displayFormats: tCfg.displayFormats, tooltipFormat: 'yyyy-MM-dd' }, ticks: { color: '#8b949e', font: { size: 9 }, maxTicksLimit: 10, maxRotation: 0, autoSkip: true }, grid: { color: '#21262d' } },
-        'y-score': { type: 'linear', position: 'left', min: 0, max: 100,
-          ticks: { color: mcol, font: { size: 10 }, stepSize: 20 }, grid: { color: '#21262d' },
-          title: { display: true, text: '分數', color: mcol, font: { size: 10 } } },
-        'y-price': { type: 'linear', position: 'right',
-          ticks: { color: '#8b949e', font: { size: 10 }, callback: v => v.toFixed(0) },
-          grid: { drawOnChartArea: false },
-          title: { display: true, text: cfg.index, color: '#8b949e', font: { size: 10 } } }
+        x: {
+          ticks: { color: '#8b949e', font: { size: 10 } },
+          grid: { color: '#21262d' }
+        },
+        y: {
+          ticks: {
+            color: '#8b949e',
+            font: { size: 10 },
+            callback: v => '+' + v.toFixed(1) + '%'
+          },
+          grid: { color: '#21262d' }
+        }
       }
     }
   });
 }
 
-// ── Market data (static, US/TW focused) ──────────────────────────────────────
+// ── Overlay Chart (TW: TW score + TAIEX) ─────────────────────────────────────
+function buildOverlayChart(overlayData) {
+  const ctx = document.getElementById('overlayChart').getContext('2d');
+  const dates    = overlayData.dates;
+  const twScores = overlayData.tw_score;
+  const twiiDates = overlayData.twii_dates;
+  const twiiPx    = overlayData.twii;
+
+  // Align TWII prices to score dates
+  const twiiMap = {};
+  twiiDates.forEach((d, i) => { twiiMap[d] = twiiPx[i]; });
+  const alignedTwii = dates.map(d => twiiMap[d] !== undefined ? twiiMap[d] : null);
+
+  // Background zone plugin
+  const bgZonePlugin = {
+    id: 'bgZones',
+    beforeDraw(chart) {
+      const { ctx: c, chartArea: { top, bottom }, scales } = chart;
+      if (!scales['y-score']) return;
+      c.save();
+      c.globalAlpha = 0.12;
+      for (let i = 0; i < dates.length - 1; i++) {
+        const s = twScores[i];
+        if (s === null || s === undefined) continue;
+        const x0 = scales.x.getPixelForValue(i);
+        const x1 = scales.x.getPixelForValue(i + 1);
+        if (s < 30) {
+          c.fillStyle = '#2ea043';
+          c.fillRect(x0, top, x1 - x0, bottom - top);
+        } else if (s > 70) {
+          c.fillStyle = '#da3633';
+          c.fillRect(x0, top, x1 - x0, bottom - top);
+        }
+      }
+      c.restore();
+    }
+  };
+
+  new Chart(ctx, {
+    type: 'line',
+    plugins: [bgZonePlugin],
+    data: {
+      labels: dates,
+      datasets: [
+        {
+          label: '台灣情緒分數',
+          data: twScores,
+          yAxisID: 'y-score',
+          borderColor: '#e3b341',
+          backgroundColor: 'transparent',
+          borderWidth: 1.5,
+          pointRadius: 0,
+          tension: 0.3,
+          order: 1,
+        },
+        {
+          label: '加權指數',
+          data: alignedTwii,
+          yAxisID: 'y-price',
+          borderColor: 'rgba(227,179,65,0.5)',
+          backgroundColor: 'rgba(227,179,65,0.07)',
+          borderWidth: 1,
+          pointRadius: 0,
+          fill: true,
+          tension: 0.3,
+          order: 2,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          labels: { color: '#8b949e', font: { size: 11 }, boxWidth: 12 }
+        },
+        tooltip: {
+          callbacks: {
+            title: items => items[0].label,
+            label: ctx => {
+              if (ctx.datasetIndex === 0)
+                return ` 分數: ${ctx.parsed.y !== null ? ctx.parsed.y.toFixed(1) : 'N/A'}`;
+              return ` 加權: ${ctx.parsed.y !== null ? ctx.parsed.y.toFixed(0) : 'N/A'}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: '#8b949e',
+            font: { size: 9 },
+            maxTicksLimit: 10,
+            callback: function(val, idx) {
+              const d = dates[idx];
+              return d ? d.substring(0, 4) : '';
+            },
+            maxRotation: 0,
+          },
+          grid: { color: '#21262d' }
+        },
+        'y-score': {
+          type: 'linear',
+          position: 'left',
+          min: 0,
+          max: 100,
+          ticks: { color: '#e3b341', font: { size: 10 }, stepSize: 20 },
+          grid: { color: '#21262d' },
+          title: { display: true, text: '分數', color: '#e3b341', font: { size: 10 } }
+        },
+        'y-price': {
+          type: 'linear',
+          position: 'right',
+          ticks: {
+            color: '#8b949e',
+            font: { size: 10 },
+            callback: v => v.toFixed(0)
+          },
+          grid: { drawOnChartArea: false },
+          title: { display: true, text: '加權', color: '#8b949e', font: { size: 10 } }
+        }
+      }
+    }
+  });
+}
+
+// ── Signal rendering ──────────────────────────────────────────────────────────
+function renderSignal(summary) {
+  const raw = summary.actionable_signal || '';
+  let sigWord = 'HOLD';
+  let sigDisplay = '觀望';
+  if (/BUY/i.test(raw))  { sigWord = 'BUY';  sigDisplay = '買入'; }
+  if (/SELL/i.test(raw)) { sigWord = 'SELL'; sigDisplay = '賣出'; }
+
+  const badge = document.getElementById('signal-badge');
+  badge.textContent = sigDisplay;
+  badge.className = 'signal-badge';
+  if (sigWord === 'BUY')       badge.classList.add('badge-buy');
+  else if (sigWord === 'SELL') badge.classList.add('badge-sell');
+  else                         badge.classList.add('badge-hold');
+
+  document.getElementById('signal-text').innerHTML =
+    `<strong>跨市場觀點</strong>${summary.cross_market_view || ''}<br>
+     <span style="color:#e6edf3;margin-top:5px;display:block">${raw}</span>`;
+}
+
+// ── Market data rendering ─────────────────────────────────────────────────────
 function renderMarketData(snap) {
   const us  = snap.us_market || {};
   const tw  = snap.tw_market || {};
   const ret = snap.tw_retail_indicators || {};
   const gl  = snap.global_context || {};
 
-  document.getElementById('mkt-spy').textContent     = '$' + fmtNum(us.SPY_close || 0);
+  document.getElementById('mkt-spy').textContent   = '$' + fmtNum(us.SPY_close || 0);
   document.getElementById('mkt-spy-sub').textContent = fmtPct(us.SPY_20d_return_pct || 0, 2) + ' 20日';
 
   const vixEl = document.getElementById('mkt-vix');
   vixEl.textContent = fmtNum(us.VIX || 0);
   vixEl.style.color = (us.VIX || 0) > 30 ? '#f85149' : (us.VIX || 0) > 20 ? '#e3b341' : '#3fb950';
 
-  document.getElementById('mkt-taiex').textContent     = fmtNum(tw.TAIEX_close || 0, 0);
+  document.getElementById('mkt-taiex').textContent   = fmtNum(tw.TAIEX_close || 0, 0);
   document.getElementById('mkt-taiex-sub').textContent = 'RSI ' + (tw.TAIEX_RSI14 || '--');
 
-  document.getElementById('mkt-tsmc').textContent     = fmtNum(tw.TSMC_close || 0, 0);
+  document.getElementById('mkt-tsmc').textContent   = fmtNum(tw.TSMC_close || 0, 0);
   document.getElementById('mkt-tsmc-sub').textContent = (tw.TSMC_vs_52w_high_pct || '--') + '% 前高';
 
-  document.getElementById('mkt-gold').textContent = '$' + fmtNum(gl.Gold || 0, 0);
-  document.getElementById('mkt-10y').textContent  = (us.US_10Y_yield || '--') + '%';
+  document.getElementById('mkt-gold').textContent   = '$' + fmtNum(gl.Gold || 0, 0);
+
+  document.getElementById('mkt-10y').textContent = (us.US_10Y_yield || '--') + '%';
 
   const m5d = ret.margin_5d_change_pct;
   const mEl = document.getElementById('mkt-margin');
@@ -760,105 +795,128 @@ function renderMarketData(snap) {
   document.getElementById('mkt-foreign-sub').textContent = days + dir;
 }
 
-// ── Switch market ─────────────────────────────────────────────────────────────
-let _allData = null;
-
-function switchMarket(mktKey) {
-  if (!_allData) return;
-  const { fwdData, agentData, quintileData, overlayData, zoneReturns } = _allData;
-  const cfg = MARKETS[mktKey];
-
-  // Update buttons
-  document.querySelectorAll('.market-btn').forEach(b => {
-    const active = b.dataset.market === mktKey;
-    b.classList.toggle('active', active);
-    b.style.background  = active ? cfg.color : '';
-    b.style.borderColor = active ? cfg.color : '';
-  });
-
-  // Score
-  const score  = fwdData[cfg.scoreKey];
-  const pctile = quintileData[mktKey + '_percentile'];
-  renderThermometer(score, pctile, zoneReturns, mktKey);
-
-  // Forward returns
-  document.getElementById('fwd-ticker').textContent = cfg.fwdTicker;
-  const fwdBlock = fwdData[cfg.fwdKey];
-  const periods  = ['5天', '10天', '20天', '60天'];
-  const keys     = [cfg.fwdPrefix + '5d', cfg.fwdPrefix + '10d', cfg.fwdPrefix + '20d', cfg.fwdPrefix + '60d'];
-  renderRangeBars('mkt-returns', fwdBlock, periods, keys);
-  const nKey = cfg.fwdPrefix + '20d';
-  document.getElementById('mkt-returns-n').textContent =
-    fwdBlock && fwdBlock[nKey] ? (fwdBlock[nKey].n || '--') + ' 歷史相似天數' : '';
-
-  // Overlay chart (keep current range)
-  buildOverlayChart(overlayData, _currentRange, mktKey);
-
-  // Agent
-  renderAgentSection(agentData, mktKey);
-
-  // Quintile
-  const qData = quintileData[mktKey] && quintileData[mktKey]['20d'] ? quintileData[mktKey]['20d'].returns : null;
-  buildQuintileChart(qData, mktKey);
-}
-
-// ── Range buttons ─────────────────────────────────────────────────────────────
-document.querySelectorAll('.range-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.range-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    _currentRange = parseInt(btn.dataset.days);
-    if (_overlayData) buildOverlayChart(_overlayData, _currentRange, _currentMkt);
-  });
-});
-
-// ── Market selector buttons ───────────────────────────────────────────────────
-document.querySelectorAll('.market-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    switchMarket(btn.dataset.market);
-  });
-});
-
-// ── Main load ─────────────────────────────────────────────────────────────────
+// ── Main data fetch ───────────────────────────────────────────────────────────
 async function loadDashboard() {
   try {
-    const [fwdData, agentData, quintileData, dashData, overlayData, zoneReturns, icData] = await Promise.all([
+    const [fwdData, agentData, quintileData, dashData, overlayData] = await Promise.all([
       fetch('data/forward_outlook.json').then(r => r.json()),
       fetch('data/phase2_agent_results.json').then(r => r.json()),
       fetch('data/quintile_data.json').then(r => r.json()),
       fetch('data/dashboard_data.json').then(r => r.json()),
       fetch('data/overlay_data.json').then(r => r.json()),
-      fetch('data/zone_returns.json').then(r => r.json()),
-      fetch('data/ic_data.json').then(r => r.json()),
     ]);
 
-    _allData = { fwdData, agentData, quintileData, overlayData, zoneReturns, icData };
-
-    if (icData && icData.markets) {
-      const tbl = document.getElementById('ic-table');
-      tbl.innerHTML = Object.entries(icData.markets).map(([k, m]) => {
-        const fmt = v => '<span style="color:' + (v < -0.10 ? '#3fb950' : v < -0.05 ? '#e3b341' : '#8b949e') + ';font-weight:600;">' + v.toFixed(3) + '</span>';
-        return '<div style="text-align:left;color:#e6edf3;font-weight:600;">' + m.name_tw + '</div>' +
-          '<div>' + fmt(m.ic_5d) + '</div><div>' + fmt(m.ic_10d) + '</div><div>' + fmt(m.ic_20d) + '</div><div>' + fmt(m.ic_60d) + '</div>';
-      }).join('');
-    }
-
-    const date = agentData.date || dashData.snapshot?.date || '--';
+    const date = agentData.date || dashData.snapshot?.date || '2026-03-16';
     document.getElementById('header-date').textContent = '資料日期：' + date;
     document.getElementById('footer-date').textContent = date;
 
-    // Market data (always shown)
-    renderMarketData(dashData.snapshot);
+    // 1. Scores
+    const usScore = fwdData.us_current_score;
+    const twScore = fwdData.tw_current_score;
+    const usPct   = quintileData.us_percentile;
+    const twPct   = quintileData.tw_percentile;
+    renderScoreCard('us', usScore, usPct);
+    renderScoreCard('tw', twScore, twPct);
 
-    // Default: TW
-    switchMarket('tw');
+    // JP/KR/EU scores from dashboard_data
+    const jpScores = dashData.jp_score || [];
+    const krScores = dashData.kr_score || [];
+    const euScores = dashData.eu_score || [];
+    if (jpScores.length > 0) renderScoreCard('jp', jpScores[jpScores.length - 1], '--');
+    if (krScores.length > 0) renderScoreCard('kr', krScores[krScores.length - 1], '--');
+    if (euScores.length > 0) renderScoreCard('eu', euScores[euScores.length - 1], '--');
+
+    // 2. Forward returns
+    renderReturnCols('spy-returns', fwdData.us_forward,
+      ['5日','10日','20日','60日'],
+      ['spy_fwd_5d','spy_fwd_10d','spy_fwd_20d','spy_fwd_60d']);
+    document.getElementById('spy-n').textContent =
+      (fwdData.us_forward.spy_fwd_20d.n || '--') + ' 歷史相似天數';
+
+    renderReturnCols('taiex-returns', fwdData.tw_forward,
+      ['5日','10日','20日','60日'],
+      ['taiex_fwd_5d','taiex_fwd_10d','taiex_fwd_20d','taiex_fwd_60d']);
+    document.getElementById('taiex-n').textContent =
+      (fwdData.tw_forward.taiex_fwd_20d.n || '--') + ' 歷史相似天數';
+
+    // 3. Quintile chart
+    buildQuintileChart(quintileData.us['20d'].returns, quintileData.tw['20d'].returns);
+    const usQ1ret = quintileData.us['20d'].returns[0].toFixed(2);
+    const usQ5ret = quintileData.us['20d'].returns[4].toFixed(2);
+    document.getElementById('edge-text').textContent =
+      `你在這裡：極度恐懼區間（歷史分布最底部20%）。` +
+      `歷史上 SPY 從此區間出發的20日平均報酬為 +${usQ1ret}%，遠高於極度貪婪區間的 +${usQ5ret}%。` +
+      `恐懼是更好的進場時機。`;
+
+    // 4. Overlay chart
+    buildOverlayChart(overlayData);
+
+    // 5. Signal
+    if (agentData.summary) renderSignal(agentData.summary);
+
+    // 6. Agent narratives
+    const usAgent = agentData.us_agent;
+    const twAgent = agentData.tw_agent;
+
+    document.getElementById('us-conviction').textContent = usAgent.conviction || '--';
+    document.getElementById('us-narrative').textContent  = usAgent.narrative  || '';
+    const usFactorsEl = document.getElementById('us-factors');
+    (usAgent.key_factors || []).forEach(f => {
+      const li = document.createElement('li');
+      li.textContent = f;
+      usFactorsEl.appendChild(li);
+    });
+
+    document.getElementById('tw-conviction').textContent = twAgent.conviction || '--';
+    document.getElementById('tw-narrative').textContent  = twAgent.narrative  || '';
+    const twFactorsEl = document.getElementById('tw-factors');
+    (twAgent.key_factors || []).forEach(f => {
+      const li = document.createElement('li');
+      li.textContent = f;
+      twFactorsEl.appendChild(li);
+    });
+
+    // JP/KR/EU agent narratives
+    const jpAgent = agentData.jp_agent || dashData.agents?.jp_agent || {};
+    const krAgent = agentData.kr_agent || dashData.agents?.kr_agent || {};
+    const euAgent = agentData.eu_agent || dashData.agents?.eu_agent || {};
+
+    document.getElementById('jp-conviction').textContent = jpAgent.sentiment_level || jpAgent.conviction || '--';
+    document.getElementById('jp-narrative').textContent  = jpAgent.narrative || '';
+    const jpFactorsEl = document.getElementById('jp-factors');
+    (jpAgent.key_factors || []).forEach(f => {
+      const li = document.createElement('li');
+      li.textContent = f;
+      jpFactorsEl.appendChild(li);
+    });
+
+    document.getElementById('kr-conviction').textContent = krAgent.sentiment_level || krAgent.conviction || '--';
+    document.getElementById('kr-narrative').textContent  = krAgent.narrative || '';
+    const krFactorsEl = document.getElementById('kr-factors');
+    (krAgent.key_factors || []).forEach(f => {
+      const li = document.createElement('li');
+      li.textContent = f;
+      krFactorsEl.appendChild(li);
+    });
+
+    document.getElementById('eu-conviction').textContent = euAgent.sentiment_level || euAgent.conviction || '--';
+    document.getElementById('eu-narrative').textContent  = euAgent.narrative || '';
+    const euFactorsEl = document.getElementById('eu-factors');
+    (euAgent.key_factors || []).forEach(f => {
+      const li = document.createElement('li');
+      li.textContent = f;
+      euFactorsEl.appendChild(li);
+    });
+
+    // 7. Market data
+    renderMarketData(dashData.snapshot);
 
   } catch (err) {
     console.error(err);
-    const d = document.createElement('div');
-    d.className   = 'error-state';
-    d.textContent = '資料載入失敗：' + err.message;
-    document.body.insertBefore(d, document.body.children[1]);
+    const errDiv = document.createElement('div');
+    errDiv.className = 'error-state';
+    errDiv.textContent = '資料載入失敗。' + err.message;
+    document.body.insertBefore(errDiv, document.body.children[1]);
   }
 }
 

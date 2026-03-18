@@ -1,17 +1,21 @@
 """
-GRISI Daily Update Pipeline
+Moodring Daily Update Pipeline
 ============================
 Automated daily data refresh → score calculation → dashboard JSON update.
 Designed to run via GitHub Actions or local cron.
 
 Data Sources:
-  - Yahoo Finance (yfinance): SPY, VIX, ^TNX, ^TWII, 2330.TW, GC=F, USDJPY=X, TWD=X
+  - Yahoo Finance (yfinance): SPY, VIX, ^TNX, ^TWII, 2330.TW, GC=F, USDJPY=X, TWD=X,
+    ^N225 (Nikkei), ^KS11 (KOSPI), ^STOXX50E (EURO STOXX 50)
   - FinMind API (TWSE OpenData): margin balance, institutional investors
 
 Usage:
-  python daily_update.py           # Update all
+  python daily_update.py           # Update all markets
   python daily_update.py --us      # Update US only
   python daily_update.py --tw      # Update TW only
+  python daily_update.py --jp      # Update Japan only
+  python daily_update.py --kr      # Update Korea only
+  python daily_update.py --eu      # Update Europe only
 """
 
 import sys
@@ -184,7 +188,134 @@ def fetch_tw_data():
     return market_data, retail_data, usdtwd_val
 
 
-def update_snapshot(us_data=None, tw_data=None, tw_retail=None, global_ctx=None, usdtwd=None):
+def fetch_jp_data():
+    """Fetch Japan market data from Yahoo Finance."""
+    import yfinance as yf
+
+    start_90d = (datetime.now() - timedelta(days=90)).strftime('%Y-%m-%d')
+    end = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
+
+    print("[JP] Fetching from Yahoo Finance...")
+    nikkei = yf.download('^N225', start=start_90d, end=end, progress=False)
+
+    def safe(df):
+        c = df['Close']
+        return c.iloc[:, 0] if c.ndim > 1 else c
+
+    def rsi(close, p=14):
+        d = close.diff()
+        g = d.where(d > 0, 0).rolling(p).mean()
+        l = (-d.where(d < 0, 0)).rolling(p).mean()
+        return 100 - 100 / (1 + g / l)
+
+    nk_c = safe(nikkei)
+
+    market_data = {
+        'NIKKEI_close': round(float(nk_c.iloc[-1]), 2),
+        'NIKKEI_RSI14': round(float(rsi(nk_c).iloc[-1]), 1),
+        'NIKKEI_SMA20': round(float(nk_c.rolling(20).mean().iloc[-1]), 2),
+        'NIKKEI_vs_52w_high_pct': round(float(nk_c.iloc[-1] / nk_c.rolling(252, min_periods=60).max().iloc[-1] * 100), 1),
+        'NIKKEI_5d_return_pct': round(float((nk_c.iloc[-1] / nk_c.iloc[-6] - 1) * 100), 2),
+        'NIKKEI_20d_return_pct': round(float((nk_c.iloc[-1] / nk_c.iloc[-21] - 1) * 100), 2),
+    }
+
+    print(f"[JP] Nikkei={market_data['NIKKEI_close']}, RSI={market_data['NIKKEI_RSI14']}")
+    return market_data
+
+
+def fetch_kr_data():
+    """Fetch Korea market data from Yahoo Finance."""
+    import yfinance as yf
+
+    start_90d = (datetime.now() - timedelta(days=90)).strftime('%Y-%m-%d')
+    end = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
+
+    print("[KR] Fetching from Yahoo Finance...")
+    kospi = yf.download('^KS11', start=start_90d, end=end, progress=False)
+
+    def safe(df):
+        c = df['Close']
+        return c.iloc[:, 0] if c.ndim > 1 else c
+
+    def rsi(close, p=14):
+        d = close.diff()
+        g = d.where(d > 0, 0).rolling(p).mean()
+        l = (-d.where(d < 0, 0)).rolling(p).mean()
+        return 100 - 100 / (1 + g / l)
+
+    ks_c = safe(kospi)
+
+    market_data = {
+        'KOSPI_close': round(float(ks_c.iloc[-1]), 2),
+        'KOSPI_RSI14': round(float(rsi(ks_c).iloc[-1]), 1),
+        'KOSPI_SMA20': round(float(ks_c.rolling(20).mean().iloc[-1]), 2),
+        'KOSPI_vs_52w_high_pct': round(float(ks_c.iloc[-1] / ks_c.rolling(252, min_periods=60).max().iloc[-1] * 100), 1),
+        'KOSPI_5d_return_pct': round(float((ks_c.iloc[-1] / ks_c.iloc[-6] - 1) * 100), 2),
+        'KOSPI_20d_return_pct': round(float((ks_c.iloc[-1] / ks_c.iloc[-21] - 1) * 100), 2),
+    }
+
+    print(f"[KR] KOSPI={market_data['KOSPI_close']}, RSI={market_data['KOSPI_RSI14']}")
+    return market_data
+
+
+def fetch_eu_data():
+    """Fetch Europe market data from Yahoo Finance."""
+    import yfinance as yf
+
+    start_90d = (datetime.now() - timedelta(days=90)).strftime('%Y-%m-%d')
+    end = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
+
+    print("[EU] Fetching from Yahoo Finance...")
+    stoxx = yf.download('^STOXX50E', start=start_90d, end=end, progress=False)
+
+    def safe(df):
+        c = df['Close']
+        return c.iloc[:, 0] if c.ndim > 1 else c
+
+    def rsi(close, p=14):
+        d = close.diff()
+        g = d.where(d > 0, 0).rolling(p).mean()
+        l = (-d.where(d < 0, 0)).rolling(p).mean()
+        return 100 - 100 / (1 + g / l)
+
+    sx_c = safe(stoxx)
+
+    market_data = {
+        'STOXX50_close': round(float(sx_c.iloc[-1]), 2),
+        'STOXX50_RSI14': round(float(rsi(sx_c).iloc[-1]), 1),
+        'STOXX50_SMA20': round(float(sx_c.rolling(20).mean().iloc[-1]), 2),
+        'STOXX50_vs_52w_high_pct': round(float(sx_c.iloc[-1] / sx_c.rolling(252, min_periods=60).max().iloc[-1] * 100), 1),
+        'STOXX50_5d_return_pct': round(float((sx_c.iloc[-1] / sx_c.iloc[-6] - 1) * 100), 2),
+        'STOXX50_20d_return_pct': round(float((sx_c.iloc[-1] / sx_c.iloc[-21] - 1) * 100), 2),
+    }
+
+    print(f"[EU] STOXX50={market_data['STOXX50_close']}, RSI={market_data['STOXX50_RSI14']}")
+    return market_data
+
+
+def compute_score(market_data, prefix):
+    """Compute simple Moodring score for a market. 0=fear, 100=greed."""
+    scores = []
+
+    # 1. RSI position (high RSI = greedy)
+    rsi = market_data.get(f'{prefix}_RSI14', 50)
+    scores.append(rsi)  # RSI is already 0-100
+
+    # 2. Position vs 52w high (near high = greedy)
+    vs_high = market_data.get(f'{prefix}_vs_52w_high_pct', 90)
+    # Map 80-100% to 0-100 score
+    scores.append(max(0, min(100, (vs_high - 80) * 5)))
+
+    # 3. 20d momentum (positive = greedy)
+    mom = market_data.get(f'{prefix}_20d_return_pct', 0)
+    # Map -10% to +10% to 0-100
+    scores.append(max(0, min(100, (mom + 10) * 5)))
+
+    return round(sum(scores) / len(scores), 1)
+
+
+def update_snapshot(us_data=None, tw_data=None, tw_retail=None, global_ctx=None, usdtwd=None,
+                    jp_data=None, kr_data=None, eu_data=None):
     """Save updated snapshot."""
     today = datetime.now().strftime('%Y-%m-%d')
 
@@ -205,6 +336,12 @@ def update_snapshot(us_data=None, tw_data=None, tw_retail=None, global_ctx=None,
         snapshot['tw_market'] = tw_data
     if tw_retail:
         snapshot['tw_retail_indicators'] = tw_retail
+    if jp_data:
+        snapshot['jp_market'] = jp_data
+    if kr_data:
+        snapshot['kr_market'] = kr_data
+    if eu_data:
+        snapshot['eu_market'] = eu_data
     if global_ctx:
         if usdtwd:
             global_ctx['USDTWD'] = usdtwd
@@ -222,8 +359,8 @@ def update_snapshot(us_data=None, tw_data=None, tw_retail=None, global_ctx=None,
     return snapshot
 
 
-def update_dashboard_json(snapshot):
-    """Update dashboard_data.json with latest snapshot, then sync to docs/data/ for GitHub Pages."""
+def update_dashboard_json(snapshot, jp_score=None, kr_score=None, eu_score=None):
+    """Update dashboard_data.json with latest snapshot."""
     dd_path = os.path.join(DATA_DIR, 'dashboard_data.json')
 
     with open(dd_path, 'r', encoding='utf-8') as f:
@@ -231,40 +368,53 @@ def update_dashboard_json(snapshot):
 
     dd['snapshot'] = snapshot
 
+    # Append new market scores
+    if jp_score is not None:
+        if 'jp_score' not in dd:
+            dd['jp_score'] = []
+        dd['jp_score'].append(jp_score)
+    if kr_score is not None:
+        if 'kr_score' not in dd:
+            dd['kr_score'] = []
+        dd['kr_score'].append(kr_score)
+    if eu_score is not None:
+        if 'eu_score' not in dd:
+            dd['eu_score'] = []
+        dd['eu_score'].append(eu_score)
+
     with open(dd_path, 'w', encoding='utf-8') as f:
         json.dump(dd, f, ensure_ascii=False)
 
-    # Sync JSON files to docs/data/ (GitHub Pages serves from /docs)
-    import shutil
-    docs_data = os.path.join(os.path.dirname(__file__), '..', 'docs', 'data')
-    os.makedirs(docs_data, exist_ok=True)
-    for fn in ['dashboard_data.json', 'forward_outlook.json', 'phase2_agent_results.json',
-               'quintile_data.json', 'overlay_data.json']:
-        src = os.path.join(DATA_DIR, fn)
-        if os.path.exists(src):
-            shutil.copy2(src, os.path.join(docs_data, fn))
-
-    print("[SAVE] dashboard_data.json updated + synced to docs/data/")
+    print("[SAVE] dashboard_data.json updated")
 
 
 def main():
-    parser = argparse.ArgumentParser(description='GRISI Daily Update')
+    parser = argparse.ArgumentParser(description='Moodring Daily Update — US/TW/JP/KR/EU markets')
     parser.add_argument('--us', action='store_true', help='Update US only')
     parser.add_argument('--tw', action='store_true', help='Update TW only')
+    parser.add_argument('--jp', action='store_true', help='Update Japan only')
+    parser.add_argument('--kr', action='store_true', help='Update Korea only')
+    parser.add_argument('--eu', action='store_true', help='Update Europe only')
     args = parser.parse_args()
 
-    # Default: update both
-    if not args.us and not args.tw:
+    # Default: update all markets
+    any_selected = args.us or args.tw or args.jp or args.kr or args.eu
+    if not any_selected:
         args.us = True
         args.tw = True
+        args.jp = True
+        args.kr = True
+        args.eu = True
 
     print("=" * 50)
-    print(f"GRISI Daily Update — {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    print(f"Moodring Daily Update — {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     print("=" * 50)
 
     us_data = global_ctx = None
     tw_data = tw_retail = None
     usdtwd = None
+    jp_data = kr_data = eu_data = None
+    jp_score_val = kr_score_val = eu_score_val = None
 
     if args.us:
         us_data, global_ctx = fetch_us_data()
@@ -272,10 +422,35 @@ def main():
     if args.tw:
         tw_data, tw_retail, usdtwd = fetch_tw_data()
 
-    snapshot = update_snapshot(us_data, tw_data, tw_retail, global_ctx, usdtwd)
-    update_dashboard_json(snapshot)
+    if args.jp:
+        jp_data = fetch_jp_data()
+        jp_score_val = compute_score(jp_data, 'NIKKEI')
+        jp_data['jp_moodring_score'] = jp_score_val
+        print(f"[JP] Moodring score: {jp_score_val}")
 
-    print("\n[DONE] Dashboard data updated. Agent narrative needs manual Claude update.")
+    if args.kr:
+        kr_data = fetch_kr_data()
+        kr_score_val = compute_score(kr_data, 'KOSPI')
+        kr_data['kr_moodring_score'] = kr_score_val
+        print(f"[KR] Moodring score: {kr_score_val}")
+
+    if args.eu:
+        eu_data = fetch_eu_data()
+        eu_score_val = compute_score(eu_data, 'STOXX50')
+        eu_data['eu_moodring_score'] = eu_score_val
+        print(f"[EU] Moodring score: {eu_score_val}")
+
+    snapshot = update_snapshot(us_data, tw_data, tw_retail, global_ctx, usdtwd,
+                              jp_data, kr_data, eu_data)
+    update_dashboard_json(snapshot, jp_score_val, kr_score_val, eu_score_val)
+
+    markets = []
+    if args.us: markets.append('US')
+    if args.tw: markets.append('TW')
+    if args.jp: markets.append('JP')
+    if args.kr: markets.append('KR')
+    if args.eu: markets.append('EU')
+    print(f"\n[DONE] Markets updated: {', '.join(markets)}")
     print("  Run: /market-analyst to generate full report")
 
 
