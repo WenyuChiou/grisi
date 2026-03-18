@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MoodRing</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -764,10 +765,11 @@ let _overlayScores = null;
 let _currentMkt    = 'us';
 let _currentRange  = 252;
 
-function dateFmtFn(n) {
-  if (n <= 90)  return d => { const dt = new Date(d); return dt.toLocaleDateString('en-US', { month: 'short', day: '2-digit' }).replace(' ', '-'); };
-  if (n <= 400) return d => d.substring(0, 7);
-  return d => d.substring(0, 4);
+function timeUnit(n) {
+  if (n <= 90)  return 'week';
+  if (n <= 400) return 'month';
+  if (n <= 1000) return 'quarter';
+  return 'year';
 }
 
 function buildOverlayChart(overlayData, rangeDays, mktKey) {
@@ -792,7 +794,7 @@ function buildOverlayChart(overlayData, rangeDays, mktKey) {
 
   if (_overlayChart) { _overlayChart.destroy(); _overlayChart = null; }
   const ctx     = document.getElementById('overlayChart').getContext('2d');
-  const fmtDate = dateFmtFn(n);
+  const tUnit = timeUnit(n);
 
   const nowDotPlugin = {
     id: 'nowDot',
@@ -864,7 +866,7 @@ function buildOverlayChart(overlayData, rangeDays, mktKey) {
         }}
       },
       scales: {
-        x: { ticks: { color: '#8b949e', font: { size: 9 }, maxTicksLimit: 8, callback: (v, i) => fmtDate(dates[i] || ''), maxRotation: 0 }, grid: { color: '#21262d' } },
+        x: { type: 'time', time: { unit: tUnit, tooltipFormat: 'yyyy-MM-dd' }, ticks: { color: '#8b949e', font: { size: 9 }, maxTicksLimit: 8, maxRotation: 0 }, grid: { color: '#21262d' } },
         'y-score': { type: 'linear', position: 'left', min: 0, max: 100,
           ticks: { color: mcol, font: { size: 10 }, stepSize: 20 }, grid: { color: '#21262d' },
           title: { display: true, text: 'Score', color: mcol, font: { size: 10 } } },
