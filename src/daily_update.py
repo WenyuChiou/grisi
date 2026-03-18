@@ -29,6 +29,27 @@ os.environ['PYTHONUTF8'] = '1'
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
 
+def safe_round(val, decimals=2):
+    """Round a value, converting NaN/inf to None for JSON safety."""
+    import math
+    if val is None or (isinstance(val, float) and (math.isnan(val) or math.isinf(val))):
+        return None
+    return round(float(val), decimals)
+
+def sanitize_for_json(obj):
+    """Recursively replace NaN/Infinity with None for valid JSON output."""
+    import math
+    if isinstance(obj, float):
+        if math.isnan(obj) or math.isinf(obj):
+            return None
+        return obj
+    elif isinstance(obj, dict):
+        return {k: sanitize_for_json(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [sanitize_for_json(v) for v in obj]
+    return obj
+
+
 
 def fetch_us_data():
     """Fetch US market data from Yahoo Finance."""
@@ -351,9 +372,10 @@ def update_snapshot(us_data=None, tw_data=None, tw_retail=None, global_ctx=None,
     dated_path = os.path.join(DATA_DIR, f"snapshot_{today.replace('-', '')}.json")
     latest_path = os.path.join(DATA_DIR, 'snapshot_latest.json')
 
+    clean_snapshot = sanitize_for_json(snapshot)
     for path in [dated_path, latest_path]:
         with open(path, 'w', encoding='utf-8') as f:
-            json.dump(snapshot, f, indent=2, ensure_ascii=False)
+            json.dump(clean_snapshot, f, indent=2, ensure_ascii=False)
 
     print(f"[SAVE] Snapshot saved: {dated_path}")
     return snapshot
@@ -382,10 +404,73 @@ def update_dashboard_json(snapshot, jp_score=None, kr_score=None, eu_score=None)
             dd['eu_score'] = []
         dd['eu_score'].append(eu_score)
 
+    dd = sanitize_for_json(dd)
     with open(dd_path, 'w', encoding='utf-8') as f:
         json.dump(dd, f, ensure_ascii=False)
 
     print("[SAVE] dashboard_data.json updated")
+
+
+def update_agent_results(snapshot, us_data, tw_data, tw_retail, jp_data, kr_data, eu_data, global_ctx):
+    """Update phase2_agent_results.json with today's date and scores."""
+    path = os.path.join(DATA_DIR, 'phase2_agent_results.json')
+    if not os.path.exists(path):
+        print("[SKIP] phase2_agent_results.json not found")
+        return
+
+    with open(path, 'r', encoding='utf-8') as f:
+        agents = json.load(f)
+
+    today = datetime.now().strftime('%Y-%m-%d')
+    agents['date'] = today
+
+    # Update base scores from dashboard_data
+    dd_path = os.path.join(DATA_DIR, 'dashboard_data.json')
+    with open(dd_path, 'r', encoding='utf-8') as f:
+        dd = json.load(f)
+
+    us_scores = dd.get('us_score', [])
+    tw_scores = dd.get('tw_score', [])
+    if us_scores:
+        agents['us_base_score'] = us_scores[-1]
+    if tw_scores:
+        agents['tw_base_score'] = tw_scores[-1]
+
+    agents = sanitize_for_json(agents)
+    with open(path, 'w', encoding='utf-8') as f:
+        json.dump(agents, f, indent=2, ensure_ascii=False)
+    print(f"[SAVE] phase2_agent_results.json updated (date={today})")
+
+
+def update_forward_outlook():
+    """Update forward_outlook.json current scores from dashboard_data."""
+    fwd_path = os.path.join(DATA_DIR, 'forward_outlook.json')
+    dd_path = os.path.join(DATA_DIR, 'dashboard_data.json')
+    if not os.path.exists(fwd_path):
+        print("[SKIP] forward_outlook.json not found")
+        return
+
+    with open(dd_path, 'r', encoding='utf-8') as f:
+        dd = json.load(f)
+    with open(fwd_path, 'r', encoding='utf-8') as f:
+        fwd = json.load(f)
+
+    score_map = {
+        'us_current_score': 'us_score',
+        'tw_current_score': 'tw_score',
+        'jp_current_score': 'jp_score',
+        'kr_current_score': 'kr_score',
+        'eu_current_score': 'eu_score',
+    }
+    for fwd_key, dd_key in score_map.items():
+        scores = dd.get(dd_key, [])
+        if scores:
+            fwd[fwd_key] = scores[-1]
+
+    fwd = sanitize_for_json(fwd)
+    with open(fwd_path, 'w', encoding='utf-8') as f:
+        json.dump(fwd, f, indent=2, ensure_ascii=False)
+    print("[SAVE] forward_outlook.json scores updated")
 
 
 def main():
@@ -443,6 +528,8 @@ def main():
     snapshot = update_snapshot(us_data, tw_data, tw_retail, global_ctx, usdtwd,
                               jp_data, kr_data, eu_data)
     update_dashboard_json(snapshot, jp_score_val, kr_score_val, eu_score_val)
+    update_agent_results(snapshot, us_data, tw_data, tw_retail, jp_data, kr_data, eu_data, global_ctx)
+    update_forward_outlook()
 
     markets = []
     if args.us: markets.append('US')
