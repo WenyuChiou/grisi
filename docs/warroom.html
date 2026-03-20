@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moodring War Room</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF6F0; font-family: 'Instrument Sans', system-ui, sans-serif; }
+  input[type=range] { cursor: pointer; height: 4px; }
+  button { cursor: pointer; font-family: inherit; }
+  table { border-collapse: collapse; width: 100%; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #F0EDE6; }
+  ::-webkit-scrollbar-thumb { background: #C4BFB6; border-radius: 3px; }
+</style>
+</head>
+<body>
+<div id="root">
+  <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;color:#9E9890;letter-spacing:0.1em;font-size:13px;">
+    INITIALIZING WAR ROOM…
+  </div>
+</div>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+// ─── Color Palette ────────────────────────────────────────────────────────────
+const C = {
+  bg: "#FAF6F0", card: "#FFFFFF", border: "#E8E4DC", borderLight: "#F0EDE6",
+  text: "#2A2722", text2: "#6B6660", text3: "#9E9890", text4: "#C4BFB6",
+  gold: "#B48B2B", blue: "#3D6E9E", red: "#B5433A", green: "#4E8A52",
+  orange: "#C4783A", purple: "#7B6399", mauve: "#9E6B8A",
+};
+const SC_COLORS = ["#4E8A52", "#3D6E9E", "#B48B2B", "#B5433A"];
+const POS_COLORS = { P1: "#3D6E9E", P2: "#7B6399", P3: "#9E6B8A", P4: "#C4783A", P5: "#C4783A" };
+
+// ─── Typography ───────────────────────────────────────────────────────────────
+const mono = { fontFamily: "'JetBrains Mono', monospace", letterSpacing: "-0.02em" };
+const sans = { fontFamily: "'Instrument Sans', system-ui, sans-serif" };
+const serif = { fontFamily: "'Lora', Georgia, serif" };
+
+// ─── Default Data (fallback if JSON fails to load) ────────────────────────────
+const DEFAULT_DATA = {
+  date: "2026-03-19",
+  market: { spy: 659, qqq: 593, vix: 26.78, wti: 96.14, brent: 108.65, rate10y: 3.625 },
+  scenarios: [
+    { id: "S1", name: "Quick deal + pause",                  prob: 5,  spy: 685, nash: "Not EQ",  duration: "<4 wks" },
+    { id: "S2", name: "SOF + partial deal",                  prob: 20, spy: 630, nash: "Weak",    duration: "4-8 wks" },
+    { id: "S3", name: "Protracted standoff + stagflation",   prob: 42, spy: 575, nash: "Strong",  duration: "3-6 mo" },
+    { id: "S4", name: "Ground escalation + recession",       prob: 33, spy: 510, nash: "Unstable",duration: "6+ mo" },
+  ],
+  positions: [
+    { id: "P1", ticker: "QQQ", type: "Bear Put", buyStrike: 595, sellStrike: 575, expiry: "Apr 17", cost: 5.16, qty: 2, status: "ITM" },
+    { id: "P2", ticker: "SPY", type: "Bear Put", buyStrike: 655, sellStrike: 630, cost: 7.00,  qty: 2, expiry: "May 15", status: "Near ITM" },
+    { id: "P3", ticker: "SPY", type: "Bear Put", buyStrike: 600, sellStrike: 570, cost: 3.87,  qty: 1, expiry: "Jun 19", status: "OTM (B1/3)" },
+  ],
+  hypotheses: [
+    { id: 1, text: "美伊戰爭 4-6 週結束",       status: "BROKEN" },
+    { id: 2, text: "Fed 2026 降息 1 次",         status: "BROKEN" },
+    { id: 3, text: "AI capex → 營收變現",        status: "SPLIT" },
+    { id: 4, text: "油價 Q3 回到 $75",           status: "BROKEN" },
+    { id: 5, text: "2026 美國不衰退",            status: "CHALLENGED" },
+  ],
+  capital: { poolA: 20, poolB: 15, poolC: 50, cash: 48, deployed: 37 },
+};
+
+// Extra narrative fields per scenario (not in JSON — kept hardcoded)
+const SC_EXTRA = {
+  S1: { war: "Quick deal",   ai: "Capex 持續",   job: "穩定 4.4%",    gdp: "1-1.5%",   fed: "1 cut" },
+  S2: { war: "Partial+SOF",  ai: "質疑加劇",      job: "惡化 4.5%",    gdp: "0.5-1%",   fed: "0 cuts" },
+  S3: { war: "持久對峙",      ai: "延後信號",      job: "4.6-4.8%",    gdp: "0-0.5%",   fed: "0 + hike talk" },
+  S4: { war: "地面升級",      ai: "公開縮減",      job: ">5%",          gdp: "負值",     fed: "Stagflation" },
+};
+
+// Normalize Nash equilibrium tag
+function normNash(raw) {
+  const n = (raw || "").toUpperCase();
+  if (n.includes("NOT") || n.includes("NO ")) return "NOT EQ";
+  if (n.includes("WEAK"))     return "WEAK";
+  if (n.includes("STRONG"))   return "STRONG";
+  if (n.includes("UNSTABLE")) return "UNSTABLE";
+  return n.split(" ")[0] || raw;
+}
+
+// Map raw JSON → internal format
+function mapData(data) {
+  const scenarios = (data.scenarios || []).map(s => ({
+    id: s.id, nm: s.name, p: s.prob, spy: s.spy,
+    nash: normNash(s.nash), dur: s.duration,
+    ...(SC_EXTRA[s.id] || { war: "—", ai: "—", job: "—", gdp: "—", fed: "—" }),
+  }));
+  const positions = (data.positions || []).map(p => ({
+    id: p.id, tk: p.ticker, buyK: p.buyStrike, sellK: p.sellStrike,
+    cost: p.cost, qty: p.qty, exp: p.expiry,
+    underlying: (p.ticker || "spy").toLowerCase(),
+    status: p.status,
+  }));
+  return {
+    date: data.date || "—",
+    market: data.market || DEFAULT_DATA.market,
+    scenarios,
+    positions,
+    hypotheses: data.hypotheses || [],
+    capital: data.capital || DEFAULT_DATA.capital,
+  };
+}
+
+// ─── Shared Components ────────────────────────────────────────────────────────
+const Card = ({ accent, children, style: sx }) => (
+  <div style={{
+    background: C.card, border: `1px solid ${C.border}`, borderRadius: 8,
+    boxShadow: "0 1px 4px rgba(0,0,0,0.04), 0 6px 18px rgba(0,0,0,0.03)",
+    padding: "16px 18px", position: "relative", overflow: "hidden", ...sx
+  }}>
+    {accent && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: accent }} />}
+    {children}
+  </div>
+);
+
+const Lbl = ({ children, color, style: sx }) => (
+  <div style={{ ...sans, fontSize: 10, fontWeight: 700, letterSpacing: "0.14em",
+    textTransform: "uppercase", color: color || C.text4, marginBottom: 2, ...sx }}>
+    {children}
+  </div>
+);
+
+const Val = ({ children, size = 20, color = C.text, weight = 300 }) => (
+  <div style={{ ...mono, fontSize: size, fontWeight: weight, color, lineHeight: 1.2 }}>
+    {children}
+  </div>
+);
+
+const Tag = ({ children, color }) => (
+  <span style={{
+    ...sans, fontSize: 10, borderRadius: 3, padding: "2px 7px",
+    background: `${color}18`, border: `1px solid ${color}28`,
+    color, fontWeight: 600, letterSpacing: "0.04em", whiteSpace: "nowrap",
+  }}>
+    {children}
+  </span>
+);
+
+// ─── Tab 1: Scenario Lab ──────────────────────────────────────────────────────
+const ScenarioLab = ({ scenarios: BASE_SC, market: MKT }) => {
+  const [probs,   setProbs]   = useState(BASE_SC.map(s => s.p));
+  const [targets, setTargets] = useState(BASE_SC.map(s => s.spy));
+
+  // Sync state if data source changes (default → live)
+  useEffect(() => {
+    setProbs(BASE_SC.map(s => s.p));
+    setTargets(BASE_SC.map(s => s.spy));
+  }, [JSON.stringify(BASE_SC)]);
+
+  const total = probs.reduce((a, p) => a + p, 0);
+  const eSpy  = probs.reduce((a, p, i) => a + (p / 100) * targets[i], 0);
+  const eQqq  = probs.reduce((a, p, i) => a + (p / 100) * (targets[i] * (MKT.qqq / MKT.spy)), 0);
+  const gap   = (MKT.spy - eSpy) / MKT.spy * 100;
+  const isValid = Math.abs(total - 100) < 0.5;
+
+  const setProb   = (i, v) => { const a = [...probs];   a[i] = Math.max(0, Math.min(100, +v)); setProbs(a); };
+  const setTarget = (i, v) => { const a = [...targets]; a[i] = +v;                              setTargets(a); };
+  const resetAll  = () => { setProbs(BASE_SC.map(s => s.p)); setTargets(BASE_SC.map(s => s.spy)); };
+  const normalize = () => {
+    if (total === 0) return;
+    const factor = 100 / total;
+    setProbs(probs.map((p, i) => i < probs.length - 1 ? Math.round(p * factor) : 100 - probs.slice(0, -1).reduce((a, p2, j) => a + Math.round(p2 * factor), 0)));
+  };
+
+  const MIN_SPY = 400, MAX_SPY = 800, BAR_RANGE = MAX_SPY - MIN_SPY;
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+
+      {/* Hero metrics */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
+        <Card accent={C.gold}>
+          <Lbl>E[SPY] 加權均值</Lbl>
+          <Val size={30} color={C.gold} weight={400}>{eSpy.toFixed(0)}</Val>
+          <div style={{ ...mono, fontSize: 11, color: C.text3, marginTop: 2 }}>市場現價 {MKT.spy}</div>
+        </Card>
+        <Card accent={gap > 0 ? C.red : C.green}>
+          <Lbl>高估 / 低估</Lbl>
+          <Val size={30} color={gap > 0 ? C.red : C.green} weight={400}>
+            {gap > 0 ? "+" : ""}{gap.toFixed(1)}%
+          </Val>
+          <div style={{ ...mono, fontSize: 11, color: C.text3, marginTop: 2 }}>
+            {gap > 0 ? "SPY 高於模型" : "SPY 低於模型"}
+          </div>
+        </Card>
+        <Card accent={C.blue}>
+          <Lbl>E[QQQ] 加權均值</Lbl>
+          <Val size={30} color={C.blue} weight={400}>{eQqq.toFixed(0)}</Val>
+          <div style={{ ...mono, fontSize: 11, color: C.text3, marginTop: 2 }}>市場現價 {MKT.qqq}</div>
+        </Card>
+        <Card accent={isValid ? C.green : C.red}>
+          <Lbl>機率加總</Lbl>
+          <Val size={30} color={isValid ? C.green : C.red} weight={400}>{total}%</Val>
+          <div style={{ ...mono, fontSize: 11, color: isValid ? C.green : C.red, marginTop: 2 }}>
+            {isValid ? "✓ 有效" : "✗ 須等於 100%"}
+          </div>
+        </Card>
+      </div>
+
+      {/* Scenario sliders */}
+      <Card>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <Lbl style={{ marginBottom: 0 }}>情境機率調整 — 拖動 Slider</Lbl>
+          <div style={{ display: "flex", gap: 8 }}>
+            {!isValid && (
+              <button onClick={normalize} style={{
+                ...sans, fontSize: 11, padding: "4px 10px", borderRadius: 4,
+                border: `1px solid ${C.blue}`, background: `${C.blue}10`, color: C.blue,
+              }}>正規化</button>
+            )}
+            <button onClick={resetAll} style={{
+              ...sans, fontSize: 11, padding: "4px 10px", borderRadius: 4,
+              border: `1px solid ${C.border}`, background: C.bg, color: C.text3,
+            }}>重設</button>
+          </div>
+        </div>
+
+        {BASE_SC.map((sc, i) => (
+          <div key={sc.id} style={{
+            marginBottom: 16, paddingBottom: 16,
+            borderBottom: i < BASE_SC.length - 1 ? `1px solid ${C.borderLight}` : "none",
+          }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+              <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+                <div style={{ width: 10, height: 10, borderRadius: "50%", background: SC_COLORS[i], flexShrink: 0 }} />
+                <span style={{ ...sans, fontSize: 14, fontWeight: 700, color: SC_COLORS[i] }}>{sc.id}</span>
+                <span style={{ ...sans, fontSize: 13, color: C.text }}>{sc.nm}</span>
+                <Tag color={SC_COLORS[i]}>{sc.nash}</Tag>
+                <span style={{ ...mono, fontSize: 11, color: C.text3 }}>{sc.dur}</span>
+              </div>
+              <Val size={22} color={SC_COLORS[i]} weight={600}>{probs[i]}%</Val>
+            </div>
+
+            {/* Probability slider */}
+            <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 6 }}>
+              <span style={{ ...mono, fontSize: 10, color: C.text4, width: 24, flexShrink: 0 }}>P%</span>
+              <input type="range" min={0} max={80} value={probs[i]}
+                onChange={e => setProb(i, e.target.value)}
+                style={{ flex: 1, accentColor: SC_COLORS[i] }} />
+              <input type="number" min={0} max={100} value={probs[i]}
+                onChange={e => setProb(i, e.target.value)}
+                style={{ width: 52, ...mono, fontSize: 13, background: "transparent",
+                  border: `1px solid ${C.border}`, borderRadius: 4, padding: "2px 6px", color: C.text,
+                  textAlign: "right" }} />
+            </div>
+
+            {/* SPY target slider */}
+            <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 6 }}>
+              <span style={{ ...mono, fontSize: 10, color: C.text4, width: 24, flexShrink: 0 }}>SPY</span>
+              <input type="range" min={450} max={750} value={targets[i]}
+                onChange={e => setTarget(i, e.target.value)}
+                style={{ flex: 1, accentColor: SC_COLORS[i] }} />
+              <input type="number" min={400} max={800} value={targets[i]}
+                onChange={e => setTarget(i, e.target.value)}
+                style={{ width: 64, ...mono, fontSize: 13, background: "transparent",
+                  border: `1px solid ${C.border}`, borderRadius: 4, padding: "2px 6px", color: C.text,
+                  textAlign: "right" }} />
+            </div>
+
+            {/* Multi-axis detail row */}
+            <div style={{ display: "flex", gap: 18, paddingLeft: 34, flexWrap: "wrap" }}>
+              {[
+                { l: "戰爭", v: sc.war }, { l: "AI", v: sc.ai },
+                { l: "就業", v: sc.job }, { l: "GDP", v: sc.gdp }, { l: "Fed", v: sc.fed },
+              ].map((d, j) => (
+                <div key={j} style={{ ...sans, fontSize: 11, color: C.text3 }}>
+                  <span style={{ fontWeight: 700, color: C.text4 }}>{d.l}: </span>{d.v}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </Card>
+
+      {/* Visual bar comparison: Market vs Model vs Scenarios */}
+      <Card accent={C.gold}>
+        <Lbl style={{ marginBottom: 10 }}>SPY — 市場 vs 模型預期</Lbl>
+        <div style={{ display: "flex", alignItems: "flex-end", gap: 14, height: 120, padding: "4px 12px 0" }}>
+          {/* Market bar */}
+          <div style={{ flex: 1.2, display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <span style={{ ...mono, fontSize: 12, color: C.text2 }}>{MKT.spy}</span>
+            <div style={{
+              width: "100%", marginTop: 4, borderRadius: "4px 4px 0 0",
+              height: `${((MKT.spy - MIN_SPY) / BAR_RANGE) * 100}%`,
+              minHeight: 12, background: `${C.blue}40`,
+            }} />
+            <div style={{ ...sans, fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", color: C.text4, marginTop: 5 }}>MARKET</div>
+          </div>
+          {/* E[SPY] bar */}
+          <div style={{ flex: 1.2, display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <span style={{ ...mono, fontSize: 12, color: C.gold }}>{eSpy.toFixed(0)}</span>
+            <div style={{
+              width: "100%", marginTop: 4, borderRadius: "4px 4px 0 0",
+              height: `${((eSpy - MIN_SPY) / BAR_RANGE) * 100}%`,
+              minHeight: 12, background: `${C.gold}70`,
+            }} />
+            <div style={{ ...sans, fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", color: C.gold, marginTop: 5 }}>E[SPY]</div>
+          </div>
+          {/* Scenario bars */}
+          {BASE_SC.map((sc, i) => (
+            <div key={sc.id} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <span style={{ ...mono, fontSize: 11, color: SC_COLORS[i] }}>{targets[i]}</span>
+              <div style={{
+                width: "100%", marginTop: 4, borderRadius: "4px 4px 0 0",
+                height: `${((targets[i] - MIN_SPY) / BAR_RANGE) * 100}%`,
+                minHeight: 8, background: SC_COLORS[i],
+                opacity: Math.max(0.2, probs[i] / 100 + 0.3),
+              }} />
+              <div style={{ ...sans, fontSize: 9, fontWeight: 700, letterSpacing: "0.06em", color: SC_COLORS[i], marginTop: 5 }}>
+                {sc.id} ({probs[i]}%)
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* Divider line annotation */}
+        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 6 }}>
+          <span style={{ ...mono, fontSize: 10, color: C.text4 }}>
+            Gap: {gap > 0 ? "+" : ""}{gap.toFixed(1)}% ({gap > 0 ? "高估" : "低估"} {Math.abs(((MKT.spy - eSpy))).toFixed(0)}pts)
+          </span>
+        </div>
+      </Card>
+    </div>
+  );
+};
+
+// ─── Tab 2: Payoff Simulator ──────────────────────────────────────────────────
+const PayoffSim = ({ positions: RAW_POS, market: MKT }) => {
+  const [simSpy, setSimSpy] = useState(MKT.spy);
+  const [simQqq, setSimQqq] = useState(MKT.qqq);
+  const [p3Qty,  setP3Qty]  = useState(1);
+
+  useEffect(() => {
+    setSimSpy(MKT.spy);
+    setSimQqq(MKT.qqq);
+  }, [MKT.spy, MKT.qqq]);
+
+  const calcPut = (buyK, sellK, cost, qty, price) => {
+    const intrinsic = Math.max(0, buyK - price) - Math.max(0, sellK - price);
+    const pnl  = (intrinsic - cost) * qty * 100;
+    const maxP = (buyK - sellK - cost) * qty * 100;
+    const maxL = -cost * qty * 100;
+    const pct  = maxL !== 0 ? (pnl / Math.abs(maxL)) * 100 : 0;
+    return { pnl, maxP, maxL, pct };
+  };
+
+  const getPrice = (pos) => pos.underlying === "qqq" ? simQqq : simSpy;
+
+  const positions = RAW_POS.map(pos => {
+    const qty = pos.id === "P3" ? p3Qty : pos.qty;
+    return {
+      ...pos, qty,
+      res:   calcPut(pos.buyK, pos.sellK, pos.cost, qty, getPrice(pos)),
+      color: POS_COLORS[pos.id] || C.blue,
+    };
+  });
+
+  const totalPnl  = positions.reduce((a, p) => a + p.res.pnl, 0);
+  const totalCost = positions.reduce((a, p) => a + p.cost * p.qty * 100, 0);
+
+  const presets = [
+    { label: "現值",        spy: MKT.spy, qqq: MKT.qqq },
+    { label: "S2 (630)",    spy: 630,     qqq: Math.round(630 * MKT.qqq / MKT.spy) },
+    { label: "S3 (575)",    spy: 575,     qqq: Math.round(575 * MKT.qqq / MKT.spy) },
+    { label: "S4 (510)",    spy: 510,     qqq: Math.round(510 * MKT.qqq / MKT.spy) },
+    { label: "反彈 (700)", spy: 700,     qqq: Math.round(700 * MKT.qqq / MKT.spy) },
+  ];
+
+  const isPreset = (p) => p.spy === simSpy;
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+
+      {/* Controls */}
+      <Card>
+        <Lbl style={{ marginBottom: 10 }}>價格模擬器 — 拖動 Slider 或點擊預設情境</Lbl>
+        <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
+          {presets.map((p, i) => (
+            <button key={i}
+              onClick={() => { setSimSpy(p.spy); setSimQqq(p.qqq); }}
+              style={{
+                ...sans, fontSize: 11, fontWeight: 600, padding: "6px 14px", borderRadius: 5,
+                border: `1px solid ${isPreset(p) ? C.gold : C.border}`,
+                background: isPreset(p) ? `${C.gold}15` : "transparent",
+                color: isPreset(p) ? C.gold : C.text2,
+              }}>
+              {p.label}
+            </button>
+          ))}
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 20 }}>
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+              <Lbl style={{ marginBottom: 0 }}>SPY 價格</Lbl>
+              <Val size={17} color={simSpy < MKT.spy ? C.red : C.green}>${simSpy}</Val>
+            </div>
+            <input type="range" min={450} max={750} value={simSpy}
+              onChange={e => setSimSpy(+e.target.value)}
+              style={{ width: "100%", accentColor: C.blue }} />
+            <div style={{ ...mono, fontSize: 10, color: C.text3, textAlign: "center", marginTop: 4 }}>
+              {((simSpy - MKT.spy) / MKT.spy * 100).toFixed(1)}% vs 現值
+            </div>
+          </div>
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+              <Lbl style={{ marginBottom: 0 }}>QQQ 價格</Lbl>
+              <Val size={17} color={simQqq < MKT.qqq ? C.red : C.green}>${simQqq}</Val>
+            </div>
+            <input type="range" min={380} max={660} value={simQqq}
+              onChange={e => setSimQqq(+e.target.value)}
+              style={{ width: "100%", accentColor: C.blue }} />
+            <div style={{ ...mono, fontSize: 10, color: C.text3, textAlign: "center", marginTop: 4 }}>
+              {((simQqq - MKT.qqq) / MKT.qqq * 100).toFixed(1)}% vs 現值
+            </div>
+          </div>
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+              <Lbl style={{ marginBottom: 0 }}>P3 口數</Lbl>
+              <Val size={17} color={C.mauve}>{p3Qty}</Val>
+            </div>
+            <input type="range" min={1} max={3} step={1} value={p3Qty}
+              onChange={e => setP3Qty(+e.target.value)}
+              style={{ width: "100%", accentColor: C.mauve }} />
+            <div style={{ ...mono, fontSize: 10, color: C.text3, textAlign: "center", marginTop: 4 }}>
+              批次 {p3Qty}/3
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      {/* Total P&L hero */}
+      <Card accent={totalPnl >= 0 ? C.green : C.red}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div>
+            <Lbl>投資組合總損益</Lbl>
+            <Val size={38} color={totalPnl >= 0 ? C.green : C.red} weight={400}>
+              {totalPnl >= 0 ? "+" : ""}${totalPnl.toFixed(0)}
+            </Val>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <Lbl>風險報酬率 (ROI)</Lbl>
+            <Val size={28} color={totalPnl >= 0 ? C.green : C.red}>
+              {totalPnl >= 0 ? "+" : ""}{totalCost ? (totalPnl / totalCost * 100).toFixed(0) : 0}%
+            </Val>
+            <div style={{ ...mono, fontSize: 11, color: C.text3 }}>
+              已投入 ${totalCost.toFixed(0)}
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      {/* Per-position P&L cards */}
+      <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(positions.length, 3)}, 1fr)`, gap: 12 }}>
+        {positions.map(pos => {
+          const r = pos.res;
+          return (
+            <Card key={pos.id} accent={pos.color}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+                <div>
+                  <span style={{ ...mono, fontSize: 14, fontWeight: 700, color: pos.color }}>{pos.id}</span>
+                  <span style={{ ...sans, fontSize: 13, color: C.text, marginLeft: 6 }}>
+                    {pos.tk} {pos.buyK}/{pos.sellK}
+                  </span>
+                </div>
+                <Tag color={pos.color}>{pos.exp}</Tag>
+              </div>
+              <Val size={26} color={r.pnl >= 0 ? C.green : C.red} weight={400}>
+                {r.pnl >= 0 ? "+" : ""}${r.pnl.toFixed(0)}
+              </Val>
+              <div style={{ ...mono, fontSize: 12, color: r.pct >= 0 ? C.green : C.red, marginTop: 2 }}>
+                {r.pct >= 0 ? "+" : ""}{r.pct.toFixed(0)}% on cost
+              </div>
+              {/* P&L bar */}
+              <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 10 }}>
+                <span style={{ ...mono, fontSize: 9, color: C.red, width: 8 }}>L</span>
+                <div style={{ flex: 1, height: 6, background: C.borderLight, borderRadius: 3, position: "relative", overflow: "hidden" }}>
+                  {r.pnl < 0 ? (
+                    <div style={{
+                      position: "absolute", top: 0, height: 6, borderRadius: 3,
+                      right: "50%", background: C.red, opacity: 0.75,
+                      width: `${Math.min(Math.abs(r.pnl / r.maxL) * 50, 50)}%`,
+                    }} />
+                  ) : (
+                    <div style={{
+                      position: "absolute", top: 0, height: 6, borderRadius: 3,
+                      left: "50%", background: C.green, opacity: 0.75,
+                      width: `${Math.min((r.pnl / r.maxP) * 50, 50)}%`,
+                    }} />
+                  )}
+                  <div style={{ position: "absolute", left: "50%", top: 0, width: 1, height: 6, background: C.text4 }} />
+                </div>
+                <span style={{ ...mono, fontSize: 9, color: C.green, width: 8 }}>P</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", marginTop: 4 }}>
+                <span style={{ ...mono, fontSize: 10, color: C.red }}>${r.maxL.toFixed(0)}</span>
+                <span style={{ ...mono, fontSize: 10, color: C.text3 }}>{pos.qty}×</span>
+                <span style={{ ...mono, fontSize: 10, color: C.green }}>+${r.maxP.toFixed(0)}</span>
+              </div>
+            </Card>
+          );
+        })}
+      </div>
+
+      {/* Payoff table */}
+      <Card>
+        <Lbl style={{ marginBottom: 8 }}>SPY 關鍵價位損益表 (P3 × {p3Qty})</Lbl>
+        <div style={{ overflowX: "auto" }}>
+          <table>
+            <thead>
+              <tr style={{ borderBottom: `2px solid ${C.border}` }}>
+                <th style={{ ...sans, fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: C.text4, padding: "6px 10px", textAlign: "right" }}>SPY</th>
+                {positions.map(p => (
+                  <th key={p.id} style={{ ...sans, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: POS_COLORS[p.id] || C.blue, padding: "6px 10px", textAlign: "right" }}>
+                    {p.id} ({p.tk})
+                  </th>
+                ))}
+                <th style={{ ...sans, fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: C.text4, padding: "6px 10px", textAlign: "right" }}>總計</th>
+                <th style={{ ...sans, fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: C.text4, padding: "6px 10px", textAlign: "right" }}>ROI</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[700, 660, 640, 620, 600, 580, 560, 530, 510].map(lvl => {
+                const qLvl = Math.round(lvl * (MKT.qqq / MKT.spy));
+                const rows = positions.map(p => {
+                  const price = p.underlying === "qqq" ? qLvl : lvl;
+                  return calcPut(p.buyK, p.sellK, p.cost, p.qty, price);
+                });
+                const tot = rows.reduce((a, r) => a + r.pnl, 0);
+                const roi = totalCost ? (tot / totalCost * 100) : 0;
+                const isNear = lvl === 660;
+                return (
+                  <tr key={lvl} style={{ borderBottom: `1px solid ${C.borderLight}`, background: isNear ? `${C.gold}08` : "transparent" }}>
+                    <td style={{ ...mono, padding: "5px 10px", textAlign: "right", fontWeight: isNear ? 700 : 400, color: C.text }}>
+                      ${lvl}{isNear ? " ←" : ""}
+                    </td>
+                    {rows.map((r, i) => (
+                      <td key={i} style={{ ...mono, padding: "5px 10px", textAlign: "right", color: r.pnl >= 0 ? C.green : C.red }}>
+                        {r.pnl >= 0 ? "+" : ""}${r.pnl.toFixed(0)}
+                      </td>
+                    ))}
+                    <td style={{ ...mono, padding: "5px 10px", textAlign: "right", fontWeight: 700, color: tot >= 0 ? C.green : C.red }}>
+                      {tot >= 0 ? "+" : ""}${tot.toFixed(0)}
+                    </td>
+                    <td style={{ ...mono, padding: "5px 10px", textAlign: "right", color: roi >= 0 ? C.gold : C.red }}>
+                      {roi >= 0 ? "+" : ""}{roi.toFixed(0)}%
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+    </div>
+  );
+};
+
+// ─── Tab 3: Capital Planner ───────────────────────────────────────────────────
+const CapitalPlanner = ({ capital, positions, hypotheses }) => {
+  const { poolA, poolB, poolC, cash, deployed } = capital;
+  const totalPools = poolA + poolB + poolC;
+  const grandTotal = cash + deployed;
+  const deployedPct = grandTotal ? (deployed / grandTotal * 100) : 0;
+  const cashPct     = grandTotal ? (cash / grandTotal * 100) : 0;
+
+  const poolColors = [C.blue, C.purple, C.gold];
+  const poolLabels = ["Pool A", "Pool B", "Pool C"];
+  const poolVals   = [poolA, poolB, poolC];
+
+  const hypoColor = s => ({ BROKEN: C.red, CONFIRMED: C.green, ACTIVE: C.green, SPLIT: C.orange, CHALLENGED: C.purple }[s] || C.text3);
+  const hypoLabel = s => ({ BROKEN: "破局", CONFIRMED: "確認", ACTIVE: "進行中", SPLIT: "分歧", CHALLENGED: "受挑戰" }[s] || s);
+
+  const rulesData = [
+    { rule: "已部署 ≤ 50%", val: `${deployedPct.toFixed(0)}%`, ok: deployedPct <= 50 },
+    { rule: "現金 ≥ 40%",   val: `${cashPct.toFixed(0)}%`,     ok: cashPct >= 40 },
+    { rule: "單一部位 ≤ 15%",
+      val: positions.length ? (() => {
+        const maxPos = positions.reduce((a, p) => {
+          const cost = p.cost * p.qty * 100;
+          return cost > a.cost ? { id: p.id, cost } : a;
+        }, { id: "—", cost: 0 });
+        const pct = grandTotal ? (maxPos.cost / (grandTotal * 100) * 100) : 0;
+        return `${maxPos.id} ≈ ${pct.toFixed(0)}%`;
+      })() : "—",
+      ok: true,
+    },
+    { rule: "單一標的 ≤ 25%", val: "SPY ~ 22%", ok: true },
+  ];
+  const allOk = rulesData.every(r => r.ok);
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+
+      {/* Pool allocation */}
+      <Card accent={C.gold}>
+        <Lbl style={{ marginBottom: 12 }}>資金池配置</Lbl>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 16 }}>
+          {poolVals.map((val, i) => (
+            <div key={i} style={{
+              textAlign: "center", padding: "12px 8px",
+              background: `${poolColors[i]}08`, borderRadius: 6,
+              border: `1px solid ${poolColors[i]}25`,
+            }}>
+              <Lbl color={poolColors[i]} style={{ marginBottom: 6 }}>{poolLabels[i]}</Lbl>
+              <Val size={30} color={poolColors[i]} weight={400}>{val}</Val>
+              <div style={{ ...mono, fontSize: 10, color: C.text3, marginTop: 4 }}>
+                {totalPools ? (val / totalPools * 100).toFixed(0) : 0}% of pools
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Pool stacked bar */}
+        <Lbl style={{ marginBottom: 6 }}>Pool 分佈比例</Lbl>
+        <div style={{ display: "flex", height: 10, borderRadius: 5, overflow: "hidden", marginBottom: 8 }}>
+          {poolVals.map((val, i) => (
+            <div key={i} style={{ width: `${totalPools ? val / totalPools * 100 : 33}%`, background: poolColors[i], opacity: 0.8 }} />
+          ))}
+        </div>
+        <div style={{ display: "flex", gap: 20 }}>
+          {poolLabels.map((l, i) => (
+            <div key={i} style={{ display: "flex", gap: 5, alignItems: "center" }}>
+              <div style={{ width: 10, height: 10, borderRadius: 2, background: poolColors[i] }} />
+              <span style={{ ...mono, fontSize: 10, color: C.text3 }}>{l} {poolVals[i]}</span>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      {/* Cash vs Deployed */}
+      <Card accent={deployedPct > 50 ? C.red : C.green}>
+        <Lbl style={{ marginBottom: 12 }}>現金 vs 已部署</Lbl>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 14 }}>
+          <div style={{ textAlign: "center", padding: "14px", background: `${C.green}07`, borderRadius: 6, border: `1px solid ${C.green}20` }}>
+            <Lbl color={C.green} style={{ marginBottom: 6 }}>現金</Lbl>
+            <Val size={32} color={C.green} weight={400}>{cash}</Val>
+            <div style={{ ...mono, fontSize: 11, color: C.text3, marginTop: 4 }}>{cashPct.toFixed(0)}%</div>
+          </div>
+          <div style={{ textAlign: "center", padding: "14px", background: `${C.blue}07`, borderRadius: 6, border: `1px solid ${C.blue}20` }}>
+            <Lbl color={C.blue} style={{ marginBottom: 6 }}>已部署</Lbl>
+            <Val size={32} color={C.blue} weight={400}>{deployed}</Val>
+            <div style={{ ...mono, fontSize: 11, color: C.text3, marginTop: 4 }}>{deployedPct.toFixed(0)}%</div>
+          </div>
+        </div>
+        <div style={{ display: "flex", height: 10, borderRadius: 5, overflow: "hidden" }}>
+          <div style={{ width: `${deployedPct}%`, background: C.blue, opacity: 0.65 }} />
+          <div style={{ flex: 1, background: `${C.green}35` }} />
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6 }}>
+          <span style={{ ...mono, fontSize: 10, color: C.blue }}>Deployed {deployedPct.toFixed(0)}%</span>
+          <span style={{ ...mono, fontSize: 10, color: C.green }}>Cash {cashPct.toFixed(0)}%</span>
+        </div>
+      </Card>
+
+      {/* Position list + Rules */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+
+        {/* Position status */}
+        <Card>
+          <Lbl style={{ marginBottom: 10 }}>部位狀態</Lbl>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {positions.length === 0 && (
+              <div style={{ ...sans, fontSize: 12, color: C.text4 }}>尚無部位資料</div>
+            )}
+            {positions.map(pos => {
+              const color = POS_COLORS[pos.id] || C.blue;
+              const statusColor = pos.status === "ITM" ? C.green : pos.status.includes("Near") ? C.gold : C.text3;
+              return (
+                <div key={pos.id} style={{
+                  display: "flex", justifyContent: "space-between", alignItems: "center",
+                  padding: "8px 10px", background: `${color}06`, borderRadius: 5,
+                  border: `1px solid ${color}20`,
+                }}>
+                  <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                    <div style={{ width: 8, height: 8, borderRadius: "50%", background: color, flexShrink: 0 }} />
+                    <div>
+                      <span style={{ ...mono, fontSize: 13, fontWeight: 700, color }}>{pos.id}</span>
+                      <span style={{ ...sans, fontSize: 12, color: C.text2, marginLeft: 6 }}>
+                        {pos.tk} {pos.buyK}/{pos.sellK}
+                      </span>
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{ ...mono, fontSize: 11, color: statusColor, fontWeight: 700 }}>{pos.status}</div>
+                    <div style={{ ...mono, fontSize: 10, color: C.text4 }}>{pos.exp} · {pos.qty}×</div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </Card>
+
+        {/* Rules compliance */}
+        <Card>
+          <Lbl color={allOk ? C.green : C.red} style={{ marginBottom: 10 }}>
+            風控規則 {allOk ? "✓ 全部通過" : "✗ 違規"}
+          </Lbl>
+          <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+            {rulesData.map((r, i) => (
+              <div key={i} style={{
+                display: "flex", justifyContent: "space-between", alignItems: "center",
+                padding: "7px 10px", borderRadius: 5,
+                background: r.ok ? `${C.green}06` : `${C.red}06`,
+                border: `1px solid ${r.ok ? C.green : C.red}20`,
+              }}>
+                <span style={{ ...sans, fontSize: 12, color: C.text2 }}>{r.rule}</span>
+                <span style={{ ...mono, fontSize: 12, fontWeight: 700, color: r.ok ? C.green : C.red }}>
+                  {r.val} {r.ok ? "✓" : "✗"}
+                </span>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
+
+      {/* Hypothesis status cards */}
+      {hypotheses.length > 0 && (
+        <Card accent={C.purple}>
+          <Lbl color={C.purple} style={{ marginBottom: 12 }}>假設狀態追蹤</Lbl>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(210px, 1fr))", gap: 8 }}>
+            {hypotheses.map(h => {
+              const color = hypoColor(h.status);
+              return (
+                <div key={h.id} style={{
+                  padding: "10px 12px", borderRadius: 6,
+                  background: `${color}07`, border: `1px solid ${color}22`,
+                  borderLeft: `3px solid ${color}`,
+                }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+                    <span style={{ ...sans, fontSize: 12, color: C.text, lineHeight: 1.5, flex: 1 }}>{h.text}</span>
+                    <Tag color={color}>{hypoLabel(h.status)}</Tag>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </Card>
+      )}
+    </div>
+  );
+};
+
+// ─── Main App ─────────────────────────────────────────────────────────────────
+const TABS = ["Scenario Lab", "Payoff Simulator", "Capital Planner"];
+
+function App() {
+  const [appData,    setAppData]    = useState(() => mapData(DEFAULT_DATA));
+  const [dataSource, setDataSource] = useState("loading");
+  const [tab,        setTab]        = useState(0);
+
+  useEffect(() => {
+    fetch("data/warroom_data.json")
+      .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(d => { setAppData(mapData(d)); setDataSource("live"); })
+      .catch(() => setDataSource("default"));
+  }, []);
+
+  const { date, market, scenarios, positions, capital, hypotheses } = appData;
+
+  return (
+    <div style={{ ...sans, background: C.bg, minHeight: "100vh", padding: "20px 24px", color: C.text }}>
+
+      {/* Header */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18, flexWrap: "wrap", gap: 8 }}>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
+          <span style={{ ...serif, fontSize: 18, fontWeight: 600, color: C.text }}>Interactive War Room</span>
+          <Tag color={C.red}>DAY 20</Tag>
+          <span style={{ ...mono, fontSize: 11, color: C.text3 }}>{date} ｜ Multi-Axis Model</span>
+          {dataSource === "live"    && <span style={{ ...mono, fontSize: 10, color: C.green }}>● live data</span>}
+          {dataSource === "default" && <span style={{ ...mono, fontSize: 10, color: C.text4 }}>○ defaults</span>}
+          {dataSource === "loading" && <span style={{ ...mono, fontSize: 10, color: C.text4 }}>⋯ loading</span>}
+        </div>
+        <div style={{ ...mono, fontSize: 11, color: C.text4, textAlign: "right" }}>
+          SPY ${market.spy} ｜ QQQ ${market.qqq} ｜ VIX {market.vix}
+          {market.rate10y && <span> ｜ 10Y {market.rate10y}%</span>}
+          {market.wti     && <span> ｜ WTI ${market.wti}</span>}
+        </div>
+      </div>
+
+      {/* Tab bar */}
+      <div style={{ display: "flex", marginBottom: 18, borderBottom: `1px solid ${C.border}` }}>
+        {TABS.map((t, i) => (
+          <button key={i} onClick={() => setTab(i)} style={{
+            ...sans, fontSize: 13, fontWeight: tab === i ? 700 : 400,
+            color: tab === i ? C.gold : C.text3,
+            background: "none", border: "none",
+            padding: "8px 16px", marginBottom: -1,
+            borderBottom: tab === i ? `2px solid ${C.gold}` : "2px solid transparent",
+          }}>
+            {t}
+          </button>
+        ))}
+      </div>
+
+      {/* Tab content */}
+      {tab === 0 && <ScenarioLab scenarios={scenarios} market={market} />}
+      {tab === 1 && <PayoffSim   positions={positions} market={market} />}
+      {tab === 2 && <CapitalPlanner capital={capital} positions={positions} hypotheses={hypotheses} />}
+
+      {/* Footer */}
+      <div style={{ ...mono, fontSize: 10, color: C.text4, textAlign: "center", marginTop: 28, padding: "12px 0", borderTop: `1px solid ${C.borderLight}` }}>
+        Moodring War Room ｜ 拖動 slider 即時更新 E[SPY] 和 P&amp;L ｜ 資料: data/warroom_data.json
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

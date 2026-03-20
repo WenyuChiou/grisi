@@ -1,0 +1,23 @@
+{
+  "date": "2026-03-19",
+  "market": { "spy": 659, "qqq": 593, "vix": 26.78, "wti": 96.14, "brent": 108.65, "rate10y": 3.625 },
+  "scenarios": [
+    { "id": "S1", "name": "Quick deal + pause", "prob": 5, "spy": 685, "nash": "Not EQ", "duration": "<4 wks" },
+    { "id": "S2", "name": "SOF + partial deal", "prob": 20, "spy": 630, "nash": "Weak", "duration": "4-8 wks" },
+    { "id": "S3", "name": "Protracted standoff + stagflation", "prob": 42, "spy": 575, "nash": "Strong", "duration": "3-6 mo" },
+    { "id": "S4", "name": "Ground escalation + recession", "prob": 33, "spy": 510, "nash": "Unstable", "duration": "6+ mo" }
+  ],
+  "positions": [
+    { "id": "P1", "ticker": "QQQ", "type": "Bear Put", "buyStrike": 595, "sellStrike": 575, "expiry": "Apr 17", "cost": 5.16, "qty": 2, "status": "ITM" },
+    { "id": "P2", "ticker": "SPY", "type": "Bear Put", "buyStrike": 655, "sellStrike": 630, "cost": 7.00, "qty": 2, "expiry": "May 15", "status": "Near ITM" },
+    { "id": "P3", "ticker": "SPY", "type": "Bear Put", "buyStrike": 600, "sellStrike": 570, "cost": 3.87, "qty": 1, "expiry": "Jun 19", "status": "OTM (B1/3)" }
+  ],
+  "hypotheses": [
+    { "id": 1, "text": "美伊戰爭 4-6 週結束", "status": "BROKEN" },
+    { "id": 2, "text": "Fed 2026 降息 1 次", "status": "BROKEN" },
+    { "id": 3, "text": "AI capex → 營收變現", "status": "SPLIT" },
+    { "id": 4, "text": "油價 Q3 回到 $75", "status": "BROKEN" },
+    { "id": 5, "text": "2026 美國不衰退", "status": "CHALLENGED" }
+  ],
+  "capital": { "poolA": 20, "poolB": 15, "poolC": 50, "cash": 48, "deployed": 37 }
+}
