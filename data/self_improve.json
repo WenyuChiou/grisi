@@ -1,52 +1,52 @@
 {
-  "date": "2026-03-20",
+  "date": "2026-03-21",
   "markets": {
     "us": {
-      "full_ic_20d": -0.1713,
-      "recent_ic_20d": 0.0181,
+      "full_ic_20d": -0.1709,
+      "recent_ic_20d": 0.0145,
       "ic_trend": "decaying",
-      "ic_change_pct": -89.4,
-      "score_mean_60d": 43.7,
-      "score_std_60d": 5.2,
+      "ic_change_pct": -91.5,
+      "score_mean_60d": 43.5,
+      "score_std_60d": 5.1,
       "zone_distribution_60d": {
         "extreme_fear": 0,
-        "fear": 13,
-        "neutral": 47,
+        "fear": 14,
+        "neutral": 46,
         "greed": 0,
         "extreme_greed": 0
       },
       "health": "poor",
       "flags": [
-        "IC decaying: recent 0.0181 vs historical -0.1713",
-        "Weak IC: 0.0181"
+        "IC decaying: recent 0.0145 vs historical -0.1709",
+        "Weak IC: 0.0145"
       ]
     },
     "tw": {
-      "full_ic_20d": -0.1276,
-      "recent_ic_20d": 0.0483,
+      "full_ic_20d": -0.1274,
+      "recent_ic_20d": 0.0474,
       "ic_trend": "decaying",
-      "ic_change_pct": -62.1,
-      "score_mean_60d": 41.6,
-      "score_std_60d": 10.1,
+      "ic_change_pct": -62.8,
+      "score_mean_60d": 41.4,
+      "score_std_60d": 10.0,
       "zone_distribution_60d": {
         "extreme_fear": 7,
-        "fear": 15,
-        "neutral": 37,
+        "fear": 16,
+        "neutral": 36,
         "greed": 1,
         "extreme_greed": 0
       },
       "health": "poor",
       "flags": [
-        "IC decaying: recent 0.0483 vs historical -0.1276",
-        "Weak IC: 0.0483"
+        "IC decaying: recent 0.0474 vs historical -0.1274",
+        "Weak IC: 0.0474"
       ]
     },
     "jp": {
       "full_ic_20d": -0.0659,
-      "recent_ic_20d": 0.0008,
+      "recent_ic_20d": -0.0078,
       "ic_trend": "decaying",
-      "ic_change_pct": -98.8,
-      "score_mean_60d": 49.4,
+      "ic_change_pct": -88.2,
+      "score_mean_60d": 49.5,
       "score_std_60d": 7.7,
       "zone_distribution_60d": {
         "extreme_fear": 0,
@@ -57,35 +57,35 @@
       },
       "health": "poor",
       "flags": [
-        "IC decaying: recent 0.0008 vs historical -0.0659",
-        "Weak IC: 0.0008",
+        "IC decaying: recent -0.0078 vs historical -0.0659",
+        "Weak IC: -0.0078",
         "Score stuck in neutral zone 87% of last 60d"
       ]
     },
     "kr": {
-      "full_ic_20d": -0.1046,
-      "recent_ic_20d": -0.0888,
+      "full_ic_20d": -0.1047,
+      "recent_ic_20d": -0.1071,
       "ic_trend": "stable",
-      "ic_change_pct": -15.1,
-      "score_mean_60d": 59.7,
-      "score_std_60d": 9.0,
+      "ic_change_pct": 2.3,
+      "score_mean_60d": 60.0,
+      "score_std_60d": 8.9,
       "zone_distribution_60d": {
         "extreme_fear": 0,
         "fear": 2,
-        "neutral": 20,
-        "greed": 37,
+        "neutral": 19,
+        "greed": 38,
         "extreme_greed": 1
       },
       "health": "good",
       "flags": []
     },
     "eu": {
-      "full_ic_20d": -0.0571,
-      "recent_ic_20d": -0.3877,
+      "full_ic_20d": -0.057,
+      "recent_ic_20d": -0.4027,
       "ic_trend": "improving",
-      "ic_change_pct": 579.0,
-      "score_mean_60d": 45.2,
-      "score_std_60d": 6.6,
+      "ic_change_pct": 606.5,
+      "score_mean_60d": 45.0,
+      "score_std_60d": 6.5,
       "zone_distribution_60d": {
         "extreme_fear": 0,
         "fear": 11,
@@ -102,16 +102,16 @@
   "system_health": {
     "overall": "poor",
     "active_flags": [
-      "US: IC decaying: recent 0.0181 vs historical -0.1713",
-      "US: Weak IC: 0.0181",
-      "TW: IC decaying: recent 0.0483 vs historical -0.1276",
-      "TW: Weak IC: 0.0483",
-      "JP: IC decaying: recent 0.0008 vs historical -0.0659",
-      "JP: Weak IC: 0.0008",
+      "US: IC decaying: recent 0.0145 vs historical -0.1709",
+      "US: Weak IC: 0.0145",
+      "TW: IC decaying: recent 0.0474 vs historical -0.1274",
+      "TW: Weak IC: 0.0474",
+      "JP: IC decaying: recent -0.0078 vs historical -0.0659",
+      "JP: Weak IC: -0.0078",
       "JP: Score stuck in neutral zone 87% of last 60d",
       "EU: Score stuck in neutral zone 82% of last 60d"
     ],
-    "last_calibration": "2026-03-20",
+    "last_calibration": "2026-03-21",
     "recommendation": "Signal degradation detected. Consider recalibration."
   }
 }

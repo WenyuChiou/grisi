@@ -21,6 +21,7 @@ Usage:
 import sys
 import os
 import json
+import time
 import argparse
 from datetime import datetime, timedelta
 
@@ -28,6 +29,21 @@ from datetime import datetime, timedelta
 os.environ['PYTHONUTF8'] = '1'
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
+
+
+def finmind_with_retry(fn, *args, max_retries=3, backoff=10, **kwargs):
+    """Call a FinMind DataLoader method with exponential backoff on rate-limit errors."""
+    for attempt in range(max_retries):
+        try:
+            return fn(*args, **kwargs)
+        except Exception as e:
+            msg = str(e).lower()
+            if attempt < max_retries - 1 and ('rate' in msg or 'limit' in msg or '429' in msg or 'too many' in msg):
+                wait = backoff * (2 ** attempt)
+                print(f"[FinMind] Rate limit hit, retrying in {wait}s (attempt {attempt+1}/{max_retries})...")
+                time.sleep(wait)
+            else:
+                raise
 
 def safe_round(val, decimals=2):
     """Round a value, converting NaN/inf to None for JSON safety."""
@@ -60,11 +76,11 @@ def fetch_us_data():
     end = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
 
     print("[US] Fetching from Yahoo Finance...")
-    spy = yf.download('SPY', start=start_90d, end=end, progress=False)
-    vix = yf.download('^VIX', start=start_90d, end=end, progress=False)
-    tnx = yf.download('^TNX', start=(datetime.now()-timedelta(30)).strftime('%Y-%m-%d'), end=end, progress=False)
-    gold = yf.download('GC=F', period='1mo', progress=False)
-    usdjpy = yf.download('USDJPY=X', period='1mo', progress=False)
+    spy = yf.download('SPY', start=start_90d, end=end, progress=False, auto_adjust=True)
+    vix = yf.download('^VIX', start=start_90d, end=end, progress=False, auto_adjust=True)
+    tnx = yf.download('^TNX', start=(datetime.now()-timedelta(30)).strftime('%Y-%m-%d'), end=end, progress=False, auto_adjust=True)
+    gold = yf.download('GC=F', period='1mo', progress=False, auto_adjust=True)
+    usdjpy = yf.download('USDJPY=X', period='1mo', progress=False, auto_adjust=True)
 
     def safe(df):
         c = df['Close']
@@ -110,9 +126,9 @@ def fetch_tw_data():
     end = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
 
     print("[TW] Fetching from Yahoo Finance...")
-    twii = yf.download('^TWII', start=start_90d, end=end, progress=False)
-    tsmc = yf.download('2330.TW', start=start_90d, end=end, progress=False)
-    usdtwd = yf.download('TWD=X', period='1mo', progress=False)
+    twii = yf.download('^TWII', start=start_90d, end=end, progress=False, auto_adjust=True)
+    tsmc = yf.download('2330.TW', start=start_90d, end=end, progress=False, auto_adjust=True)
+    usdtwd = yf.download('TWD=X', period='1mo', progress=False, auto_adjust=True)
 
     def safe(df):
         c = df['Close']
@@ -145,9 +161,14 @@ def fetch_tw_data():
         from FinMind.data import DataLoader
         dl = DataLoader()
 
+        # Dynamic start dates: margin needs ~30d history, institutional needs ~20d
+        margin_start = (datetime.now() - timedelta(days=45)).strftime('%Y-%m-%d')
+        inst_start = (datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d')
+
         # Margin balance
-        margin = dl.taiwan_stock_margin_purchase_short_sale_total(
-            start_date='2026-02-01', end_date=today
+        margin = finmind_with_retry(
+            dl.taiwan_stock_margin_purchase_short_sale_total,
+            start_date=margin_start, end_date=today
         )
         mb = margin[margin['name'] == 'MarginPurchase']
         if len(mb) > 0:
@@ -162,8 +183,9 @@ def fetch_tw_data():
             )
 
         # Institutional investors
-        inst = dl.taiwan_stock_institutional_investors_total(
-            start_date='2026-03-01', end_date=today
+        inst = finmind_with_retry(
+            dl.taiwan_stock_institutional_investors_total,
+            start_date=inst_start, end_date=today
         )
         if len(inst) > 0:
             ld = inst[inst['date'] == inst['date'].max()]
@@ -193,8 +215,9 @@ def fetch_tw_data():
                 retail_data['foreign_consecutive_direction'] = direction
 
         # TSMC margin
-        tsmc_margin = dl.taiwan_stock_margin_purchase_short_sale(
-            stock_id='2330', start_date='2026-02-01', end_date=today
+        tsmc_margin = finmind_with_retry(
+            dl.taiwan_stock_margin_purchase_short_sale,
+            stock_id='2330', start_date=margin_start, end_date=today
         )
         if len(tsmc_margin) > 0:
             tl = int(tsmc_margin.iloc[-1]['MarginPurchaseTodayBalance'])
@@ -213,11 +236,13 @@ def fetch_jp_data():
     """Fetch Japan market data from Yahoo Finance."""
     import yfinance as yf
 
+    # 400 days ensures 252+ trading days for rolling 52w high calculation
+    start_400d = (datetime.now() - timedelta(days=400)).strftime('%Y-%m-%d')
     start_90d = (datetime.now() - timedelta(days=90)).strftime('%Y-%m-%d')
     end = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
 
     print("[JP] Fetching from Yahoo Finance...")
-    nikkei = yf.download('^N225', start=start_90d, end=end, progress=False)
+    nikkei = yf.download('^N225', start=start_400d, end=end, progress=False, auto_adjust=True)
 
     def safe(df):
         c = df['Close']
@@ -248,11 +273,12 @@ def fetch_kr_data():
     """Fetch Korea market data from Yahoo Finance."""
     import yfinance as yf
 
-    start_90d = (datetime.now() - timedelta(days=90)).strftime('%Y-%m-%d')
+    # 400 days ensures 252+ trading days for rolling 52w high calculation
+    start_400d = (datetime.now() - timedelta(days=400)).strftime('%Y-%m-%d')
     end = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
 
     print("[KR] Fetching from Yahoo Finance...")
-    kospi = yf.download('^KS11', start=start_90d, end=end, progress=False)
+    kospi = yf.download('^KS11', start=start_400d, end=end, progress=False, auto_adjust=True)
 
     def safe(df):
         c = df['Close']
@@ -283,11 +309,12 @@ def fetch_eu_data():
     """Fetch Europe market data from Yahoo Finance."""
     import yfinance as yf
 
-    start_90d = (datetime.now() - timedelta(days=90)).strftime('%Y-%m-%d')
+    # 400 days ensures 252+ trading days for rolling 52w high calculation
+    start_400d = (datetime.now() - timedelta(days=400)).strftime('%Y-%m-%d')
     end = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
 
     print("[EU] Fetching from Yahoo Finance...")
-    stoxx = yf.download('^STOXX50E', start=start_90d, end=end, progress=False)
+    stoxx = yf.download('^STOXX50E', start=start_400d, end=end, progress=False, auto_adjust=True)
 
     def safe(df):
         c = df['Close']
