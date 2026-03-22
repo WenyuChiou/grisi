@@ -89,6 +89,272 @@ def sanitize_for_json(obj):
 
 
 
+MARKET_TICKERS = {
+    'us': 'SPY',
+    'tw': '^TWII',
+    'jp': '^N225',
+    'kr': '^KS11',
+    'eu': '^STOXX50E',
+}
+
+
+def validate_market_open(date, market):
+    """Check if a market was open on the given date.
+
+    Uses yfinance to verify whether a valid (non-zero) price exists for
+    that date. Returns True if the market was open, False if closed.
+
+    Args:
+        date: Date string 'YYYY-MM-DD' or datetime object.
+        market: One of 'us', 'tw', 'jp', 'kr', 'eu'.
+
+    Returns:
+        bool: True if market was open on that date.
+    """
+    import pandas as pd
+
+    if isinstance(date, datetime):
+        date_str = date.strftime('%Y-%m-%d')
+    else:
+        date_str = str(date)
+
+    ticker = MARKET_TICKERS.get(market.lower())
+    if not ticker:
+        print(f"[VALIDATE] Unknown market: {market}")
+        return True  # Assume open if unknown
+
+    check_date = datetime.strptime(date_str, '%Y-%m-%d')
+    start = (check_date - timedelta(days=10)).strftime('%Y-%m-%d')
+    end = (check_date + timedelta(days=2)).strftime('%Y-%m-%d')
+
+    try:
+        raw = yf_download_with_retry(ticker, start=start, end=end, progress=False, auto_adjust=True)
+        if raw is None or raw.empty:
+            print(f"[VALIDATE] {market.upper()}/{ticker}: no data returned for {date_str}, assuming closed")
+            return False
+
+        close = raw['Close']
+        if isinstance(close, pd.DataFrame):
+            close = close.iloc[:, 0]
+        close = close.dropna()
+        close = close[close > 0]  # Remove zero/invalid prices
+
+        if close.empty:
+            return False
+
+        if hasattr(close.index, 'tz') and close.index.tz is not None:
+            close.index = close.index.tz_localize(None)
+
+        dates_in_data = {d.strftime('%Y-%m-%d') for d in close.index}
+        is_open = date_str in dates_in_data
+
+        if not is_open:
+            valid_before = sorted(d for d in dates_in_data if d <= date_str)
+            last_td = valid_before[-1] if valid_before else 'unknown'
+            print(f"[VALIDATE] {market.upper()}: CLOSED on {date_str} (last trading day: {last_td})")
+
+        return is_open
+    except Exception as e:
+        print(f"[VALIDATE] Error checking {market.upper()} on {date_str}: {e}")
+        return True  # Fail-safe: assume open to avoid skipping valid data
+
+
+def get_last_valid_score(market):
+    """Get the most recent valid score for a market (used for carry-forward on holidays).
+
+    Args:
+        market: One of 'us', 'tw', 'jp', 'kr', 'eu'.
+
+    Returns:
+        float or None: Last valid score, or None if not found.
+    """
+    import csv as csv_module
+
+    market = market.lower()
+
+    if market in ('us', 'tw'):
+        csv_path = os.path.join(DATA_DIR, 'historical_scores.csv')
+        if os.path.exists(csv_path):
+            with open(csv_path, 'r', encoding='utf-8') as f:
+                rows = list(csv_module.DictReader(f))
+            col = f'{market}_score'
+            for row in reversed(rows):
+                val = row.get(col, '').strip()
+                if val:
+                    try:
+                        return float(val)
+                    except ValueError:
+                        continue
+    else:
+        ov_path = os.path.join(DATA_DIR, 'overlay_data.json')
+        if os.path.exists(ov_path):
+            with open(ov_path, 'r', encoding='utf-8') as f:
+                ov = json.load(f)
+            scores = ov.get(f'{market}_score', [])
+            for s in reversed(scores):
+                if s is not None:
+                    return float(s)
+
+    return None
+
+
+def clean_holiday_anomalies(sync_docs=True):
+    """Retroactively fix holiday/market-closed artifacts in overlay_data.json
+    and historical_scores.csv.
+
+    For each (date, score) entry:
+      - If the date has no corresponding price data (market was closed), replace
+        the score with the previous valid day's carry-forward value.
+      - Also detects sudden >50% score drops/spikes that recover the next day
+        (classic holiday artifact pattern).
+
+    Args:
+        sync_docs: If True, sync fixed files to docs/data/ after cleanup.
+    """
+    import csv as csv_module
+    import shutil
+
+    ov_path = os.path.join(DATA_DIR, 'overlay_data.json')
+    csv_path = os.path.join(DATA_DIR, 'historical_scores.csv')
+
+    if not os.path.exists(ov_path):
+        print("[CLEAN] overlay_data.json not found, skipping")
+        return
+
+    with open(ov_path, 'r', encoding='utf-8') as f:
+        ov = json.load(f)
+
+    fixed_count = 0
+
+    # (score_dates_key, score_key, price_dates_key) for each market
+    market_configs = [
+        ('dates', 'us_score', 'spy_dates'),
+        ('dates', 'tw_score', 'twii_dates'),
+        ('jp_dates', 'jp_score', 'nikkei_dates'),
+        ('kr_dates', 'kr_score', 'kospi_dates'),
+        ('eu_dates', 'eu_score', 'stoxx50_dates'),
+    ]
+
+    for dates_key, score_key, price_dates_key in market_configs:
+        score_dates = ov.get(dates_key, [])
+        scores = ov.get(score_key, [])
+        price_dates_set = set(ov.get(price_dates_key, []))
+
+        if not score_dates or not scores:
+            continue
+        if len(score_dates) != len(scores):
+            print(f"[CLEAN] {score_key}: dates/scores length mismatch, skipping")
+            continue
+
+        new_scores = list(scores)
+        last_valid_score = None
+
+        # Pass 1: carry-forward for dates with no price data
+        for i, (date, score) in enumerate(zip(score_dates, scores)):
+            if score is None:
+                continue
+            if date in price_dates_set:
+                # Valid trading day — update last known good score
+                if float(score) > 0:
+                    last_valid_score = score
+            else:
+                # No price for this date → market was closed
+                if last_valid_score is not None:
+                    print(f"[CLEAN] {score_key} {date}: {score} → {last_valid_score} (no price, carry-forward)")
+                    new_scores[i] = last_valid_score
+                    fixed_count += 1
+
+        # Pass 2: spike/dip detection (>50% deviation from both neighbors)
+        for i in range(1, len(new_scores) - 1):
+            s_prev = new_scores[i - 1]
+            s_curr = new_scores[i]
+            s_next = new_scores[i + 1]
+            if s_prev is None or s_curr is None or s_next is None:
+                continue
+            if s_prev <= 0 or s_next <= 0:
+                continue
+            pct_from_prev = abs(s_curr - s_prev) / s_prev * 100
+            pct_from_next = abs(s_curr - s_next) / s_next * 100
+            if pct_from_prev > 50 and pct_from_next > 50:
+                fixed_val = round((s_prev + s_next) / 2, 1)
+                print(f"[CLEAN] {score_key} {score_dates[i]}: spike/dip {s_curr} → {fixed_val} "
+                      f"(neighbors: {s_prev}, {s_next})")
+                new_scores[i] = fixed_val
+                fixed_count += 1
+
+        ov[score_key] = new_scores
+
+    print(f"[CLEAN] Fixed {fixed_count} anomalies in overlay_data.json")
+
+    ov = sanitize_for_json(ov)
+    with open(ov_path, 'w', encoding='utf-8') as f:
+        json.dump(ov, f, ensure_ascii=False)
+    print("[CLEAN] Saved overlay_data.json")
+
+    # ── Fix historical_scores.csv (US/TW) ──
+    if os.path.exists(csv_path):
+        spy_dates_set = set(ov.get('spy_dates', []))
+        twii_dates_set = set(ov.get('twii_dates', []))
+
+        with open(csv_path, 'r', encoding='utf-8', newline='') as f:
+            rows = list(csv_module.DictReader(f))
+
+        csv_fixed = 0
+        last_us = None
+        last_tw = None
+
+        for row in rows:
+            date = row.get('date', '')
+            us_str = row.get('us_score', '').strip()
+            tw_str = row.get('tw_score', '').strip()
+
+            us_val = float(us_str) if us_str else None
+            tw_val = float(tw_str) if tw_str else None
+
+            us_changed = tw_changed = False
+
+            if us_val is not None:
+                if date not in spy_dates_set and last_us is not None:
+                    print(f"[CLEAN-CSV] us_score {date}: {us_val} → {last_us} (no SPY price)")
+                    row['us_score'] = str(last_us)
+                    us_changed = True
+                    csv_fixed += 1
+                else:
+                    last_us = us_val
+
+            if tw_val is not None:
+                if date not in twii_dates_set and last_tw is not None:
+                    print(f"[CLEAN-CSV] tw_score {date}: {tw_val} → {last_tw} (no TWII price)")
+                    row['tw_score'] = str(last_tw)
+                    tw_changed = True
+                    csv_fixed += 1
+                else:
+                    last_tw = tw_val
+
+            if us_changed or tw_changed:
+                us_v = float(row.get('us_score', 0) or 0)
+                tw_v = float(row.get('tw_score', 0) or 0)
+                row['divergence'] = str(round(abs(us_v - tw_v), 1))
+
+        print(f"[CLEAN-CSV] Fixed {csv_fixed} rows in historical_scores.csv")
+
+        with open(csv_path, 'w', encoding='utf-8', newline='') as f:
+            writer = csv_module.DictWriter(f, fieldnames=['date', 'us_score', 'tw_score', 'divergence'])
+            writer.writeheader()
+            writer.writerows(rows)
+        print("[CLEAN-CSV] Saved historical_scores.csv")
+
+    # ── Sync to docs/data/ ──
+    if sync_docs:
+        docs_data_dir = os.path.normpath(os.path.join(DATA_DIR, '..', 'docs', 'data'))
+        if os.path.isdir(docs_data_dir):
+            for fname in ['overlay_data.json', 'historical_scores.csv']:
+                src = os.path.join(DATA_DIR, fname)
+                if os.path.exists(src):
+                    shutil.copy2(src, os.path.join(docs_data_dir, fname))
+            print("[CLEAN] Synced cleaned files → docs/data/")
+
+
 def fetch_us_data():
     """Fetch US market data from Yahoo Finance."""
     import yfinance as yf
@@ -135,8 +401,16 @@ def fetch_us_data():
         'USDJPY': round(float(safe(usdjpy).iloc[-1]), 2),
     }
 
+    today = datetime.now().strftime('%Y-%m-%d')
+    spy_idx = spy_c.index.tz_localize(None) if (hasattr(spy_c.index, 'tz') and spy_c.index.tz is not None) else spy_c.index
+    spy_dates = [d.strftime('%Y-%m-%d') for d in spy_idx]
+    market_open = today in spy_dates and float(spy_c.iloc[-1]) > 0
+    if not market_open:
+        last_date = spy_dates[-1] if spy_dates else 'none'
+        print(f"[US] Market CLOSED on {today} (last trading date in data: {last_date})")
+
     print(f"[US] SPY=${data['SPY_close']}, VIX={data['VIX']}, RSI={data['SPY_RSI14']}")
-    return data, global_ctx
+    return data, global_ctx, market_open
 
 
 def fetch_tw_data():
@@ -252,8 +526,16 @@ def fetch_tw_data():
     except Exception as e:
         print(f"[TW] FinMind partial error: {e}")
 
+    today = datetime.now().strftime('%Y-%m-%d')
+    twii_idx = twii_c.index.tz_localize(None) if (hasattr(twii_c.index, 'tz') and twii_c.index.tz is not None) else twii_c.index
+    twii_dates = [d.strftime('%Y-%m-%d') for d in twii_idx]
+    market_open = today in twii_dates and float(twii_c.iloc[-1]) > 0
+    if not market_open:
+        last_date = twii_dates[-1] if twii_dates else 'none'
+        print(f"[TW] Market CLOSED on {today} (last trading date in data: {last_date})")
+
     print(f"[TW] TAIEX={market_data['TAIEX_close']}, TSMC={market_data['TSMC_close']}")
-    return market_data, retail_data, usdtwd_val
+    return market_data, retail_data, usdtwd_val, market_open
 
 
 def fetch_jp_data():
@@ -289,8 +571,16 @@ def fetch_jp_data():
         'NIKKEI_20d_return_pct': round(float((nk_c.iloc[-1] / nk_c.iloc[-21] - 1) * 100), 2),
     }
 
+    today = datetime.now().strftime('%Y-%m-%d')
+    nk_idx = nk_c.index.tz_localize(None) if (hasattr(nk_c.index, 'tz') and nk_c.index.tz is not None) else nk_c.index
+    nk_dates = [d.strftime('%Y-%m-%d') for d in nk_idx]
+    market_open = today in nk_dates and float(nk_c.iloc[-1]) > 0
+    if not market_open:
+        last_date = nk_dates[-1] if nk_dates else 'none'
+        print(f"[JP] Market CLOSED on {today} (last trading date in data: {last_date})")
+
     print(f"[JP] Nikkei={market_data['NIKKEI_close']}, RSI={market_data['NIKKEI_RSI14']}")
-    return market_data
+    return market_data, market_open
 
 
 def fetch_kr_data():
@@ -325,8 +615,16 @@ def fetch_kr_data():
         'KOSPI_20d_return_pct': round(float((ks_c.iloc[-1] / ks_c.iloc[-21] - 1) * 100), 2),
     }
 
+    today = datetime.now().strftime('%Y-%m-%d')
+    ks_idx = ks_c.index.tz_localize(None) if (hasattr(ks_c.index, 'tz') and ks_c.index.tz is not None) else ks_c.index
+    ks_dates = [d.strftime('%Y-%m-%d') for d in ks_idx]
+    market_open = today in ks_dates and float(ks_c.iloc[-1]) > 0
+    if not market_open:
+        last_date = ks_dates[-1] if ks_dates else 'none'
+        print(f"[KR] Market CLOSED on {today} (last trading date in data: {last_date})")
+
     print(f"[KR] KOSPI={market_data['KOSPI_close']}, RSI={market_data['KOSPI_RSI14']}")
-    return market_data
+    return market_data, market_open
 
 
 def fetch_eu_data():
@@ -361,8 +659,16 @@ def fetch_eu_data():
         'STOXX50_20d_return_pct': round(float((sx_c.iloc[-1] / sx_c.iloc[-21] - 1) * 100), 2),
     }
 
+    today = datetime.now().strftime('%Y-%m-%d')
+    sx_idx = sx_c.index.tz_localize(None) if (hasattr(sx_c.index, 'tz') and sx_c.index.tz is not None) else sx_c.index
+    sx_dates = [d.strftime('%Y-%m-%d') for d in sx_idx]
+    market_open = today in sx_dates and float(sx_c.iloc[-1]) > 0
+    if not market_open:
+        last_date = sx_dates[-1] if sx_dates else 'none'
+        print(f"[EU] Market CLOSED on {today} (last trading date in data: {last_date})")
+
     print(f"[EU] STOXX50={market_data['STOXX50_close']}, RSI={market_data['STOXX50_RSI14']}")
-    return market_data
+    return market_data, market_open
 
 
 def compute_score(market_data, prefix):
@@ -513,8 +819,14 @@ def update_dashboard_json(snapshot, jp_score=None, kr_score=None, eu_score=None)
     print("[SAVE] dashboard_data.json updated")
 
 
-def update_overlay_json(snapshot, jp_score=None, kr_score=None, eu_score=None):
-    """Append today's scores and prices to overlay_data.json (used by overlay chart)."""
+def update_overlay_json(snapshot, jp_score=None, kr_score=None, eu_score=None,
+                        us_open=True, tw_open=True, jp_open=True, kr_open=True, eu_open=True):
+    """Append today's scores and prices to overlay_data.json (used by overlay chart).
+
+    Only writes price entries for markets that were actually open today (us_open, tw_open, etc.).
+    Carry-forward scores are still written regardless of open status, but prices from stale
+    (closed-market) fetches are skipped to prevent holiday artifacts.
+    """
     ov_path = os.path.join(DATA_DIR, 'overlay_data.json')
     if not os.path.exists(ov_path):
         print("[SKIP] overlay_data.json not found")
@@ -558,11 +870,16 @@ def update_overlay_json(snapshot, jp_score=None, kr_score=None, eu_score=None):
                 ov.setdefault(dates_key, []).append(today)
                 ov.setdefault(price_key, []).append(round(float(value), 2))
 
-    append_price('spy_dates', 'spy', us_mkt.get('SPY_close'))
-    append_price('twii_dates', 'twii', tw_mkt.get('TAIEX_close'))
-    append_price('nikkei_dates', 'nikkei', jp_mkt.get('NIKKEI_close'))
-    append_price('kospi_dates', 'kospi', kr_mkt.get('KOSPI_close'))
-    append_price('stoxx50_dates', 'stoxx50', eu_mkt.get('STOXX50_close'))
+    if us_open:
+        append_price('spy_dates', 'spy', us_mkt.get('SPY_close'))
+    if tw_open:
+        append_price('twii_dates', 'twii', tw_mkt.get('TAIEX_close'))
+    if jp_open:
+        append_price('nikkei_dates', 'nikkei', jp_mkt.get('NIKKEI_close'))
+    if kr_open:
+        append_price('kospi_dates', 'kospi', kr_mkt.get('KOSPI_close'))
+    if eu_open:
+        append_price('stoxx50_dates', 'stoxx50', eu_mkt.get('STOXX50_close'))
 
     # JP/KR/EU scores
     for mkt, score_val, d_key, s_key in [
@@ -1209,10 +1526,12 @@ def main():
     parser.add_argument('--jp', action='store_true', help='Update Japan only')
     parser.add_argument('--kr', action='store_true', help='Update Korea only')
     parser.add_argument('--eu', action='store_true', help='Update Europe only')
+    parser.add_argument('--clean', action='store_true',
+                        help='Retroactively clean holiday anomalies in overlay_data.json and historical_scores.csv')
     args = parser.parse_args()
 
     # Default: update all markets
-    any_selected = args.us or args.tw or args.jp or args.kr or args.eu
+    any_selected = args.us or args.tw or args.jp or args.kr or args.eu or args.clean
     if not any_selected:
         args.us = True
         args.tw = True
@@ -1224,50 +1543,90 @@ def main():
     print(f"Moodring Daily Update — {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     print("=" * 50)
 
+    # Retroactive cleanup mode
+    if args.clean:
+        print("\n[CLEAN] Running retroactive holiday anomaly cleanup...")
+        clean_holiday_anomalies(sync_docs=True)
+        if not any(v for k, v in vars(args).items() if k != 'clean' and v):
+            print("\n[DONE] Cleanup complete.")
+            return
+
+    today = datetime.now().strftime('%Y-%m-%d')
+
     us_data = global_ctx = None
     tw_data = tw_retail = None
     usdtwd = None
     jp_data = kr_data = eu_data = None
     jp_score_val = kr_score_val = eu_score_val = None
+    us_open = tw_open = jp_open = kr_open = eu_open = True  # assume open unless detected closed
 
     if args.us:
-        us_data, global_ctx = fetch_us_data()
+        us_data, global_ctx, us_open = fetch_us_data()
 
     if args.tw:
-        tw_data, tw_retail, usdtwd = fetch_tw_data()
+        tw_data, tw_retail, usdtwd, tw_open = fetch_tw_data()
 
     if args.jp:
-        jp_data = fetch_jp_data()
-        jp_score_val = compute_score(jp_data, 'NIKKEI')
+        jp_data, jp_open = fetch_jp_data()
+        if jp_open:
+            jp_score_val = compute_score(jp_data, 'NIKKEI')
+        else:
+            jp_score_val = get_last_valid_score('jp')
+            print(f"[JP] Market CLOSED — carry-forward score: {jp_score_val}")
         jp_data['jp_moodring_score'] = jp_score_val
         print(f"[JP] Moodring score: {jp_score_val}")
 
     if args.kr:
-        kr_data = fetch_kr_data()
-        kr_score_val = compute_score(kr_data, 'KOSPI')
+        kr_data, kr_open = fetch_kr_data()
+        if kr_open:
+            kr_score_val = compute_score(kr_data, 'KOSPI')
+        else:
+            kr_score_val = get_last_valid_score('kr')
+            print(f"[KR] Market CLOSED — carry-forward score: {kr_score_val}")
         kr_data['kr_moodring_score'] = kr_score_val
         print(f"[KR] Moodring score: {kr_score_val}")
 
     if args.eu:
-        eu_data = fetch_eu_data()
-        eu_score_val = compute_score(eu_data, 'STOXX50')
+        eu_data, eu_open = fetch_eu_data()
+        if eu_open:
+            eu_score_val = compute_score(eu_data, 'STOXX50')
+        else:
+            eu_score_val = get_last_valid_score('eu')
+            print(f"[EU] Market CLOSED — carry-forward score: {eu_score_val}")
         eu_data['eu_moodring_score'] = eu_score_val
         print(f"[EU] Moodring score: {eu_score_val}")
 
-    # Compute US/TW scores and persist to historical_scores.csv
-    us_score_val = compute_score(us_data, 'SPY') if us_data else None
-    tw_score_val = compute_score(tw_data, 'TAIEX') if tw_data else None
-    if us_score_val is not None:
-        print(f"[US] Moodring score: {us_score_val}")
-    if tw_score_val is not None:
-        print(f"[TW] Moodring score: {tw_score_val}")
+    # Compute US/TW scores (or carry-forward if market closed)
+    if args.us:
+        if us_open and us_data:
+            us_score_val = compute_score(us_data, 'SPY')
+        else:
+            us_score_val = get_last_valid_score('us')
+            print(f"[US] Market CLOSED — carry-forward score: {us_score_val}")
+        if us_score_val is not None:
+            print(f"[US] Moodring score: {us_score_val}")
+    else:
+        us_score_val = None
+
+    if args.tw:
+        if tw_open and tw_data:
+            tw_score_val = compute_score(tw_data, 'TAIEX')
+        else:
+            tw_score_val = get_last_valid_score('tw')
+            print(f"[TW] Market CLOSED — carry-forward score: {tw_score_val}")
+        if tw_score_val is not None:
+            print(f"[TW] Moodring score: {tw_score_val}")
+    else:
+        tw_score_val = None
     if us_score_val is not None or tw_score_val is not None:
         append_scores_to_csv(us_score=us_score_val, tw_score=tw_score_val)
 
     snapshot = update_snapshot(us_data, tw_data, tw_retail, global_ctx, usdtwd,
                               jp_data, kr_data, eu_data)
     update_dashboard_json(snapshot, jp_score_val, kr_score_val, eu_score_val)
-    update_overlay_json(snapshot, jp_score_val, kr_score_val, eu_score_val)
+    update_overlay_json(snapshot, jp_score_val, kr_score_val, eu_score_val,
+                        us_open=us_open, tw_open=tw_open, jp_open=jp_open,
+                        kr_open=kr_open, eu_open=eu_open)
     update_agent_results(snapshot, us_data, tw_data, tw_retail, jp_data, kr_data, eu_data, global_ctx)
 
     # 建立 compute_score 參考值供 sanity check 使用

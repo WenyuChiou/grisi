@@ -82,6 +82,7 @@ def main():
         if isinstance(raw.columns, pd.MultiIndex):
             raw.columns = raw.columns.get_level_values(0)
         series = raw['Close'].dropna()
+        series = series[series > 0]  # Remove zero prices (holiday/data artifacts)
         if hasattr(series.index, 'tz') and series.index.tz is not None:
             series.index = series.index.tz_localize(None)
         prices[name] = series
