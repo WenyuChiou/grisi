@@ -45,6 +45,28 @@ def finmind_with_retry(fn, *args, max_retries=3, backoff=10, **kwargs):
             else:
                 raise
 
+def yf_download_with_retry(ticker, max_retries=3, **kwargs):
+    """Wrap yf.download() with exponential backoff (5s, 10s, 20s) on transient errors."""
+    delays = [5, 10, 20]
+    for attempt in range(max_retries):
+        try:
+            result = getattr(yf, 'download')(ticker, **kwargs)
+            if result is not None and not result.empty:
+                return result
+            if attempt < max_retries - 1:
+                wait = delays[attempt]
+                print(f"[yfinance] Empty result for {ticker}, retrying in {wait}s (attempt {attempt+1}/{max_retries})...")
+                time.sleep(wait)
+            else:
+                return result
+        except Exception as e:
+            if attempt < max_retries - 1:
+                wait = delays[attempt]
+                print(f"[yfinance] Error fetching {ticker}: {e}, retrying in {wait}s (attempt {attempt+1}/{max_retries})...")
+                time.sleep(wait)
+            else:
+                raise
+
 def safe_round(val, decimals=2):
     """Round a value, converting NaN/inf to None for JSON safety."""
     import math
@@ -76,11 +98,11 @@ def fetch_us_data():
     end = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
 
     print("[US] Fetching from Yahoo Finance...")
-    spy = yf.download('SPY', start=start_90d, end=end, progress=False, auto_adjust=True)
-    vix = yf.download('^VIX', start=start_90d, end=end, progress=False, auto_adjust=True)
-    tnx = yf.download('^TNX', start=(datetime.now()-timedelta(30)).strftime('%Y-%m-%d'), end=end, progress=False, auto_adjust=True)
-    gold = yf.download('GC=F', period='1mo', progress=False, auto_adjust=True)
-    usdjpy = yf.download('USDJPY=X', period='1mo', progress=False, auto_adjust=True)
+    spy = yf_download_with_retry('SPY', start=start_90d, end=end, progress=False, auto_adjust=True)
+    vix = yf_download_with_retry('^VIX', start=start_90d, end=end, progress=False, auto_adjust=True)
+    tnx = yf_download_with_retry('^TNX', start=(datetime.now()-timedelta(30)).strftime('%Y-%m-%d'), end=end, progress=False, auto_adjust=True)
+    gold = yf_download_with_retry('GC=F', period='1mo', progress=False, auto_adjust=True)
+    usdjpy = yf_download_with_retry('USDJPY=X', period='1mo', progress=False, auto_adjust=True)
 
     def safe(df):
         c = df['Close']
@@ -126,9 +148,9 @@ def fetch_tw_data():
     end = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
 
     print("[TW] Fetching from Yahoo Finance...")
-    twii = yf.download('^TWII', start=start_90d, end=end, progress=False, auto_adjust=True)
-    tsmc = yf.download('2330.TW', start=start_90d, end=end, progress=False, auto_adjust=True)
-    usdtwd = yf.download('TWD=X', period='1mo', progress=False, auto_adjust=True)
+    twii = yf_download_with_retry('^TWII', start=start_90d, end=end, progress=False, auto_adjust=True)
+    tsmc = yf_download_with_retry('2330.TW', start=start_90d, end=end, progress=False, auto_adjust=True)
+    usdtwd = yf_download_with_retry('TWD=X', period='1mo', progress=False, auto_adjust=True)
 
     def safe(df):
         c = df['Close']
@@ -244,7 +266,7 @@ def fetch_jp_data():
     end = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
 
     print("[JP] Fetching from Yahoo Finance...")
-    nikkei = yf.download('^N225', start=start_400d, end=end, progress=False, auto_adjust=True)
+    nikkei = yf_download_with_retry('^N225', start=start_400d, end=end, progress=False, auto_adjust=True)
 
     def safe(df):
         c = df['Close']
@@ -280,7 +302,7 @@ def fetch_kr_data():
     end = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
 
     print("[KR] Fetching from Yahoo Finance...")
-    kospi = yf.download('^KS11', start=start_400d, end=end, progress=False, auto_adjust=True)
+    kospi = yf_download_with_retry('^KS11', start=start_400d, end=end, progress=False, auto_adjust=True)
 
     def safe(df):
         c = df['Close']
@@ -316,7 +338,7 @@ def fetch_eu_data():
     end = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
 
     print("[EU] Fetching from Yahoo Finance...")
-    stoxx = yf.download('^STOXX50E', start=start_400d, end=end, progress=False, auto_adjust=True)
+    stoxx = yf_download_with_retry('^STOXX50E', start=start_400d, end=end, progress=False, auto_adjust=True)
 
     def safe(df):
         c = df['Close']

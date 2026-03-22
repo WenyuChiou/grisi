@@ -622,7 +622,8 @@ function renderThermometer(score, pctile, zoneReturns, mktKey) {
       if (avg !== undefined && win !== undefined) {
         const sign = avg >= 0 ? '+' : '';
         expectedEl.style.color = avg >= 0 ? '#3fb950' : '#f85149';
-        expectedEl.textContent = 'Expected: ' + sign + avg.toFixed(2) + '% / 20d (' + win.toFixed(0) + '% win) — based on ' + (zoneReturns.period || '10yr');
+        expectedEl.innerHTML = 'Expected: ' + sign + avg.toFixed(2) + '% / 20d (' + win.toFixed(0) + '% win) — based on ' + (zoneReturns.period || '10yr')
+          + ' <small style="color:#6e7681;font-size:0.85em;">⚠️ 歷史觀察，非預測保證 — 不構成投資建議</small>';
       }
     }
   }
@@ -690,7 +691,7 @@ function renderRangeBars(containerId, data, periods, keys) {
   </div>
   <div class="rbar-meta"><span class="rbar-avg">avg ${avgSign}${mean.toFixed(1)}%</span>&nbsp;·&nbsp;<span class="${wrClass}">${wr.toFixed(0)}% win</span></div>
 </div>`;
-  }).join('');
+  }).join('') + '<div style="color:#6e7681;font-size:0.72em;margin-top:6px;">⚠️ 歷史觀察，非預測保證 — 不構成投資建議</div>';
 }
 
 // ── Agent section renderer ────────────────────────────────────────────────────
@@ -968,6 +969,7 @@ function renderMemoryScene(memData, mktKey) {
       <div><span style="color:#8b949e;">Win rate: </span><span style="color:${wrClr};font-weight:700;">${s.win_rate_20d.toFixed(0)}%</span></div>
       <div><span style="color:#8b949e;">Best: </span><span style="color:#3fb950;">${s.best_analogue}</span></div>
       <div><span style="color:#8b949e;">Worst: </span><span style="color:#f85149;">${s.worst_analogue}</span></div>
+      <div style="width:100%;color:#6e7681;font-size:0.72em;margin-top:4px;">⚠️ 歷史觀察，非預測保證 — 不構成投資建議</div>
     </div>`;
 
   // Cross-market
