@@ -9,12 +9,12 @@
     "behavioral_theory": "Prospect Theory (Kahneman & Tversky, 1979), Herding Model (Banerjee, 1992)"
   },
   "us_base_score": 50.3,
-  "tw_base_score": 46.8,
+  "tw_base_score": 49.5,
   "us_agent": {
     "adjusted_score_delta": -1,
     "sentiment_level": "FEARFUL",
     "conviction": "HIGH",
-    "narrative": "SPY at 655. RSI 34.6 (near oversold). 5d return -1.8%. 20d return -3.7%. Moodring score 50.3 (neutral — no strong directional signal). VIX at 26.15 (elevated). Gold $4,348.",
+    "narrative": "SPY at 655. RSI 30.1 (near oversold). 5d return -2.0%. 20d return -4.4%. Moodring score 50.3 (neutral — no strong directional signal). VIX at 26.42 (elevated). Gold $4,404.",
     "key_factors": [
       "RSI 30.0 觸及超賣邊緣 — 技術性反彈機率升高",
       "SPY 低於 SMA20/SMA60 雙線 — 下行趨勢仍在",
@@ -23,13 +23,13 @@
     ],
     "what_quant_misses": "RSI 剛好站在 30 的邊界，是技術型策略常見的觸發點，可能引發程序性買盤。但 VIX 期限結構和信用利差（IG/HY spread）比 spot VIX 更能判斷系統性風險是否真的升高。10Y 殖利率微升也代表市場對聯準會降息時程預期仍在分歧中。",
     "forward_outlook": "短線超賣反彈機率高，阻力在 SMA20 $677.72。若 VIX 突破 30 則恐慌可能先加速再反轉，不宜搶反彈。歷史上 Moodring 39 區間 20 日中位數報酬 +3.24%，長期勝率有利於耐心持有者。",
-    "narrative_en": "SPY at 655. RSI 34.6 (near oversold). 5d return -1.8%. 20d return -3.7%. Moodring score 50.3 (neutral — no strong directional signal). VIX at 26.15 (elevated). Gold $4,348."
+    "narrative_en": "SPY at 655. RSI 30.1 (near oversold). 5d return -2.0%. 20d return -4.4%. Moodring score 50.3 (neutral — no strong directional signal). VIX at 26.42 (elevated). Gold $4,404."
   },
   "tw_agent": {
     "adjusted_score_delta": 2,
     "sentiment_level": "CAUTIOUS",
     "conviction": "MEDIUM",
-    "narrative": "TAIEX at 32,804. Moodring score 46.8 (neutral — no strong directional signal). Foreign investors net sell TWD 839.2B, 3d consecutive sell. Margin balance 5d change -0.2%. TSMC margin 30d change +14.2%.",
+    "narrative": "TAIEX at 32,612. Moodring score 49.5 (neutral — no strong directional signal). Foreign investors net sell TWD 123.1B, 4d consecutive sell. Margin balance 5d change -1.0%. TSMC margin 30d change +14.8%.",
     "key_factors": [
       "台積電融資月增 +26.4% — 散戶槓桿加速集中單一權值股",
       "融資餘額 5 日 +1.53% — 整體散戶槓桿擴張",
@@ -39,7 +39,7 @@
     ],
     "what_quant_misses": "台積電融資從月增 20% 跳升到 26% 只花了一天，這種加速度比絕對水位更危險——代表散戶正在追漲或攤平。若台積電補跌，融資追繳壓力將連動 TAIEX 下行。外資連賣天數只有 1 天，無法判斷是換手還是持續性出場。",
     "forward_outlook": "短期盤整偏弱。若外資連賣超過 3 天，下行風險明顯升高。若外資翻買（連買 2-3 天確認），Moodring 38.7 有反彈空間。關鍵觀察：台積電融資是否繼續攀升、外資方向轉變。",
-    "narrative_en": "TAIEX at 32,804. Moodring score 46.8 (neutral — no strong directional signal). Foreign investors net sell TWD 839.2B, 3d consecutive sell. Margin balance 5d change -0.2%. TSMC margin 30d change +14.2%."
+    "narrative_en": "TAIEX at 32,612. Moodring score 49.5 (neutral — no strong directional signal). Foreign investors net sell TWD 123.1B, 4d consecutive sell. Margin balance 5d change -1.0%. TSMC margin 30d change +14.8%."
   },
   "summary": {
     "us_final_score": 38.1,
@@ -52,7 +52,7 @@
     "adjusted_score_delta": 0,
     "sentiment_level": "NEUTRAL",
     "conviction": "MEDIUM",
-    "narrative": "Nikkei at 51,909. RSI 36.0 (neutral). 5d return -3.4%. 20d return -8.7%. Moodring score 27.9 (fearful — contrarian opportunity building).",
+    "narrative": "Nikkei at 52,252. RSI 37.4 (neutral). 5d return -2.8%. 20d return -8.1%. Moodring score 30.4 (fearful — contrarian opportunity building).",
     "key_factors": [
       "RSI 32.8 接近超賣 — 短線反彈機率升高",
       "USDJPY 157.75 — 日圓轉強，出口股壓力浮現",
@@ -61,13 +61,13 @@
     ],
     "what_quant_misses": "BOJ 利率決策和日圓套利交易平倉是目前日股最大不確定因素，非技術指標可以量化。日圓一旦快速升值（如 USD/JPY 跌破 155），可能引發套利交易大規模平倉。",
     "forward_outlook": "偏觀望。日圓方向是關鍵變數，需觀察 BOJ 訊號。RSI 接近超賣提供技術反彈可能性，但需美股配合提供方向。",
-    "narrative_en": "Nikkei at 51,909. RSI 36.0 (neutral). 5d return -3.4%. 20d return -8.7%. Moodring score 27.9 (fearful — contrarian opportunity building)."
+    "narrative_en": "Nikkei at 52,252. RSI 37.4 (neutral). 5d return -2.8%. 20d return -8.1%. Moodring score 30.4 (fearful — contrarian opportunity building)."
   },
   "kr_agent": {
     "adjusted_score_delta": 0,
     "sentiment_level": "GREEDY",
     "conviction": "MEDIUM",
-    "narrative": "KOSPI at 5,521. RSI 58.9 (neutral). 5d return -2.1%. 20d return -5.6%. Moodring score 39.5 (fearful — contrarian opportunity building).",
+    "narrative": "KOSPI at 5,554. RSI 59.4 (neutral). 5d return -1.5%. 20d return -5.0%. Moodring score 41.6 (neutral — no strong directional signal).",
     "key_factors": [
       "KOSPI 5 日 +3.22% — 五市場最強",
       "Moodring 71.5 — 貪婪區，追高報酬衰減期",
@@ -75,13 +75,13 @@
     ],
     "what_quant_misses": "三星/SK 海力士記憶體週期、DRAM 現貨價格和韓元匯率是韓股特有催化劑，Z-score 無法量化。AI 記憶體需求預期是近期主要題材。",
     "forward_outlook": "Moodring 71.5 歷史上報酬開始衰減，對新多單應保持謹慎。若全球情緒回穩，韓股相對強勢可能回歸均值。",
-    "narrative_en": "KOSPI at 5,521. RSI 58.9 (neutral). 5d return -2.1%. 20d return -5.6%. Moodring score 39.5 (fearful — contrarian opportunity building)."
+    "narrative_en": "KOSPI at 5,554. RSI 59.4 (neutral). 5d return -1.5%. 20d return -5.0%. Moodring score 41.6 (neutral — no strong directional signal)."
   },
   "eu_agent": {
     "adjusted_score_delta": 0,
     "sentiment_level": "CAUTIOUS",
     "conviction": "LOW",
-    "narrative": "STOXX50 at 5,574. RSI 39.6 (neutral). 5d return -2.9%. 20d return -8.8%. Moodring score 37.0 (fearful — contrarian opportunity building).",
+    "narrative": "STOXX50 at 5,551. RSI 31.7 (near oversold). 5d return -3.8%. 20d return -9.2%. Moodring score 28.3 (fearful — contrarian opportunity building).",
     "key_factors": [
       "RSI 26.8 — 五市場最低，已超賣",
       "20 日跌 -7.36% — 五市場最大跌幅",
@@ -90,7 +90,7 @@
     ],
     "what_quant_misses": "ECB 政策路徑、俄烏局勢和德國財政刺激的規模是歐股非對稱風險的主要來源，這些因素使技術超賣的反彈幅度難以預估。",
     "forward_outlook": "RSI 超賣有短線技術反彈條件，但 Moodring 需跌破 40 才進入高確信逆勢區。暫時觀望，等訊號更明確。",
-    "narrative_en": "STOXX50 at 5,574. RSI 39.6 (neutral). 5d return -2.9%. 20d return -8.8%. Moodring score 37.0 (fearful — contrarian opportunity building)."
+    "narrative_en": "STOXX50 at 5,551. RSI 31.7 (near oversold). 5d return -3.8%. 20d return -9.2%. Moodring score 28.3 (fearful — contrarian opportunity building)."
   },
   "global_narrative": "2026-03-19：全球五市場明顯分歧，韓股 (71.5) 獨處貪婪區，其餘四市場集中在恐懼到中性區間。歐股 RSI 26.8 技術超賣最嚴重，20 日跌 -7.36%；美股 SPY RSI 正好踩在 30 超賣邊緣，兩者都有短線技術反彈條件。台股籌碼警訊加重：台積電融資月增從昨日 20.5% 跳升至今日 26.4%，外資繼續賣超 909 億，散戶逆勢接刀 1,024 億，槓桿追買的格局若遇到台積電補跌將放大波動。韓股本周逆勢走強，區域輪動特徵明顯，但 Moodring 71.5 在全球背景偏空時追高需謹慎。整體操作方向：等待 US/EU 超賣反彈確認，TW 等外資翻買信號，KR 不追高。"
 }
