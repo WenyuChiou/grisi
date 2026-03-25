@@ -5,7 +5,8 @@ Reads historical_scores.csv for US/TW daily scores,
 downloads daily prices from yfinance, and regenerates
 the dashboard_data.json with daily-frequency arrays.
 
-Preserves `snapshot` and `agents` keys unchanged.
+Preserves `snapshot` key unchanged.
+Syncs `agents` key from phase2_agent_results.json (source of truth).
 """
 
 import sys
@@ -49,7 +50,17 @@ def main():
         db_data = json.load(f)
 
     snapshot = db_data.get('snapshot', {})
-    agents = db_data.get('agents', {})
+
+    # Sync agents from phase2_agent_results.json (source of truth) instead of
+    # preserving the stale copy in dashboard_data.json.
+    phase2_path = os.path.join(DATA_DIR, 'phase2_agent_results.json')
+    if os.path.exists(phase2_path):
+        with open(phase2_path, 'r', encoding='utf-8') as f:
+            agents = json.load(f)
+        print(f"[AGENTS] Loaded fresh agents from phase2_agent_results.json (date={agents.get('date', '?')})")
+    else:
+        agents = db_data.get('agents', {})
+        print("[AGENTS] phase2_agent_results.json not found — preserving existing agents")
 
     # ── Load historical scores CSV ──
     csv_path = os.path.join(DATA_DIR, 'historical_scores.csv')
@@ -142,7 +153,7 @@ def main():
         gap = (dt.strptime(d1, '%Y-%m-%d') - dt.strptime(d0, '%Y-%m-%d')).days
         print(f"  gap between first two: {gap} day(s)")
     print(f"  snapshot preserved: {'snapshot' in verify}")
-    print(f"  agents preserved: {'agents' in verify}")
+    print(f"  agents synced: {'agents' in verify} (date={verify.get('agents',{}).get('date','?')})")
     print(f"  spy points: {len(verify.get('spy', []))}")
 
     # ── Sync to docs/data/ for GitHub Pages live dashboard ──

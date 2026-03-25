@@ -718,7 +718,8 @@ function renderAgentSection(agentData, mktKey) {
   else if (actionTw === '逐步減碼' || actionTw === '積極減碼') sigWord = 'SELL';
   else sigWord = 'HOLD';
 
-  const narrative  = agent.narrative_en  || agent.narrative  || '';
+  // Prefer narrative_tw (Chinese retail monologue = 散戶心聲) over narrative_en (English quant)
+  const narrative  = agent.narrative_tw  || agent.narrative_en  || agent.narrative  || '';
   const factors    = agent.key_factors_en || agent.key_factors || [];
   const watchFor   = agent.watch_for_en  || agent.forward_outlook || agent.what_quant_misses || '';
   const crossView  = agent.cross_market_summary || summary.cross_market_view_en || summary.cross_market_view || '';

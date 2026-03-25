@@ -1030,148 +1030,174 @@ def generate_narrative_tw(mkt_data, mkt_name, retail=None, score=None):
         level = 'extreme_greed'
 
     if mkt_name == 'US':
+        # 美國散戶特色：Reddit/WSB 文化、YOLO、diamond hands、Robinhood、FOMO、meme stock
         r5d = mkt_data.get('SPY_5d_return_pct')
         vix = mkt_data.get('VIX')
         close = mkt_data.get('SPY_close')
         if level == 'extreme_fear':
             vix_str = f"，VIX 衝到 {vix:.0f}" if vix else ""
-            return (f"完了完了！SPY 一路跌{vix_str}，這是要崩盤嗎？"
-                    f"朋友都在喊要出場，我的帳面已經虧了一大塊，再不跑就來不及了。"
-                    f"但萬一跑了就反彈怎麼辦？腦子一團亂，根本睡不著。")
+            return (f"完了完了！SPY 一路跌{vix_str}，WSB 板上哀鴻遍野，大家的 puts 都爽了..."
+                    f"我 Robinhood 帳戶的 call 全部歸零，這就是 YOLO 的下場嗎？"
+                    f"有人說 diamond hands 繼續 hold，但我的手已經在抖了。賣還是不賣？")
         if level == 'fearful':
             r5d_str = f"又跌了 {r5d:+.1f}%" if r5d is not None else "持續走弱"
             vix_str = f"VIX {vix:.1f}，" if vix else ""
-            return (f"這週 SPY {r5d_str}，{vix_str}帳面損失越來越大，心裡很煎熬。"
-                    f"身邊的人說繼續 hold，但我越來越懷疑，這次是不是真的跌很深？"
-                    f"要不要先出一些保命？等反彈再說？好難決定，一直盯盤也沒用。")
+            return (f"這週 SPY {r5d_str}，{vix_str}Reddit 上大家都在喊 bear market coming..."
+                    f"我的 0DTE options 昨天又爆倉了，FOMO 買進真的是個錯誤。"
+                    f"要不要先減倉？身邊的人說繼續 hold，但虧損越來越大，心裡不踏實。")
         if level == 'neutral':
             spy_str = f"美股 SPY {close:.0f}" if close else "美股"
             vix_str = f"VIX {vix:.1f}，" if vix else ""
             r5d_str = f"近 5 日 {r5d:+.1f}%，" if r5d is not None else ""
-            return (f"最近{spy_str}漲漲跌跌，{vix_str}{r5d_str}看不出明確方向..."
-                    "每天開盤看一下，也沒什麼特別感覺。要加碼嗎？感覺時機還沒到；"
-                    "要減倉嗎？也沒那麼糟。就繼續觀望吧，等明確訊號再說。")
+            return (f"最近{spy_str}漲漲跌跌，{vix_str}{r5d_str}WSB 板也安靜了很多..."
+                    "沒有 meme stock 爆發，也沒有大崩盤，就這樣橫著。"
+                    "繼續 diamond hands 好了，等真正的訊號出來再說。FOMO 上車虧過一次就夠了。")
         if level == 'bullish':
-            return ("感覺最近盤面有點強勢耶，SPY 站上來了！"
-                    "朋友說 AI 概念股要爆發，我手上有一點部位...要加碼嗎？又怕追高。"
-                    "但再不上車會不會錯過這波？再等等看好了。")
+            return ("感覺要 to the moon 了！SPY 站上來，Robinhood 群友都在喊 buy the dip！"
+                    "AI 概念股跟 meme 題材同時爆發，帳面開始有點好看..."
+                    "要不要加碼 calls？FOMO 很強烈，但上次 YOLO 慘賠還沒忘記，再等等確認。")
         # extreme_greed
-        return ("這波漲太猛了！我已經全倉，朋友說還要繼續漲。"
-                "每天看帳戶數字越來越好看，好爽！要不要再借點錢加碼？"
-                "現在不上車以後肯定後悔！")
+        return ("🚀🚀🚀 To the moon！我已經全倉，Robinhood 群友說這波才剛開始！"
+                "Diamond hands，任何 dip 都是買點！身邊的人也在問要不要進場，"
+                "感覺 FOMO 氛圍很濃——這種時候歷史上往往就是頂部，但我還是忍不住加碼了。")
 
     if mkt_name == 'TW':
+        # 台灣散戶特色：PTT stock 板、台積電信仰、融資斷頭、套牢、韭菜、畢業、當沖、三大法人
         consec = (retail or {}).get('foreign_consecutive_days', 0)
         direction = (retail or {}).get('foreign_consecutive_direction', '')
         taiex = mkt_data.get('TAIEX_close')
         tw_r5d = mkt_data.get('TAIEX_5d_return_pct')
         tsmc = mkt_data.get('TSMC_close')
         if level == 'extreme_fear':
-            fw_str = f"外資連賣 {consec} 天" if direction == 'sell' else "法人大賣"
+            fw_str = f"三大法人連賣 {consec} 天" if direction == 'sell' else "三大法人大賣"
             taiex_str = f"台股 {taiex:.0f}" if taiex else "台股"
-            return (f"慘了！{taiex_str} 一直跌，{fw_str}，感覺主力都在跑..."
-                    f"台積電也撐不住了嗎？我的持股每天都在縮水，"
-                    f"朋友說要停損，但我還是在等解套。再這樣下去真的撐不住了。")
+            tsmc_str = f"台積電 {tsmc:.0f} " if tsmc else "台積電"
+            return (f"慘了！{taiex_str} 跌不停，{fw_str}，{tsmc_str}也在跌..."
+                    f"PTT stock 板一片哀號，大家都在說要畢業了。我的融資快要斷頭，"
+                    f"朋友說要停損，但我捨不得割，繼續套牢下去。這次真的是韭菜了。")
         if level == 'fearful':
-            fw_str = f"外資已經連賣 {consec} 天" if direction == 'sell' else "法人偏賣"
+            fw_str = f"外資已經連賣 {consec} 天" if direction == 'sell' else "外資偏賣"
             r5d_str = f"，這週 {tw_r5d:+.1f}%" if tw_r5d is not None else ""
-            return (f"台股最近軟軟的{r5d_str}，{fw_str}...我在想要不要先減一點倉。"
-                    f"台積電融資還在增加，感覺散戶還在接，但法人不捧場讓我很擔心。"
-                    f"再等等看，但心裡越來越不安。")
+            return (f"台股最近軟軟的{r5d_str}，{fw_str}...PTT 板上開始有人喊崩盤。"
+                    f"台積電融資還在增加，感覺散戶韭菜還在硬接，但三大法人不買帳。"
+                    f"我在想要不要先減一點倉，怕被套牢，再等等看吧。")
         if level == 'neutral':
             taiex_str = f"台股 {taiex:.0f}" if taiex else "台股"
             r5d_str = f"，這週 {tw_r5d:+.1f}%" if tw_r5d is not None else ""
             tsmc_str = f"台積電 {tsmc:.0f} 也沒什麼大動作" if tsmc else "台積電也沒什麼大動作"
-            fw_str = f"外資連{'買' if direction=='buy' else '賣'} {consec} 天" if consec > 0 else "外資進出不穩定"
+            fw_str = f"外資連{'買' if direction=='buy' else '賣'} {consec} 天" if consec > 0 else "三大法人進出不穩定"
             return (f"{taiex_str}{r5d_str}，不上不下，有點難受。{fw_str}，{tsmc_str}..."
-                    "這種盤最讓人糾結，不知道是要加碼還是保守一點。"
+                    "這種盤最讓人糾結，當沖也沒什麼機會，不知道要加碼還是保守一點。"
                     "先維持現在的部位好了，等方向明確再說。")
         if level == 'bullish':
-            fw_str = f"外資連買 {consec} 天" if direction == 'buy' else "法人偏買"
-            return (f"台股最近有點起色！{fw_str}，感覺有資金要進來..."
-                    f"台積電如果繼續往上，我的帳面會好看很多。"
-                    f"要加碼嗎？心裡很癢，但還是怕追高。再等一天確認方向。")
+            fw_str = f"外資連買 {consec} 天" if direction == 'buy' else "三大法人偏買"
+            tsmc_str = f"台積電 {tsmc:.0f} " if tsmc else "台積電"
+            return (f"台股最近有點起色！{fw_str}，{tsmc_str}開始往上走..."
+                    f"PTT stock 板氣氛轉好，當沖仔也開始賺錢了。"
+                    f"要加碼嗎？心裡很癢，但還是怕追高變韭菜。再等一天確認三大法人方向。")
         # extreme_greed
-        return ("台股大多頭！台積電帶頭衝，融資跟著爆量..."
-                "這種盤一定要滿倉！我已經加碼了，朋友說這波才剛開始。"
-                "現在不買等什麼？！錢放著只會貶值！")
+        tsmc_str = f"台積電 {tsmc:.0f} " if tsmc else "台積電"
+        return (f"台股大多頭！{tsmc_str}帶頭衝，融資跟著爆量！"
+                "PTT 板上大家都在喊要起飛，當沖仔全部賺錢，套牢的也快解套了！"
+                "這種盤一定要滿倉！現在不買以後哭——但融資別開太大，小心斷頭。")
 
     if mkt_name == 'JP':
+        # 日本散戶特色：渡邊太太、配當（股息）、NISA 免稅帳戶、日經新聞、円安/円高、BOJ
         r5d = mkt_data.get('NIKKEI_5d_return_pct')
         r20d = mkt_data.get('NIKKEI_20d_return_pct')
         nikkei = mkt_data.get('NIKKEI_close')
         usdjpy = mkt_data.get('USDJPY')
         if level == 'extreme_fear':
             nikkei_str = f"日經 {nikkei:.0f}" if nikkei else "日股"
-            return (f"{nikkei_str} 慘不忍睹，日圓一直升值，出口股壓力超大..."
-                    "BOJ 到底要怎麼搞？日經已經跌了好多，我還要繼續 hold 嗎？"
-                    "先出場觀望好了，日圓風險太難搞了。")
+            yen_str = f"，美元兌日圓 {usdjpy:.1f}" if usdjpy else ""
+            return (f"{nikkei_str} 一片慘烈{yen_str}，円高來了，出口股全部在跌..."
+                    "渡邊太太們的外幣部位也虧大了。BOJ 到底要怎麼搞？"
+                    "NISA 帳戶裡的配當股也在縮水，真的要先出場了。")
         if level == 'fearful':
             r5d_str = f"這週跌了 {r5d:+.1f}%" if r5d is not None else "持續下跌"
-            usdjpy_str = f"，美元兌日圓 {usdjpy:.1f}" if usdjpy else ""
-            return (f"日股 {r5d_str}{usdjpy_str}，日圓的走向真的讓人頭大..."
-                    f"每次以為要反彈，又被 BOJ 的話壓回去。"
-                    f"要不要減倉？不確定性太高，心裡不踏實。")
+            usdjpy_str = f"，美元兌日圓 {usdjpy:.1f}（{'円安利出口' if usdjpy and usdjpy >= 150 else '円高壓出口'}）" if usdjpy else ""
+            return (f"日股 {r5d_str}{usdjpy_str}，日圓走向讓人頭大..."
+                    f"日經新聞說 BOJ 可能再升息，渡邊太太的外幣 carry trade 都在撤。"
+                    f"NISA 裡的高配當股還撐著，但其他部位要不要減？心裡不踏實。")
         if level == 'neutral':
             nikkei_str = f"日經 {nikkei:.0f}" if nikkei else "日股"
             r5d_str = f"，近 5 日 {r5d:+.1f}%" if r5d is not None else ""
-            return (f"{nikkei_str}{r5d_str}，上上下下，日圓也沒個定論..."
-                    "不是很敢加碼，但也沒到要跑的地步。"
-                    "先維持目前部位，等 BOJ 下次開會再說。")
+            usdjpy_str = f"，日圓 {usdjpy:.1f}" if usdjpy else ""
+            return (f"{nikkei_str}{r5d_str}，盤面上上下下{usdjpy_str}，沒有定論..."
+                    "BOJ 下次開會才有方向。NISA 額度還有，想買配當股但這個位置不確定。"
+                    "先維持目前部位，等円安/円高方向確認再說。")
         if level == 'bullish':
-            return ("日股感覺最近有回穩的跡象，日圓如果不繼續升，出口股應該有機會反彈..."
-                    "我有點想加碼，但還在等確認訊號。希望這次是真的反彈，不是假突破。")
+            usdjpy_str = f"日圓 {usdjpy:.1f} 円安" if usdjpy and usdjpy >= 150 else "日圓走勢有利"
+            return (f"日股有回穩跡象！{usdjpy_str}，出口股受惠..."
+                    "渡邊太太的外幣部位也開始回血，日經新聞說企業獲利展望改善。"
+                    "NISA 帳戶想趁這波買進一點高配當ETF，等 BOJ 確認不急升息就加碼。")
         # extreme_greed
-        return ("日股飆起來了！日圓穩住，外資大買！"
-                "這時候不加碼太可惜了，我已經加碼一些，感覺這波有搞頭！")
+        return ("日股飆起來！円安推升出口股，日經創新高，渡邊太太的外幣部位大賺！"
+                "NISA 額度全部用光，大家都在搶進高配當 ETF 和出口大型股。"
+                "這時候不加碼太可惜了——但 BOJ 隨時可能升息，保留一點現金當防線。")
 
     if mkt_name == 'KR':
+        # 韓國散戶特色：개미（螞蟻散戶）vs 外資鯨魚、三星信仰、信用交易、Naver 股版
         r5d = mkt_data.get('KOSPI_5d_return_pct')
         r20d = mkt_data.get('KOSPI_20d_return_pct')
         kospi = mkt_data.get('KOSPI_close')
         if level == 'extreme_fear':
             kospi_str = f"KOSPI {kospi:.0f}" if kospi else "韓股"
-            return (f"{kospi_str} 崩！三星、海力士一起跌，DRAM 需求不知道哪裡去了..."
-                    "這種跌法我真的不懂，先出場保命再說。")
+            return (f"{kospi_str} 崩盤！三星、海力士一起跌，外資鯨魚在大賣..."
+                    "Naver 股版上 개미（散戶螞蟻）哀鴻遍野，信用交易帳戶紛紛被追繳。"
+                    "三星信仰還撐得住嗎？DRAM 需求真的不行了？先減碼再說。")
         if level == 'fearful':
             r5d_str = f"{r5d:+.1f}%" if r5d is not None else "偏弱"
             kospi_str = f"KOSPI {kospi:.0f}，" if kospi else ""
-            return (f"{kospi_str}韓股最近 {r5d_str}，AI 記憶體的題材還管用嗎？"
-                    f"三星最近感覺被市場嫌棄...不確定要不要繼續 hold，感覺風險有點高。")
+            return (f"{kospi_str}韓股最近 {r5d_str}，外資鯨魚一直賣，개미們在硬撐..."
+                    f"Naver 股版氣氛很差，三星感覺被市場嫌棄，AI 記憶體題材還有沒有用？"
+                    f"信用交易風險升高，不確定要不要繼續 hold。")
         if level == 'neutral':
             kospi_str = f"KOSPI {kospi:.0f}" if kospi else "韓股"
             r5d_str = f"，近 5 日 {r5d:+.1f}%" if r5d is not None else ""
             r20d_str = f"（月跌 {r20d:+.1f}%）" if r20d is not None else ""
             return (f"{kospi_str}{r5d_str}{r20d_str}，三星和海力士一個強一個弱..."
-                    "等 DRAM 報價有更清楚方向再說，現在追高追低都不划算。")
+                    "Naver 股版上 개미 和外資鯨魚在拔河，方向不明確。"
+                    "信用交易先不要加，等 DRAM 報價有更清楚方向再說。")
         if level == 'bullish':
-            return ("韓股有點動靜！AI 記憶體需求題材還在，海力士最近表現不錯..."
-                    "要加碼嗎？感覺有機會，但要等三星也跟上才放心。")
+            return ("韓股有點動靜！外資鯨魚開始回流，개미們在 Naver 股版喊反彈！"
+                    "三星最近有點起色，海力士 AI 記憶體需求題材回溫..."
+                    "要加碼嗎？感覺有機會，信用交易試一點，等三星確認突破再加大。")
         # extreme_greed
-        return ("韓股 AI 記憶體行情大爆發！海力士、三星都在飆..."
-                "這種時候不能缺席，趕快加碼！等到回頭確認一定已經來不及了。")
+        return ("韓股 AI 記憶體行情大爆發！海力士、三星都在飆，개미 全部大賺！"
+                "Naver 股版沸騰，外資鯨魚也來了，信用交易爆量！"
+                "這種時候不能缺席，趕快加碼！但注意別在頂部被外資鯨魚反手賣給你。")
 
     if mkt_name == 'EU':
+        # 歐洲散戶特色：保守穩健、重視 ESG、ETF 被動投資、ECB 政策敏感、各國差異
+        r5d = mkt_data.get('STOXX50_5d_return_pct')
         r20d = mkt_data.get('STOXX50_20d_return_pct')
+        stoxx = mkt_data.get('STOXX50_close')
         if level == 'extreme_fear':
-            return ("歐股一片慘烈，俄烏問題、ECB 態度曖昧..."
-                    "能源股、汽車股全部跌，感覺歐洲的問題比美股嚴重多了。"
-                    "先清倉歐股，等局勢清楚再說。")
+            stoxx_str = f"STOXX50 {stoxx:.0f}" if stoxx else "歐股"
+            return (f"{stoxx_str} 慘跌，俄烏緊張、ECB 態度強硬，能源股汽車股全部在跌..."
+                    "我的歐股 ESG ETF 部位也虧了一大塊。這種地緣政治風險真的很難評估，"
+                    "德法政策不一、義大利又在鬧，歐洲的問題比美股複雜太多了。先清倉再說。")
         if level == 'fearful':
-            r20d_str = f"近月跌了 {r20d:+.1f}%" if r20d is not None else "持續走弱"
-            return (f"歐股 {r20d_str}，能源、銀行輪流出事..."
-                    f"ECB 的態度也讓人看不懂，到底要降還是不降利率？"
-                    f"這種不確定性讓我不敢輕易加碼。先觀望。")
+            r20d_str = f"近月跌 {r20d:+.1f}%" if r20d is not None else "持續走弱"
+            return (f"歐股{r20d_str}，ECB 升息路徑還不清楚，能源、銀行輪流出事..."
+                    "我的被動 ETF 部位縮水，但比主動選股好一點。"
+                    "ESG 主題股跌更多，ESG 溢價好像在消退？先觀望，等 ECB 明確再說。")
         if level == 'neutral':
-            return ("歐股不上不下，沒什麼特別感覺。"
-                    "德法政局、俄烏...太多地緣風險讓人難以判斷。"
-                    "現在不是加碼歐股的時機，繼續等待就好。")
+            stoxx_str = f"STOXX50 {stoxx:.0f}" if stoxx else "歐股"
+            r5d_str = f"，近 5 日 {r5d:+.1f}%" if r5d is not None else ""
+            return (f"{stoxx_str}{r5d_str}，不上不下，方向不明確。"
+                    "德法政局、俄烏還有地緣風險，太多不確定性。"
+                    "我的歐股 ETF 部位先不動，ECB 下次開會前別輕易加碼。")
         if level == 'bullish':
-            return ("歐股最近有點起色，德國財政刺激的消息讓市場有點興奮..."
-                    "要不要進場歐股做個分散？感覺估值比美股便宜，有點吸引力。")
+            return ("歐股最近有點起色！德國財政刺激消息，ESG 主題股也跟著漲..."
+                    "估值比美股便宜很多，被動 ETF 部位開始回血。"
+                    "要加碼歐股做分散嗎？感覺有點吸引力，但地緣風險還在，小額慢慢加。")
         # extreme_greed
-        return ("歐股大反彈！德法政策刺激、俄烏局勢緩和..."
-                "現在不進場太可惜了！趕快買進，這種機會不常有！")
+        stoxx_str = f"STOXX50 {stoxx:.0f}" if stoxx else "歐股"
+        return (f"{stoxx_str} 大反彈！德法政策刺激、ECB 轉鴿，ESG ETF 全線大漲！"
+                "歐股估值還是比美股便宜，感覺這波有機會繼續漲..."
+                "加碼歐股 ETF 做資產分散，這種機會不常有。但別忘了歐洲各國差異大，控制部位。")
 
     return None
 
