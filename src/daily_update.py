@@ -992,8 +992,23 @@ def score_to_sentiment_level(score):
     if score < 55:
         return 'NEUTRAL'
     if score < 75:
-        return 'BULLISH'
+        return 'GREEDY'
     return 'EXTREME_GREED'
+
+
+def score_to_action(score):
+    """Map a Moodring score to a Chinese action recommendation."""
+    if score is None:
+        return '觀望持有'
+    if score < 25:
+        return '積極加碼'
+    if score < 40:
+        return '逢低布局'
+    if score < 55:
+        return '觀望持有'
+    if score < 75:
+        return '逐步減碼'
+    return '積極減碼'
 
 
 def generate_narrative_tw(mkt_data, mkt_name, retail=None, score=None):
@@ -1450,6 +1465,9 @@ def update_agent_results(snapshot, us_data, tw_data, tw_retail, jp_data, kr_data
         sl = score_to_sentiment_level(score)
         if sl:
             agents[agent_key]['sentiment_level'] = sl
+
+        # Action field: derived from individual market score, never shared
+        agents[agent_key]['action'] = score_to_action(score)
 
         # Issue 2: narrative_tw = emotional Chinese monologue; narrative_en = quant summary
         narr_tw = narr_tw_map[agent_key]

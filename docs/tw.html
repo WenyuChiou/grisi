@@ -559,18 +559,23 @@ function renderAgentSection(agentData, mktKey) {
     return;
   }
 
-  const raw = summary.actionable_tw || summary.actionable_signal || '';
-  let sigWord = summary.signal_en || 'HOLD';
-  if (/BUY/i.test(raw))  sigWord = 'BUY';
-  if (/SELL/i.test(raw)) sigWord = 'SELL';
-  const sigDisplay = sigWord === 'BUY' ? '買入' : sigWord === 'SELL' ? '賣出' : '觀望';
+  // Per-market action derived from individual sentiment score (not shared summary signal)
+  const actionTw = agent.action || '觀望持有';
+  const sigDisplay = actionTw;
+  let badgeCls;
+  if (actionTw === '積極加碼' || actionTw === '逢低布局') {
+    badgeCls = 'badge-buy';
+  } else if (actionTw === '逐步減碼' || actionTw === '積極減碼') {
+    badgeCls = 'badge-sell';
+  } else {
+    badgeCls = 'badge-hold';
+  }
 
   const narrative  = agent.narrative_tw  || agent.narrative  || '';
   const factors    = agent.key_factors_tw || agent.key_factors || [];
   const watchFor   = agent.watch_for_tw  || agent.what_quant_misses || agent.forward_outlook || '';
   const crossView  = summary.cross_market_view_tw || summary.cross_market_view || '';
   const outlook    = summary.forward_outlook_tw || agent.forward_outlook || '';
-  const badgeCls   = sigWord === 'BUY' ? 'badge-buy' : sigWord === 'SELL' ? 'badge-sell' : 'badge-hold';
 
   const factorsHtml = factors.map(f => `<li>${f}</li>`).join('');
 
