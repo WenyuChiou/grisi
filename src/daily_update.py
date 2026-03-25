@@ -1365,6 +1365,282 @@ def generate_watch_for_tw(mkt_data, mkt_name, score=None, retail=None, global_ct
     return "；".join(parts) + "。" if parts else None
 
 
+def build_cross_market_view(us_final, tw_final, divergence, snapshot, jp_score, kr_score, eu_score, kr_scores_hist=None):
+    """Rebuild cross_market_view from live data each run — keeps numbers fresh."""
+    us_mkt = snapshot.get('us_market', {})
+    tw_mkt = snapshot.get('tw_market', {})
+    eu_mkt = snapshot.get('eu_market', {})
+    retail = snapshot.get('tw_retail_indicators', {})
+    parts = []
+
+    # US/TW divergence
+    if us_final is not None and tw_final is not None and divergence is not None:
+        tw_zone = "中性區" if 40 <= tw_final < 55 else ("恐懼區" if tw_final < 40 else "貪婪區")
+        us_trend = "仍偏弱" if 40 <= us_final < 50 else ("恐懼" if us_final < 40 else "偏強")
+        parts.append(f"US ({us_final}) 和 TW ({tw_final}) 分歧 {divergence} — TW 回升至{tw_zone}，US {us_trend}")
+
+    # RSI
+    us_rsi = us_mkt.get('SPY_RSI14')
+    tw_rsi = tw_mkt.get('TAIEX_RSI14')
+    rsi_parts = []
+    if us_rsi is not None:
+        rsi_parts.append(f"US RSI {us_rsi:.1f} {'超賣' if us_rsi < 30 else ('接近超賣' if us_rsi < 35 else '中性')}")
+    if tw_rsi is not None:
+        rsi_parts.append(f"台股 RSI {tw_rsi:.1f} {'超賣' if tw_rsi < 30 else ('中性偏弱' if tw_rsi < 45 else '中性')}")
+    if rsi_parts:
+        parts.append("，".join(rsi_parts))
+
+    # TW institutional/retail flow
+    foreign_net = retail.get('foreign_net_TWD')
+    foreign_days = retail.get('foreign_consecutive_days')
+    foreign_dir = retail.get('foreign_consecutive_direction', '')
+    retail_net = retail.get('retail_net_est_TWD')
+    tsmc_margin = retail.get('TSMC_margin_30d_change_pct')
+    tw_parts = []
+    if foreign_net is not None and foreign_days is not None:
+        dir_word = "賣" if foreign_dir == 'sell' else "買"
+        tw_parts.append(f"TW 外資連{dir_word} {foreign_days} 天（{abs(foreign_net):.1f}億）")
+    if retail_net is not None:
+        tw_parts.append(f"散戶逆勢接刀 {retail_net:.0f}億" if (retail_net > 0 and foreign_dir == 'sell') else f"散戶同步買超 {retail_net:.0f}億" if retail_net > 0 else f"散戶同步減碼 {abs(retail_net):.0f}億")
+    if tsmc_margin is not None:
+        sign = "增" if tsmc_margin >= 0 else "減"
+        tw_parts.append(f"台積電融資月{sign} {abs(tsmc_margin):.1f}%")
+    if tw_parts:
+        parts.append("；".join(tw_parts))
+
+    # KR with last-week zone comparison
+    other_parts = []
+    if kr_score is not None:
+        kr_level = "中性" if 40 <= kr_score < 55 else ("恐懼區" if kr_score < 40 else "貪婪區")
+        if kr_scores_hist and len(kr_scores_hist) >= 6:
+            prev_kr = kr_scores_hist[-6]
+            prev_level = "貪婪區" if prev_kr >= 55 else ("中性" if prev_kr >= 40 else "恐懼區")
+            if prev_level != kr_level:
+                other_parts.append(f"韓股 ({kr_score}) 由上週{prev_level}回落至{kr_level}")
+            else:
+                other_parts.append(f"韓股 ({kr_score}) {kr_level}")
+        else:
+            other_parts.append(f"韓股 ({kr_score}) {kr_level}")
+
+    if eu_score is not None:
+        eu_rsi = eu_mkt.get('STOXX50_RSI14')
+        eu_level = "恐懼區" if eu_score < 40 else ("中性" if eu_score < 55 else "貪婪區")
+        eu_str = f"歐股 Moodring {eu_score} 仍在{eu_level}"
+        if eu_rsi is not None:
+            eu_str += f"，RSI {eu_rsi:.1f} {'接近超賣' if eu_rsi < 35 else ('超賣' if eu_rsi < 30 else '偏弱')}"
+        other_parts.append(eu_str)
+    if other_parts:
+        parts.append("，".join(other_parts))
+
+    return "。".join(parts) + "。" if parts else ""
+
+
+def build_global_narrative(today, us_final, tw_final, snapshot, jp_score, kr_score, eu_score, kr_scores_hist=None):
+    """Rebuild global_narrative from live data each run — keeps numbers fresh."""
+    us_mkt = snapshot.get('us_market', {})
+    tw_mkt = snapshot.get('tw_market', {})
+    kr_mkt = snapshot.get('kr_market', {})
+    eu_mkt = snapshot.get('eu_market', {})
+    retail = snapshot.get('tw_retail_indicators', {})
+    gl = snapshot.get('global_context', {})
+    parts = []
+
+    # US
+    us_rsi = us_mkt.get('SPY_RSI14')
+    vix = us_mkt.get('VIX')
+    us_pieces = []
+    if us_rsi is not None:
+        us_pieces.append(f"SPY RSI {us_rsi:.1f} {'進入超賣' if us_rsi < 30 else ('接近超賣' if us_rsi < 35 else '中性')}")
+    if vix is not None:
+        us_pieces.append(f"VIX {vix:.2f}")
+    if us_final is not None:
+        us_pieces.append(f"Moodring {us_final} {'偏弱中性' if 40 <= us_final < 50 else ('中性' if 50 <= us_final < 55 else ('恐懼' if us_final < 40 else '偏強'))}")
+    if us_pieces:
+        parts.append("美股 " + "，".join(us_pieces))
+
+    # TW
+    tw_rsi = tw_mkt.get('TAIEX_RSI14')
+    foreign_net = retail.get('foreign_net_TWD')
+    foreign_days = retail.get('foreign_consecutive_days')
+    foreign_dir = retail.get('foreign_consecutive_direction', '')
+    retail_net = retail.get('retail_net_est_TWD')
+    tw_pieces = []
+    if tw_final is not None:
+        tw_pieces.append(f"回升至 Moodring {tw_final}")
+    if tw_rsi is not None:
+        tw_pieces.append(f"TAIEX RSI {tw_rsi:.1f}")
+    if foreign_net is not None and foreign_days is not None:
+        dir_word = "賣" if foreign_dir == 'sell' else "買"
+        tw_pieces.append(f"外資連{dir_word} {foreign_days} 天（{abs(foreign_net):.1f}億）")
+    if retail_net is not None and retail_net > 0:
+        tw_pieces.append(f"散戶逆勢接刀 {retail_net:.0f}億")
+    if tw_pieces:
+        parts.append("台股" + "，".join(tw_pieces))
+
+    # JP
+    jp_pieces = []
+    if jp_score is not None:
+        jp_level = "中性" if 40 <= jp_score < 55 else ("恐懼" if jp_score < 40 else "貪婪")
+        jp_pieces.append(f"Moodring {jp_score} {jp_level}")
+    usdjpy = gl.get('USDJPY')
+    if usdjpy is not None:
+        jp_pieces.append(f"USDJPY {usdjpy:.1f} {'日圓偏弱' if usdjpy >= 150 else '日圓偏強'}")
+    if jp_pieces:
+        parts.append("日經 " + "，".join(jp_pieces))
+
+    # KR
+    kr_pieces = []
+    if kr_score is not None:
+        kr_level = "中性" if 40 <= kr_score < 55 else ("恐懼" if kr_score < 40 else "貪婪")
+        if kr_scores_hist and len(kr_scores_hist) >= 6:
+            prev_kr = kr_scores_hist[-6]
+            prev_level = "貪婪區" if prev_kr >= 55 else ("中性" if prev_kr >= 40 else "恐懼區")
+            if prev_level != kr_level:
+                kr_pieces.append(f"Moodring {kr_score} 由上週{prev_level}回落{kr_level}")
+            else:
+                kr_pieces.append(f"Moodring {kr_score} {kr_level}")
+        else:
+            kr_pieces.append(f"Moodring {kr_score} {kr_level}")
+    kr_r5d = kr_mkt.get('KOSPI_5d_return_pct')
+    if kr_r5d is not None:
+        kr_pieces.append(f"KOSPI 近 5 日 {kr_r5d:+.1f}%")
+    if kr_pieces:
+        parts.append("韓股 " + "，".join(kr_pieces))
+
+    # EU
+    eu_pieces = []
+    if eu_score is not None:
+        eu_level = "恐懼區" if eu_score < 40 else ("中性" if eu_score < 55 else "貪婪區")
+        eu_pieces.append(f"Moodring {eu_score} {eu_level}")
+    eu_rsi = eu_mkt.get('STOXX50_RSI14')
+    if eu_rsi is not None:
+        eu_pieces.append(f"STOXX50 RSI {eu_rsi:.1f} {'接近超賣' if eu_rsi < 35 else ('超賣' if eu_rsi < 30 else '偏弱')}")
+    eu_r20d = eu_mkt.get('STOXX50_20d_return_pct')
+    if eu_r20d is not None:
+        eu_pieces.append(f"20 日 {eu_r20d:+.1f}%")
+    if eu_pieces:
+        parts.append("歐股 " + "，".join(eu_pieces))
+
+    # Overall summary
+    overall_parts = []
+    if us_final is not None and eu_score is not None and us_final < 50 and eu_score < 50:
+        overall_parts.append("US/EU 技術偏空")
+    if tw_final is not None and 40 <= tw_final < 55:
+        overall_parts.append("TW 籌碼中性")
+    if foreign_dir == 'sell' and foreign_days is not None:
+        overall_parts.append("等外資翻買確認")
+    elif foreign_dir == 'buy' and foreign_days is not None and foreign_days >= 2:
+        overall_parts.append("外資買超確認中")
+    if overall_parts:
+        parts.append("整體：" + "，".join(overall_parts))
+
+    return today + "：" + "。".join(parts) + "。" if parts else ""
+
+
+def build_agent_cross_market_summary(agent_key, snapshot, us_final, tw_final, jp_score, kr_score, eu_score):
+    """Build a per-market summary unique to each market — avoids every market showing the same template text."""
+    us_mkt = snapshot.get('us_market', {})
+    tw_mkt = snapshot.get('tw_market', {})
+    jp_mkt = snapshot.get('jp_market', {})
+    kr_mkt = snapshot.get('kr_market', {})
+    eu_mkt = snapshot.get('eu_market', {})
+    retail = snapshot.get('tw_retail_indicators', {})
+    gl = snapshot.get('global_context', {})
+
+    if agent_key == 'us_agent':
+        rsi = us_mkt.get('SPY_RSI14')
+        vix = us_mkt.get('VIX')
+        r20d = us_mkt.get('SPY_20d_return_pct')
+        spy = us_mkt.get('SPY_close')
+        sma20 = us_mkt.get('SPY_SMA20')
+        parts = []
+        if us_final is not None:
+            parts.append(f"US Moodring {us_final}")
+        if rsi is not None:
+            parts.append(f"SPY RSI {rsi:.1f} {'超賣' if rsi < 30 else ('接近超賣' if rsi < 35 else '中性')}")
+        if vix is not None:
+            parts.append(f"VIX {vix:.2f} {'恐慌偏高' if vix >= 25 else ('偏高' if vix >= 20 else '正常')}")
+        if r20d is not None:
+            parts.append(f"20 日 {r20d:+.1f}%")
+        if spy is not None and sma20 is not None:
+            parts.append(f"SPY {'低於' if spy < sma20 else '高於'} SMA20 ({sma20:.0f})")
+        return "；".join(parts) + "。" if parts else ""
+
+    elif agent_key == 'tw_agent':
+        tw_rsi = tw_mkt.get('TAIEX_RSI14')
+        foreign_net = retail.get('foreign_net_TWD')
+        foreign_days = retail.get('foreign_consecutive_days')
+        foreign_dir = retail.get('foreign_consecutive_direction', '')
+        retail_net = retail.get('retail_net_est_TWD')
+        tsmc_margin = retail.get('TSMC_margin_30d_change_pct')
+        parts = []
+        if tw_final is not None:
+            parts.append(f"TW Moodring {tw_final}")
+        if tw_rsi is not None:
+            parts.append(f"TAIEX RSI {tw_rsi:.1f} {'超賣' if tw_rsi < 30 else ('中性偏弱' if tw_rsi < 45 else '中性')}")
+        if foreign_net is not None and foreign_days is not None:
+            dir_word = "賣" if foreign_dir == 'sell' else "買"
+            parts.append(f"外資連{dir_word} {foreign_days} 天（{abs(foreign_net):.1f}億）")
+        if retail_net is not None:
+            ret_desc = "逆勢接刀" if (retail_net > 0 and foreign_dir == 'sell') else ("同步買超" if retail_net > 0 else "同步減碼")
+            parts.append(f"散戶{ret_desc} {abs(retail_net):.0f}億")
+        if tsmc_margin is not None:
+            sign = "增" if tsmc_margin >= 0 else "減"
+            parts.append(f"台積電融資月{sign} {abs(tsmc_margin):.1f}%")
+        return "；".join(parts) + "。" if parts else ""
+
+    elif agent_key == 'jp_agent':
+        rsi = jp_mkt.get('NIKKEI_RSI14')
+        r20d = jp_mkt.get('NIKKEI_20d_return_pct')
+        nikkei = jp_mkt.get('NIKKEI_close')
+        usdjpy = gl.get('USDJPY')
+        parts = []
+        if jp_score is not None:
+            jp_level = "中性" if 40 <= jp_score < 55 else ("恐懼" if jp_score < 40 else "貪婪")
+            parts.append(f"日經 Moodring {jp_score} {jp_level}")
+        if rsi is not None:
+            parts.append(f"RSI {rsi:.1f} {'超賣' if rsi < 30 else ('偏弱' if rsi < 45 else '中性')}")
+        if r20d is not None:
+            parts.append(f"20 日 {r20d:+.1f}%")
+        if usdjpy is not None:
+            parts.append(f"USDJPY {usdjpy:.1f} {'日圓偏弱（利出口）' if usdjpy >= 150 else ('日圓偏強（壓出口）' if usdjpy < 140 else '日圓中性')}")
+        return "；".join(parts) + "。" if parts else ""
+
+    elif agent_key == 'kr_agent':
+        rsi = kr_mkt.get('KOSPI_RSI14')
+        r5d = kr_mkt.get('KOSPI_5d_return_pct')
+        r20d = kr_mkt.get('KOSPI_20d_return_pct')
+        parts = []
+        if kr_score is not None:
+            kr_level = "中性" if 40 <= kr_score < 55 else ("恐懼" if kr_score < 40 else "貪婪")
+            parts.append(f"韓股 Moodring {kr_score} {kr_level}")
+        if rsi is not None:
+            parts.append(f"KOSPI RSI {rsi:.1f} {'超賣' if rsi < 30 else ('偏弱' if rsi < 45 else '中性')}")
+        if r5d is not None:
+            parts.append(f"近 5 日 {r5d:+.1f}%")
+        if r20d is not None:
+            parts.append(f"月報酬 {r20d:+.1f}%")
+        return "；".join(parts) + "。" if parts else ""
+
+    elif agent_key == 'eu_agent':
+        rsi = eu_mkt.get('STOXX50_RSI14')
+        r5d = eu_mkt.get('STOXX50_5d_return_pct')
+        r20d = eu_mkt.get('STOXX50_20d_return_pct')
+        parts = []
+        if eu_score is not None:
+            eu_level = "恐懼區" if eu_score < 40 else ("中性" if eu_score < 55 else "貪婪區")
+            parts.append(f"歐股 Moodring {eu_score} {eu_level}")
+        if rsi is not None:
+            parts.append(f"STOXX50 RSI {rsi:.1f} {'超賣' if rsi < 30 else ('接近超賣' if rsi < 35 else '偏弱')}")
+        if r5d is not None:
+            parts.append(f"近 5 日 {r5d:+.1f}%")
+        if r20d is not None:
+            parts.append(f"20 日 {r20d:+.1f}%")
+        return "；".join(parts) + "。" if parts else ""
+
+    return ""
+
+
 def update_agent_results(snapshot, us_data, tw_data, tw_retail, jp_data, kr_data, eu_data, global_ctx):
     """Update phase2_agent_results.json with today's date, scores, and narratives."""
     path = os.path.join(DATA_DIR, 'phase2_agent_results.json')
@@ -1504,6 +1780,34 @@ def update_agent_results(snapshot, us_data, tw_data, tw_retail, jp_data, kr_data
     tw_final = agents['summary'].get('tw_final_score')
     if us_final is not None and tw_final is not None:
         agents['summary']['divergence'] = round(abs(us_final - tw_final), 1)
+
+    divergence_val = agents['summary'].get('divergence')
+    kr_scores_hist = dd.get('kr_score', [])
+
+    # --- Regenerate cross_market_view and global_narrative from live data each run ---
+    new_cross = build_cross_market_view(
+        us_final, tw_final, divergence_val, snapshot,
+        jp_score, kr_score, eu_score, kr_scores_hist=kr_scores_hist
+    )
+    if new_cross:
+        agents['summary']['cross_market_view'] = new_cross
+
+    new_global = build_global_narrative(
+        today, us_final, tw_final, snapshot,
+        jp_score, kr_score, eu_score, kr_scores_hist=kr_scores_hist
+    )
+    if new_global:
+        agents['global_narrative'] = new_global
+
+    # --- Per-market cross_market_summary: unique text per market, not shared template ---
+    for agent_key in ['us_agent', 'tw_agent', 'jp_agent', 'kr_agent', 'eu_agent']:
+        if agent_key not in agents:
+            continue
+        mkt_summary = build_agent_cross_market_summary(
+            agent_key, snapshot, us_final, tw_final, jp_score, kr_score, eu_score
+        )
+        if mkt_summary:
+            agents[agent_key]['cross_market_summary'] = mkt_summary
 
     agents = sanitize_for_json(agents)
     with open(path, 'w', encoding='utf-8') as f:

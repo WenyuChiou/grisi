@@ -574,7 +574,7 @@ function renderAgentSection(agentData, mktKey) {
   const narrative  = agent.narrative_tw  || agent.narrative  || '';
   const factors    = agent.key_factors_tw || agent.key_factors || [];
   const watchFor   = agent.watch_for_tw  || agent.what_quant_misses || agent.forward_outlook || '';
-  const crossView  = summary.cross_market_view_tw || summary.cross_market_view || '';
+  const crossView  = agent.cross_market_summary || summary.cross_market_view_tw || summary.cross_market_view || '';
   const outlook    = summary.forward_outlook_tw || agent.forward_outlook || '';
 
   const factorsHtml = factors.map(f => `<li>${f}</li>`).join('');

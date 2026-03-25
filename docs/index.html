@@ -711,15 +711,17 @@ function renderAgentSection(agentData, mktKey) {
     return;
   }
 
-  const raw = summary.actionable_en || summary.actionable_signal || '';
-  let sigWord = (summary.signal_en || 'HOLD').toUpperCase();
-  if (/BUY/i.test(raw))  sigWord = 'BUY';
-  if (/SELL/i.test(raw)) sigWord = 'SELL';
+  // Per-market action badge derived from individual agent score (not shared global signal)
+  const actionTw = agent.action || '觀望持有';
+  let sigWord;
+  if (actionTw === '積極加碼' || actionTw === '逢低布局') sigWord = 'BUY';
+  else if (actionTw === '逐步減碼' || actionTw === '積極減碼') sigWord = 'SELL';
+  else sigWord = 'HOLD';
 
   const narrative  = agent.narrative_en  || agent.narrative  || '';
   const factors    = agent.key_factors_en || agent.key_factors || [];
   const watchFor   = agent.watch_for_en  || agent.forward_outlook || agent.what_quant_misses || '';
-  const crossView  = summary.cross_market_view_en || summary.cross_market_view || '';
+  const crossView  = agent.cross_market_summary || summary.cross_market_view_en || summary.cross_market_view || '';
   const outlook    = summary.forward_outlook_en || agent.forward_outlook || '';
   const badgeCls   = sigWord === 'BUY' ? 'badge-buy' : sigWord === 'SELL' ? 'badge-sell' : 'badge-hold';
 
