@@ -1847,7 +1847,13 @@ def update_agent_results(snapshot, us_data, tw_data, tw_retail, jp_data, kr_data
         agents['summary']['divergence'] = round(abs(us_final - tw_final), 1)
 
     divergence_val = agents['summary'].get('divergence')
-    kr_scores_hist = dd.get('kr_score', [])
+    _dd_path = os.path.join(DATA_DIR, 'dashboard_data.json')
+    try:
+        with open(_dd_path, 'r', encoding='utf-8') as _f:
+            _dd = json.load(_f)
+        kr_scores_hist = _dd.get('kr_score', [])
+    except Exception:
+        kr_scores_hist = []
 
     # --- Regenerate cross_market_view and global_narrative from live data each run ---
     new_cross = build_cross_market_view(

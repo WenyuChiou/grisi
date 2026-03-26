@@ -19,7 +19,9 @@
       "flags": [
         "IC decaying: recent -0.0124 vs historical -0.1694",
         "Weak IC: -0.0124"
-      ]
+      ],
+      "calibration_stale": false,
+      "calibration_days_ago": 0
     },
     "tw": {
       "full_ic_20d": -0.1258,
@@ -39,7 +41,9 @@
       "flags": [
         "IC decaying: recent 0.0261 vs historical -0.1258",
         "Weak IC: 0.0261"
-      ]
+      ],
+      "calibration_stale": false,
+      "calibration_days_ago": 0
     },
     "jp": {
       "full_ic_20d": -0.0664,
@@ -60,7 +64,9 @@
         "IC decaying: recent -0.0499 vs historical -0.0664",
         "Weak IC: -0.0499",
         "Score stuck in neutral zone 82% of last 60d"
-      ]
+      ],
+      "calibration_stale": false,
+      "calibration_days_ago": 0
     },
     "kr": {
       "full_ic_20d": -0.1063,
@@ -77,7 +83,9 @@
         "extreme_greed": 1
       },
       "health": "good",
-      "flags": []
+      "flags": [],
+      "calibration_stale": false,
+      "calibration_days_ago": 0
     },
     "eu": {
       "full_ic_20d": -0.057,
@@ -94,7 +102,9 @@
         "extreme_greed": 0
       },
       "health": "good",
-      "flags": []
+      "flags": [],
+      "calibration_stale": false,
+      "calibration_days_ago": 0
     }
   },
   "system_health": {
@@ -109,13 +119,6 @@
       "JP: Score stuck in neutral zone 82% of last 60d"
     ],
     "last_calibration": "2026-03-25",
-    "recommendation": "Signal degradation detected. Consider recalibration.",
-    "last_recalibration": {
-      "date": "2026-03-25",
-      "markets": [
-        "jp"
-      ],
-      "trigger": "manual"
-    }
+    "recommendation": "Signal degradation detected. Consider recalibration."
   }
 }

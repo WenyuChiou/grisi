@@ -8,14 +8,14 @@
     "behavioral_params": "Kahneman & Tversky (1979), Banerjee (1992)"
   },
   "us_market": {
-    "SPY_close": 656.76,
+    "SPY_close": 656.82,
     "SPY_RSI14": 34.3,
-    "SPY_SMA20": 669.32,
-    "SPY_SMA60": 681.07,
+    "SPY_SMA20": 669.33,
+    "SPY_SMA60": 681.08,
     "SPY_vs_52w_high_pct": 94.7,
-    "SPY_5d_return_pct": -0.44,
-    "SPY_20d_return_pct": -4.99,
-    "VIX": 25.56,
+    "SPY_5d_return_pct": -0.43,
+    "SPY_20d_return_pct": -4.98,
+    "VIX": 25.33,
     "US_10Y_yield": 4.33
   },
   "tw_market": {
@@ -47,7 +47,7 @@
     "NIKKEI_vs_52w_high_pct": 91.3,
     "NIKKEI_5d_return_pct": 0.09,
     "NIKKEI_20d_return_pct": -6.23,
-    "jp_moodring_score": 35.3
+    "jp_moodring_score": 60.7
   },
   "kr_market": {
     "KOSPI_close": 5642.21,
@@ -56,7 +56,7 @@
     "KOSPI_vs_52w_high_pct": 89.5,
     "KOSPI_5d_return_pct": -4.77,
     "KOSPI_20d_return_pct": -5.48,
-    "kr_moodring_score": 40.5
+    "kr_moodring_score": 49.0
   },
   "eu_market": {
     "STOXX50_close": 5649.33,
@@ -65,11 +65,11 @@
     "STOXX50_vs_52w_high_pct": 91.5,
     "STOXX50_5d_return_pct": -1.53,
     "STOXX50_20d_return_pct": -8.49,
-    "eu_moodring_score": 35.7
+    "eu_moodring_score": 47.1
   },
   "global_context": {
-    "Gold": 4516.0,
-    "USDJPY": 159.48,
-    "USDTWD": 31.93
+    "Gold": 4529.0,
+    "USDJPY": 159.49,
+    "USDTWD": 31.97
   }
 }
