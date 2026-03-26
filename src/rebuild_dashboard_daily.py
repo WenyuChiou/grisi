@@ -15,7 +15,7 @@ import os
 import json
 import numpy as np
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
 
 os.environ['PYTHONUTF8'] = '1'
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
@@ -88,7 +88,7 @@ def main():
     for name, ticker in tickers.items():
         print(f"  {ticker}...", end=' ')
         raw = yf.download(ticker, start='2009-01-01',
-                          end=datetime.now().strftime('%Y-%m-%d'),
+                          end=(datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d'),
                           progress=False, auto_adjust=True)
         if isinstance(raw.columns, pd.MultiIndex):
             raw.columns = raw.columns.get_level_values(0)

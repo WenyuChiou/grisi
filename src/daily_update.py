@@ -1709,22 +1709,31 @@ def update_agent_results(snapshot, us_data, tw_data, tw_retail, jp_data, kr_data
     today = datetime.now().strftime('%Y-%m-%d')
     agents['date'] = today
 
-    # Update base scores from dashboard_data
-    dd_path = os.path.join(DATA_DIR, 'dashboard_data.json')
-    with open(dd_path, 'r', encoding='utf-8') as f:
-        dd = json.load(f)
+    # Update base scores from live parameters (most up-to-date).
+    # Fallback for US/TW: historical_scores.csv (written by append_scores_to_csv()
+    # earlier in the pipeline) — never dashboard_data.json, whose score arrays
+    # are only refreshed by rebuild_dashboard_daily.py and may still reflect
+    # yesterday's values when this function runs.
+    csv_path = os.path.join(DATA_DIR, 'historical_scores.csv')
+    us_csv_score = tw_csv_score = None
+    if os.path.exists(csv_path):
+        import pandas as pd
+        df_csv = pd.read_csv(csv_path, encoding='utf-8')
+        if not df_csv.empty:
+            last_row = df_csv.iloc[-1]
+            us_val = last_row.get('us_score')
+            tw_val = last_row.get('tw_score')
+            if us_val is not None and str(us_val) not in ('', 'nan'):
+                us_csv_score = float(us_val)
+            if tw_val is not None and str(tw_val) not in ('', 'nan'):
+                tw_csv_score = float(tw_val)
 
-    us_scores = dd.get('us_score', [])
-    tw_scores = dd.get('tw_score', [])
-    jp_scores = dd.get('jp_score', [])
-    kr_scores = dd.get('kr_score', [])
-    eu_scores = dd.get('eu_score', [])
-    # Prefer live calibrated scores; dashboard_data.json may be stale (rebuild hasn't run yet)
-    us_base = us_score_live if us_score_live is not None else (us_scores[-1] if us_scores else None)
-    tw_base = tw_score_live if tw_score_live is not None else (tw_scores[-1] if tw_scores else None)
-    jp_score = jp_scores[-1] if jp_scores else None
-    kr_score = kr_scores[-1] if kr_scores else None
-    eu_score = eu_scores[-1] if eu_scores else None
+    us_base = us_score_live if us_score_live is not None else us_csv_score
+    tw_base = tw_score_live if tw_score_live is not None else tw_csv_score
+    # JP/KR/EU: initialise to None; will be resolved from snapshot below
+    jp_score = None
+    kr_score = None
+    eu_score = None
     if us_base is not None:
         agents['us_base_score'] = us_base
     if tw_base is not None:
