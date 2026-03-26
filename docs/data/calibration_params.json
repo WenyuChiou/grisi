@@ -40,5 +40,33 @@
     "ic_oos": -0.1313,
     "ic_estimated_post": -0.1313,
     "reason": "Auto-recalibrated: IC 0.0184 → OOS -0.1313 (in-sample -0.1261) | weights rsi=0.20 high=0.60 mom=0.20 | floor=80.0 h_range=15.0 m_range=30.0"
+  },
+  "kr": {
+    "rsi_weight": 0.33,
+    "vs_high_weight": 0.34,
+    "momentum_weight": 0.33,
+    "vs_high_floor": 80.0,
+    "vs_high_range": 15.0,
+    "momentum_range": 30.0,
+    "calibration_date": "2026-03-25",
+    "ic_at_calibration": null,
+    "ic_insample": null,
+    "ic_oos": null,
+    "ic_estimated_post": null,
+    "reason": "Default equal-weight calibration (KR not yet calibrated)"
+  },
+  "eu": {
+    "rsi_weight": 0.33,
+    "vs_high_weight": 0.34,
+    "momentum_weight": 0.33,
+    "vs_high_floor": 80.0,
+    "vs_high_range": 15.0,
+    "momentum_range": 30.0,
+    "calibration_date": "2026-03-25",
+    "ic_at_calibration": null,
+    "ic_insample": null,
+    "ic_oos": null,
+    "ic_estimated_post": null,
+    "reason": "Default equal-weight calibration (EU not yet calibrated)"
   }
 }

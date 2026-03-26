@@ -39,7 +39,7 @@
   },
   "tw_agent": {
     "adjusted_score_delta": 2,
-    "sentiment_level": "GREEDY",
+    "sentiment_level": "EXTREME_GREED",
     "conviction": "MEDIUM",
     "narrative": "台股最近有點起色！三大法人偏買，台積電 1840 開始往上走...PTT stock 板氣氛轉好，當沖仔也開始賺錢了。要加碼嗎？心裡很癢，但還是怕追高變韭菜。再等一天確認三大法人方向。",
     "key_factors": [
