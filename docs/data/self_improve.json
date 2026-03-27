@@ -6,12 +6,12 @@
       "recent_ic_20d": -0.0216,
       "ic_trend": "decaying",
       "ic_change_pct": -87.2,
-      "score_mean_60d": 43.0,
-      "score_std_60d": 4.4,
+      "score_mean_60d": 42.9,
+      "score_std_60d": 4.5,
       "zone_distribution_60d": {
         "extreme_fear": 0,
-        "fear": 16,
-        "neutral": 44,
+        "fear": 17,
+        "neutral": 43,
         "greed": 0,
         "extreme_greed": 0
       },
@@ -24,10 +24,10 @@
       "calibration_days_ago": 2
     },
     "tw": {
-      "full_ic_20d": -0.1248,
-      "recent_ic_20d": 0.0214,
+      "full_ic_20d": -0.1254,
+      "recent_ic_20d": 0.014,
       "ic_trend": "decaying",
-      "ic_change_pct": -82.9,
+      "ic_change_pct": -88.8,
       "score_mean_60d": 45.5,
       "score_std_60d": 9.1,
       "zone_distribution_60d": {
@@ -39,17 +39,17 @@
       },
       "health": "poor",
       "flags": [
-        "IC decaying: recent 0.0214 vs historical -0.1248",
-        "Weak IC: 0.0214"
+        "IC decaying: recent 0.014 vs historical -0.1254",
+        "Weak IC: 0.014"
       ],
       "calibration_stale": false,
       "calibration_days_ago": 2
     },
     "jp": {
       "full_ic_20d": -0.0666,
-      "recent_ic_20d": -0.0716,
+      "recent_ic_20d": -0.0736,
       "ic_trend": "stable",
-      "ic_change_pct": 7.5,
+      "ic_change_pct": 10.5,
       "score_mean_60d": 48.5,
       "score_std_60d": 9.2,
       "zone_distribution_60d": {
@@ -61,17 +61,17 @@
       },
       "health": "poor",
       "flags": [
-        "Weak IC: -0.0716",
+        "Weak IC: -0.0736",
         "Score stuck in neutral zone 80% of last 60d"
       ],
       "calibration_stale": false,
       "calibration_days_ago": 2
     },
     "kr": {
-      "full_ic_20d": -0.1074,
-      "recent_ic_20d": -0.2138,
+      "full_ic_20d": -0.1069,
+      "recent_ic_20d": -0.206,
       "ic_trend": "improving",
-      "ic_change_pct": 99.1,
+      "ic_change_pct": 92.7,
       "score_mean_60d": 58.2,
       "score_std_60d": 11.0,
       "zone_distribution_60d": {
@@ -111,9 +111,9 @@
     "active_flags": [
       "US: IC decaying: recent -0.0216 vs historical -0.1684",
       "US: Weak IC: -0.0216",
-      "TW: IC decaying: recent 0.0214 vs historical -0.1248",
-      "TW: Weak IC: 0.0214",
-      "JP: Weak IC: -0.0716",
+      "TW: IC decaying: recent 0.014 vs historical -0.1254",
+      "TW: Weak IC: 0.014",
+      "JP: Weak IC: -0.0736",
       "JP: Score stuck in neutral zone 80% of last 60d"
     ],
     "last_calibration": "2026-03-25",
