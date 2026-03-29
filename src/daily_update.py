@@ -592,9 +592,6 @@ def fetch_kr_data():
     start_400d = (datetime.now() - timedelta(days=400)).strftime('%Y-%m-%d')
     end = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
 
-    print("[KR] Fetching from Yahoo Finance...")
-    kospi = yf_download_with_retry('^KS11', start=start_400d, end=end, progress=False, auto_adjust=True)
-
     def safe(df):
         c = df['Close']
         return c.iloc[:, 0] if c.ndim > 1 else c
@@ -605,7 +602,36 @@ def fetch_kr_data():
         l = (-d.where(d < 0, 0)).rolling(p).mean()
         return 100 - 100 / (1 + g / l)
 
-    ks_c = safe(kospi)
+    print("[KR] Fetching from Yahoo Finance (^KS11)...")
+    kospi = yf_download_with_retry('^KS11', start=start_400d, end=end, progress=False, auto_adjust=True)
+
+    ks_c_raw = safe(kospi) if (kospi is not None and not kospi.empty) else None
+
+    # Drop trailing NaN rows — yfinance sometimes appends a row for a closed/holiday
+    # date with NaN close, causing all downstream metrics to be null.
+    if ks_c_raw is not None:
+        ks_c = ks_c_raw.dropna()
+    else:
+        ks_c = None
+
+    # Fallback: try KODEX 200 ETF (069500.KS) if ^KS11 is empty or all-NaN
+    if ks_c is None or len(ks_c) < 30:
+        print("[KR] ^KS11 empty/insufficient — falling back to 069500.KS (KODEX 200 ETF)")
+        kodex = yf_download_with_retry('069500.KS', start=start_400d, end=end, progress=False, auto_adjust=True)
+        if kodex is not None and not kodex.empty:
+            ks_c = safe(kodex).dropna()
+            print(f"[KR] Using KODEX 200 proxy, last close: {ks_c.iloc[-1] if len(ks_c) else 'N/A'}")
+
+    if ks_c is None or len(ks_c) < 30:
+        raise RuntimeError("[KR] Could not fetch sufficient data from ^KS11 or 069500.KS fallback")
+
+    today = datetime.now().strftime('%Y-%m-%d')
+    ks_idx = ks_c.index.tz_localize(None) if (hasattr(ks_c.index, 'tz') and ks_c.index.tz is not None) else ks_c.index
+    ks_dates = [d.strftime('%Y-%m-%d') for d in ks_idx]
+    market_open = today in ks_dates and float(ks_c.iloc[-1]) > 0
+    if not market_open:
+        last_date = ks_dates[-1] if ks_dates else 'none'
+        print(f"[KR] Market CLOSED on {today} (last trading date in data: {last_date})")
 
     market_data = {
         'KOSPI_close': round(float(ks_c.iloc[-1]), 2),
@@ -615,14 +641,6 @@ def fetch_kr_data():
         'KOSPI_5d_return_pct': round(float((ks_c.iloc[-1] / ks_c.iloc[-6] - 1) * 100), 2),
         'KOSPI_20d_return_pct': round(float((ks_c.iloc[-1] / ks_c.iloc[-21] - 1) * 100), 2),
     }
-
-    today = datetime.now().strftime('%Y-%m-%d')
-    ks_idx = ks_c.index.tz_localize(None) if (hasattr(ks_c.index, 'tz') and ks_c.index.tz is not None) else ks_c.index
-    ks_dates = [d.strftime('%Y-%m-%d') for d in ks_idx]
-    market_open = today in ks_dates and float(ks_c.iloc[-1]) > 0
-    if not market_open:
-        last_date = ks_dates[-1] if ks_dates else 'none'
-        print(f"[KR] Market CLOSED on {today} (last trading date in data: {last_date})")
 
     print(f"[KR] KOSPI={market_data['KOSPI_close']}, RSI={market_data['KOSPI_RSI14']}")
     return market_data, market_open
@@ -960,14 +978,24 @@ def generate_narrative(mkt_data, mkt_name, retail=None, global_ctx=None, score=N
         'EU': ('STOXX50', 'STOXX50_close', 'STOXX50_RSI14', 'STOXX50_5d_return_pct', 'STOXX50_20d_return_pct'),
     }
 
+    import math as _math
     idx_name, close_key, rsi_key, r5d_key, r20d_key = prefix_map.get(mkt_name, (None,)*5)
     if not idx_name:
         return None
 
     close = mkt_data.get(close_key, '?')
+    # Treat None and NaN as missing — both produce garbage if formatted numerically
+    if close is None or (isinstance(close, float) and _math.isnan(close)):
+        close = '?'
     rsi = mkt_data.get(rsi_key, '?') if rsi_key else '?'
+    if rsi is None or (isinstance(rsi, float) and _math.isnan(rsi)):
+        rsi = '?'
     r5d = mkt_data.get(r5d_key) if r5d_key else None
+    if r5d is not None and isinstance(r5d, float) and _math.isnan(r5d):
+        r5d = None
     r20d = mkt_data.get(r20d_key) if r20d_key else None
+    if r20d is not None and isinstance(r20d, float) and _math.isnan(r20d):
+        r20d = None
 
     parts = [f"{idx_name} at {close:,.0f}" if isinstance(close, (int, float)) else f"{idx_name} at {close}"]
 

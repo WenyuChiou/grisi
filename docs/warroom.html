@@ -46,9 +46,11 @@ const sans = { fontFamily: "'Instrument Sans', system-ui, sans-serif" };
 const serif = { fontFamily: "'Lora', Georgia, serif" };
 
 // ─── Default Data (fallback if JSON fails to load) ────────────────────────────
+// Market prices intentionally omitted — stale hardcoded values are worse than showing "—".
+// The live warroom_data.json should always be present; this is a last-resort structure stub.
 const DEFAULT_DATA = {
-  date: "2026-03-20",
-  market: { spy: 645, qqq: 581.5, iwm: 243, vix: 26, wti: 96.20, brent: 110, rate10y: 4.34 },
+  date: "—",
+  market: { spy: null, qqq: null, iwm: null, vix: null, wti: null, brent: null, rate10y: null },
   scenarios: [
     { id: "S1", name: "Quick Deal",                        prob: 3,  spy: 685, nash: "Not EQ",  duration: "<4 wks" },
     { id: "S2", name: "Partial Deal + SOF",                prob: 17, spy: 630, nash: "Weak",    duration: "4-8 wks" },

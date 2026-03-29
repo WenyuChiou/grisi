@@ -1,5 +1,5 @@
 {
-  "date": "2026-03-27",
+  "date": "2026-03-29",
   "generated_by": "Claude (claude-opus-4-6)",
   "data_sources": {
     "market_prices": "Yahoo Finance (yfinance)",
@@ -35,7 +35,7 @@
     ],
     "watch_for_tw": "等待 RSI 從超賣區回升（目標重回 40+）；SPY 能否收復 SMA20 (665) 是短線趨勢轉折關鍵；VIX 31.1 需回落 20 以下才代表恐慌解除；10Y 殖利率 4.44% — 注意聯準會措辭及就業數據。",
     "action": "逢低布局",
-    "cross_market_summary": "US Moodring 34.4；SPY RSI 23.6 超賣；VIX 31.05 恐慌偏高；20 日 -7.3%；SPY 低於 SMA20 (665)。"
+    "cross_market_summary": "US Moodring 34.4。"
   },
   "tw_agent": {
     "adjusted_score_delta": 2,
@@ -54,13 +54,13 @@
     ],
     "watch_for_tw": "觀察 TAIEX 能否守住 SMA20 及外資方向性轉變。",
     "action": "逐步減碼",
-    "cross_market_summary": "TW Moodring 73.2；TAIEX RSI 48.3 中性。"
+    "cross_market_summary": "TW Moodring 73.2。"
   },
   "summary": {
     "us_final_score": 34.4,
     "tw_final_score": 73.2,
     "divergence": 38.8,
-    "cross_market_view": "US (34.4) 和 TW (73.2) 分歧 38.8 — TW 回升至貪婪區，US 恐懼。US RSI 23.6 超賣，台股 RSI 48.3 中性。韓股 (33.5) 恐懼區，歐股 Moodring 39.2 仍在恐懼區，RSI 39.9 偏弱。",
+    "cross_market_view": "US (34.4) 和 TW (73.2) 分歧 38.8 — TW 回升至貪婪區，US 恐懼。韓股 (33.5) 由上週中性回落至恐懼區。",
     "actionable_signal": "HOLD — US 超賣但趨勢未逆轉，等 RSI 從超賣反彈確認。TW 散戶槓桿加速追買+外資賣超，不宜追多。等外資翻買連確認（2-3 天+）再動。"
   },
   "jp_agent": {
@@ -84,34 +84,34 @@
       "20 日報酬 -8.5% — 累積跌幅顯著，逆勢訊號升溫",
       "USDJPY 160.3 — 日圓偏弱，出口股獲利"
     ],
-    "watch_for_tw": "USDJPY 160.3 — 日圓升破 150 將觸發套利平倉，是最大尾部風險；BOJ 下次利率決策時間點及措辭是最重要催化劑；RSI 技術超賣提供反彈可能，但需美股穩定配合。",
-    "action": "逐步減碼",
+    "watch_for_tw": "BOJ 下次利率決策時間點及措辭是最重要催化劑；RSI 技術超賣提供反彈可能，但需美股穩定配合。",
+    "action": "觀望持有",
     "cross_market_summary": "日經 Moodring 55.1 貪婪；RSI 44.2 偏弱；20 日 -8.5%；USDJPY 160.3 日圓偏弱（利出口）。"
   },
   "kr_agent": {
     "adjusted_score_delta": 0,
     "sentiment_level": "FEARFUL",
     "conviction": "MEDIUM",
-    "narrative": "KOSPI nan，韓股最近 +nan%，外資鯨魚一直賣，개미們在硬撐...Naver 股版氣氛很差，三星感覺被市場嫌棄，AI 記憶體題材還有沒有用？信用交易風險升高，不確定要不要繼續 hold。",
+    "narrative": "KOSPI 5439，韓股最近 -5.9%，外資鯨魚一直賣，개미們在硬撐...Naver 股版氣氛很差，三星感覺被市場嫌棄，AI 記憶體題材還有沒有用？信用交易風險升高，不確定要不要繼續 hold。",
     "key_factors": [
-      "KOSPI RSI 55.5 中性",
-      "5 日報酬 +nan% — 持平",
-      "20 日報酬 +nan% — 中期持穩",
+      "KOSPI RSI 54.9 中性",
+      "5 日報酬 -5.9% — 小幅下跌",
+      "20 日報酬 -13.8% — 中期回調",
       "Moodring 33.5 — 逆勢買入區間"
     ],
     "what_quant_misses": "三星/SK 海力士記憶體週期、DRAM 現貨價格和韓元匯率是韓股特有催化劑，Z-score 無法量化。AI 記憶體需求預期是近期主要題材。",
     "forward_outlook": "Moodring 41.0 回落至中性區，上週貪婪訊號消退。近 5 日 -4.6%、月跌 -5.3%，技術上無強烈逆勢訊號。DRAM 報價方向和韓元匯率是後續催化劑，暫維持中性觀望。",
-    "narrative_en": "KOSPI at nan. RSI 55.5 (neutral). 5d return +nan%. 20d return +nan%. Moodring score 33.5 (fearful — contrarian opportunity building).",
-    "narrative_tw": "KOSPI nan，韓股最近 +nan%，外資鯨魚一直賣，개미們在硬撐...Naver 股版氣氛很差，三星感覺被市場嫌棄，AI 記憶體題材還有沒有用？信用交易風險升高，不確定要不要繼續 hold。",
+    "narrative_en": "KOSPI at 5,439. RSI 54.9 (neutral). 5d return -5.9%. 20d return -13.8%. Moodring score 33.5 (fearful — contrarian opportunity building).",
+    "narrative_tw": "KOSPI 5439，韓股最近 -5.9%，外資鯨魚一直賣，개미們在硬撐...Naver 股版氣氛很差，三星感覺被市場嫌棄，AI 記憶體題材還有沒有用？信用交易風險升高，不確定要不要繼續 hold。",
     "key_factors_tw": [
-      "KOSPI RSI 55.5 中性",
-      "5 日報酬 +nan% — 持平",
-      "20 日報酬 +nan% — 中期持穩",
+      "KOSPI RSI 54.9 中性",
+      "5 日報酬 -5.9% — 小幅下跌",
+      "20 日報酬 -13.8% — 中期回調",
       "Moodring 33.5 — 逆勢買入區間"
     ],
     "watch_for_tw": "三星/SK 海力士 DRAM 報價走勢及韓元匯率是韓股主要驅動力；AI 記憶體題材降溫時需注意回調風險。",
     "action": "逢低布局",
-    "cross_market_summary": "韓股 Moodring 33.5 恐懼；KOSPI RSI 55.5 中性；近 5 日 +nan%；月報酬 +nan%。"
+    "cross_market_summary": "韓股 Moodring 33.5 恐懼；KOSPI RSI 54.9 中性；近 5 日 -5.9%；月報酬 -13.8%。"
   },
   "eu_agent": {
     "adjusted_score_delta": 0,
@@ -135,8 +135,8 @@
       "Moodring 39.2 — 恐懼區，需更多降息確信訊號"
     ],
     "watch_for_tw": "ECB 降息路徑及德國財政刺激規模是歐股非對稱風險主要來源；RSI 超賣提供技術反彈條件，但地緣風險溢價難以量化。",
-    "action": "逢低布局",
+    "action": "觀望持有",
     "cross_market_summary": "歐股 Moodring 39.2 恐懼區；STOXX50 RSI 39.9 偏弱；近 5 日 +0.1%；20 日 -10.3%。"
   },
-  "global_narrative": "2026-03-27：美股 SPY RSI 23.6 進入超賣，VIX 31.05，Moodring 34.4 恐懼。台股回升至 Moodring 73.2，TAIEX RSI 48.3。日經 Moodring 55.1 貪婪，USDJPY 160.3 日圓偏弱。韓股 Moodring 33.5 由上週恐懼區回落恐懼，KOSPI 近 5 日 +nan%。歐股 Moodring 39.2 恐懼區，STOXX50 RSI 39.9 偏弱，20 日 -10.3%。整體：US/EU 技術偏空。"
+  "global_narrative": "2026-03-29：美股 Moodring 34.4 恐懼。台股回升至 Moodring 73.2。韓股 Moodring 33.5 由上週中性回落恐懼，KOSPI 近 5 日 -5.9%。"
 }

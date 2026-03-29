@@ -1,5 +1,5 @@
 {
-  "date": "2026-03-27",
+  "date": "2026-03-29",
   "markets": {
     "us": {
       "full_ic_20d": -0.1684,
@@ -21,7 +21,7 @@
         "Weak IC: -0.0216"
       ],
       "calibration_stale": false,
-      "calibration_days_ago": 2
+      "calibration_days_ago": 4
     },
     "tw": {
       "full_ic_20d": -0.1254,
@@ -43,7 +43,7 @@
         "Weak IC: 0.014"
       ],
       "calibration_stale": false,
-      "calibration_days_ago": 2
+      "calibration_days_ago": 4
     },
     "jp": {
       "full_ic_20d": -0.0666,
@@ -65,26 +65,26 @@
         "Score stuck in neutral zone 80% of last 60d"
       ],
       "calibration_stale": false,
-      "calibration_days_ago": 2
+      "calibration_days_ago": 4
     },
     "kr": {
       "full_ic_20d": -0.1069,
-      "recent_ic_20d": -0.206,
+      "recent_ic_20d": -0.2188,
       "ic_trend": "improving",
-      "ic_change_pct": 92.7,
-      "score_mean_60d": 58.2,
-      "score_std_60d": 11.0,
+      "ic_change_pct": 104.7,
+      "score_mean_60d": 57.8,
+      "score_std_60d": 11.5,
       "zone_distribution_60d": {
         "extreme_fear": 0,
-        "fear": 6,
+        "fear": 7,
         "neutral": 16,
-        "greed": 37,
+        "greed": 36,
         "extreme_greed": 1
       },
       "health": "good",
       "flags": [],
       "calibration_stale": false,
-      "calibration_days_ago": 2
+      "calibration_days_ago": 4
     },
     "eu": {
       "full_ic_20d": -0.0572,
@@ -103,7 +103,7 @@
       "health": "good",
       "flags": [],
       "calibration_stale": false,
-      "calibration_days_ago": 2
+      "calibration_days_ago": 4
     }
   },
   "system_health": {
