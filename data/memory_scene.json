@@ -1,5 +1,5 @@
 {
-  "date": "2026-03-27",
+  "date": "2026-03-29",
   "us": {
     "current_score": 35.4,
     "analogues": [
@@ -50,7 +50,7 @@
       }
     ],
     "summary": {
-      "n_similar": 224,
+      "n_similar": 225,
       "avg_fwd_20d": 2.14,
       "win_rate_20d": 69.0,
       "best_analogue": "2022-07-18",
@@ -278,7 +278,7 @@
       }
     ],
     "summary": {
-      "n_similar": 389,
+      "n_similar": 390,
       "avg_fwd_20d": 0.79,
       "win_rate_20d": 58.0,
       "best_analogue": "2020-10-30",
