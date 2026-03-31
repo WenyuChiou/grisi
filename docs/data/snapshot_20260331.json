@@ -8,25 +8,25 @@
     "behavioral_params": "Kahneman & Tversky (1979), Banerjee (1992)"
   },
   "us_market": {
-    "SPY_close": 639.95,
-    "SPY_RSI14": 30.5,
-    "SPY_SMA20": 660.15,
-    "SPY_SMA60": 678.05,
-    "SPY_vs_52w_high_pct": 92.3,
-    "SPY_5d_return_pct": -2.03,
-    "SPY_20d_return_pct": -5.68,
-    "VIX": 27.95,
-    "US_10Y_yield": 4.33
+    "SPY_close": 647.36,
+    "SPY_RSI14": 35.8,
+    "SPY_SMA20": 660.53,
+    "SPY_SMA60": 678.18,
+    "SPY_vs_52w_high_pct": 93.3,
+    "SPY_5d_return_pct": -0.89,
+    "SPY_20d_return_pct": -4.59,
+    "VIX": 26.27,
+    "US_10Y_yield": 4.31
   },
   "tw_market": {
-    "TAIEX_close": 31723.0,
-    "TAIEX_RSI14": 30.3,
-    "TAIEX_SMA20": 33215.0,
-    "TAIEX_vs_52w_high_pct": 89.6,
-    "TAIEX_5d_return_pct": -2.73,
-    "TAIEX_20d_return_pct": -7.58,
-    "TSMC_close": 1760.0,
-    "TSMC_vs_52w_high_pct": 87.6
+    "TAIEX_close": 32518.0,
+    "TAIEX_RSI14": 48.1,
+    "TAIEX_SMA20": 33345.0,
+    "TAIEX_vs_52w_high_pct": 91.8,
+    "TAIEX_5d_return_pct": -0.62,
+    "TAIEX_20d_return_pct": -7.34,
+    "TSMC_close": null,
+    "TSMC_vs_52w_high_pct": null
   },
   "tw_retail_indicators": {
     "margin_balance": 8067915,
@@ -59,17 +59,17 @@
     "kr_moodring_score": 18.6
   },
   "eu_market": {
-    "STOXX50_close": 5571.38,
-    "STOXX50_RSI14": 35.2,
-    "STOXX50_SMA20": 5675.32,
+    "STOXX50_close": 5569.73,
+    "STOXX50_RSI14": 35.1,
+    "STOXX50_SMA20": 5675.23,
     "STOXX50_vs_52w_high_pct": 90.2,
-    "STOXX50_5d_return_pct": -0.18,
-    "STOXX50_20d_return_pct": -3.47,
+    "STOXX50_5d_return_pct": -0.21,
+    "STOXX50_20d_return_pct": -3.5,
     "eu_moodring_score": 47.4
   },
   "global_context": {
-    "Gold": 4636.0,
-    "USDJPY": 159.04,
-    "USDTWD": 32.01
+    "Gold": 4680.0,
+    "USDJPY": 158.83,
+    "USDTWD": 31.93
   }
 }
