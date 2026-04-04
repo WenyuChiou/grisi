@@ -1,23 +1,1468 @@
 {
-  "date": "2026-03-19",
-  "market": { "spy": 659, "qqq": 593, "vix": 26.78, "wti": 96.14, "brent": 108.65, "rate10y": 3.625 },
+  "meta": {
+    "generated_at": "2026-04-04T04:01:26.494372+00:00",
+    "as_of": "2026-04-03",
+    "output_path": "docs\\data\\warroom_data.json",
+    "warnings": []
+  },
+  "market": {
+    "as_of": "2026-04-03",
+    "items": {
+      "SPY": {
+        "symbol": "SPY",
+        "label": "SPDR S&P 500 ETF",
+        "price": 655.83,
+        "change_pct": 0.09,
+        "prev_close": 655.24,
+        "as_of": "2026-04-02"
+      },
+      "QQQ": {
+        "symbol": "QQQ",
+        "label": "Invesco QQQ",
+        "price": 584.98,
+        "change_pct": 0.11,
+        "prev_close": 584.31,
+        "as_of": "2026-04-02"
+      },
+      "VIX": {
+        "symbol": "^VIX",
+        "label": "CBOE Volatility Index",
+        "price": 23.87,
+        "change_pct": -2.73,
+        "prev_close": 24.54,
+        "as_of": "2026-04-02"
+      },
+      "IWM": {
+        "symbol": "IWM",
+        "label": "iShares Russell 2000 ETF",
+        "price": 251.29,
+        "change_pct": 0.69,
+        "prev_close": 249.56,
+        "as_of": "2026-04-02"
+      },
+      "NVDA": {
+        "symbol": "NVDA",
+        "label": "NVIDIA",
+        "price": 177.39,
+        "change_pct": 0.93,
+        "prev_close": 175.75,
+        "as_of": "2026-04-02"
+      },
+      "BRENT": {
+        "symbol": "BZ=F",
+        "label": "Brent Crude Futures",
+        "price": 109.03,
+        "change_pct": 7.78,
+        "prev_close": 101.16,
+        "as_of": "2026-04-02"
+      },
+      "DXY": {
+        "symbol": "DX-Y.NYB",
+        "label": "US Dollar Index",
+        "price": 100.186,
+        "change_pct": 0.16,
+        "prev_close": 100.03,
+        "as_of": "2026-04-03"
+      },
+      "TNX": {
+        "symbol": "^TNX",
+        "label": "US 10Y Treasury Yield",
+        "price": 4.313,
+        "change_pct": -0.14,
+        "prev_close": 4.319,
+        "as_of": "2026-04-02"
+      }
+    }
+  },
+  "moodring": {
+    "as_of": "2026-04-03",
+    "source_url": "https://wenyuchiou.github.io/moodring/data/dashboard_data.json",
+    "regions": {
+      "US": {
+        "date": "2026-04-03",
+        "score": 55.6,
+        "signal": "偏貪婪"
+      },
+      "TW": {
+        "date": "2026-04-03",
+        "score": 64.7,
+        "signal": "偏貪婪"
+      },
+      "JP": {
+        "date": "2026-04-03",
+        "score": 41.7,
+        "signal": "中性"
+      },
+      "KR": {
+        "date": "2026-04-03",
+        "score": 22.8,
+        "signal": "極度恐懼"
+      },
+      "EU": {
+        "date": "2026-04-03",
+        "score": 38.2,
+        "signal": "偏恐懼"
+      }
+    }
+  },
   "scenarios": [
-    { "id": "S1", "name": "Quick deal + pause", "prob": 5, "spy": 685, "nash": "Not EQ", "duration": "<4 wks" },
-    { "id": "S2", "name": "SOF + partial deal", "prob": 20, "spy": 630, "nash": "Weak", "duration": "4-8 wks" },
-    { "id": "S3", "name": "Protracted standoff + stagflation", "prob": 42, "spy": 575, "nash": "Strong", "duration": "3-6 mo" },
-    { "id": "S4", "name": "Ground escalation + recession", "prob": 33, "spy": 510, "nash": "Unstable", "duration": "6+ mo" }
-  ],
-  "positions": [
-    { "id": "P1", "ticker": "QQQ", "type": "Bear Put", "buyStrike": 595, "sellStrike": 575, "expiry": "Apr 17", "cost": 5.16, "qty": 2, "status": "ITM" },
-    { "id": "P2", "ticker": "SPY", "type": "Bear Put", "buyStrike": 655, "sellStrike": 630, "cost": 7.00, "qty": 2, "expiry": "May 15", "status": "Near ITM" },
-    { "id": "P3", "ticker": "SPY", "type": "Bear Put", "buyStrike": 600, "sellStrike": 570, "cost": 3.87, "qty": 1, "expiry": "Jun 19", "status": "OTM (B1/3)" }
+    {
+      "id": "S1",
+      "name": "Quick deal + pause",
+      "prob": 5,
+      "spy": 685,
+      "nash": "Not EQ",
+      "duration": "<4 wks"
+    },
+    {
+      "id": "S2",
+      "name": "SOF + partial deal",
+      "prob": 20,
+      "spy": 630,
+      "nash": "Weak",
+      "duration": "4-8 wks"
+    },
+    {
+      "id": "S3",
+      "name": "Protracted standoff + stagflation",
+      "prob": 42,
+      "spy": 575,
+      "nash": "Strong",
+      "duration": "3-6 mo"
+    },
+    {
+      "id": "S4",
+      "name": "Ground escalation + recession",
+      "prob": 33,
+      "spy": 510,
+      "nash": "Unstable",
+      "duration": "6+ mo"
+    }
   ],
   "hypotheses": [
-    { "id": 1, "text": "美伊戰爭 4-6 週結束", "status": "BROKEN" },
-    { "id": 2, "text": "Fed 2026 降息 1 次", "status": "BROKEN" },
-    { "id": 3, "text": "AI capex → 營收變現", "status": "SPLIT" },
-    { "id": 4, "text": "油價 Q3 回到 $75", "status": "BROKEN" },
-    { "id": 5, "text": "2026 美國不衰退", "status": "CHALLENGED" }
+    {
+      "id": 1,
+      "text": "美伊戰爭 4-6 週結束",
+      "status": "BROKEN"
+    },
+    {
+      "id": 2,
+      "text": "Fed 2026 降息 1 次",
+      "status": "BROKEN"
+    },
+    {
+      "id": 3,
+      "text": "AI capex → 營收變現",
+      "status": "SPLIT"
+    },
+    {
+      "id": 4,
+      "text": "油價 Q3 回到 $75",
+      "status": "BROKEN"
+    },
+    {
+      "id": 5,
+      "text": "2026 美國不衰退",
+      "status": "CHALLENGED"
+    }
   ],
-  "capital": { "poolA": 20, "poolB": 15, "poolC": 50, "cash": 48, "deployed": 37 }
+  "positions": {
+    "as_of": "2026-04-03",
+    "accounts": [
+      {
+        "account_name": "cash",
+        "acc_id": "283445328432576687",
+        "strategy": "stocks",
+        "funds": {
+          "total_assets": 7639.13,
+          "cash": 73.43,
+          "market_val": 7565.7,
+          "power": 73.43
+        },
+        "positions": [
+          {
+            "code": "US.SOXS",
+            "name": "Direxion Daily Semiconductor Bear 3x Shares ETF",
+            "qty": 200.0,
+            "cost_price": 37.55,
+            "nominal_price": 35.93,
+            "pl_val": -324.0,
+            "pl_ratio": -4.31,
+            "side": "LONG"
+          },
+          {
+            "code": "US.IBIT",
+            "name": "iShares Bitcoin Trust",
+            "qty": 10.0,
+            "cost_price": 36.0,
+            "nominal_price": 37.97,
+            "pl_val": 19.7,
+            "pl_ratio": 5.47,
+            "side": "LONG"
+          }
+        ]
+      },
+      {
+        "account_name": "margin",
+        "acc_id": "283445329185003354",
+        "strategy": "options",
+        "funds": {
+          "total_assets": 32736.06,
+          "cash": 21510.22,
+          "market_val": 11225.84,
+          "power": 21820.44
+        },
+        "positions": [
+          {
+            "code": "US.SPY260515P630000",
+            "name": "SPY 260515 630.00P",
+            "qty": -2.0,
+            "cost_price": 13.26,
+            "nominal_price": 9.7,
+            "pl_val": 712.0,
+            "pl_ratio": 26.85,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.SPY260417P660000",
+            "name": "SPY 260417 660.00P",
+            "qty": -2.0,
+            "cost_price": 13.9,
+            "nominal_price": 12.089,
+            "pl_val": 362.28,
+            "pl_ratio": 13.03,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.SPY260417P620000",
+            "name": "SPY 260417 620.00P",
+            "qty": -3.0,
+            "cost_price": 9.613,
+            "nominal_price": 2.48,
+            "pl_val": 2140.0,
+            "pl_ratio": 74.2,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.QQQ260417P595000",
+            "name": "QQQ 260417 595.00P",
+            "qty": -2.0,
+            "cost_price": 15.75,
+            "nominal_price": 15.442,
+            "pl_val": 61.54,
+            "pl_ratio": 1.95,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.QQQ260417P575000",
+            "name": "QQQ 260417 575.00P",
+            "qty": -2.0,
+            "cost_price": 7.58,
+            "nominal_price": 7.405,
+            "pl_val": 35.0,
+            "pl_ratio": 2.31,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.IWM260618P210000",
+            "name": "IWM 260618 210.00P",
+            "qty": -2.0,
+            "cost_price": 3.33,
+            "nominal_price": 2.365,
+            "pl_val": 193.0,
+            "pl_ratio": 28.98,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.IWM260501P250000",
+            "name": "IWM 260501 250.00P",
+            "qty": -2.0,
+            "cost_price": 8.84,
+            "nominal_price": 7.06,
+            "pl_val": 356.0,
+            "pl_ratio": 20.14,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.IWM260417C258000",
+            "name": "IWM 260417 258.00C",
+            "qty": -6.0,
+            "cost_price": 3.847,
+            "nominal_price": 2.595,
+            "pl_val": 751.0,
+            "pl_ratio": 32.54,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.IWM260410P255000",
+            "name": "IWM 260410 255.00P",
+            "qty": -6.0,
+            "cost_price": 8.72,
+            "nominal_price": 5.928,
+            "pl_val": 1675.08,
+            "pl_ratio": 32.02,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.GLD260417P410000",
+            "name": "GLD 260417 410.00P",
+            "qty": -8.0,
+            "cost_price": 12.268,
+            "nominal_price": 5.51,
+            "pl_val": 5405.68,
+            "pl_ratio": 55.08,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.AMD260618P125000",
+            "name": "AMD 260618 125.00P",
+            "qty": -3.0,
+            "cost_price": 1.27,
+            "nominal_price": 1.128,
+            "pl_val": 42.6,
+            "pl_ratio": 11.18,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.SPY260515P655000",
+            "name": "SPY 260515 655.00P",
+            "qty": 2.0,
+            "cost_price": 20.31,
+            "nominal_price": 16.72,
+            "pl_val": -718.0,
+            "pl_ratio": -17.68,
+            "side": "LONG"
+          },
+          {
+            "code": "US.SPY260417P665000",
+            "name": "SPY 260417 665.00P",
+            "qty": 2.0,
+            "cost_price": 16.45,
+            "nominal_price": 14.484,
+            "pl_val": -393.26,
+            "pl_ratio": -11.95,
+            "side": "LONG"
+          },
+          {
+            "code": "US.SPY260417P610000",
+            "name": "SPY 260417 610.00P",
+            "qty": 3.0,
+            "cost_price": 7.063,
+            "nominal_price": 1.68,
+            "pl_val": -1615.0,
+            "pl_ratio": -76.21,
+            "side": "LONG"
+          },
+          {
+            "code": "US.SOXS",
+            "name": "Direxion Daily Semiconductor Bear 3x Shares ETF",
+            "qty": 100.0,
+            "cost_price": 39.35,
+            "nominal_price": 35.93,
+            "pl_val": -342.0,
+            "pl_ratio": -8.69,
+            "side": "LONG"
+          },
+          {
+            "code": "US.QQQ260417P605000",
+            "name": "QQQ 260417 605.00P",
+            "qty": 4.0,
+            "cost_price": 22.4,
+            "nominal_price": 21.782,
+            "pl_val": -247.28,
+            "pl_ratio": -2.76,
+            "side": "LONG"
+          },
+          {
+            "code": "US.IWM260618P225000",
+            "name": "IWM 260618 225.00P",
+            "qty": 2.0,
+            "cost_price": 5.78,
+            "nominal_price": 4.33,
+            "pl_val": -290.0,
+            "pl_ratio": -25.09,
+            "side": "LONG"
+          },
+          {
+            "code": "US.IWM260501P260000",
+            "name": "IWM 260501 260.00P",
+            "qty": 2.0,
+            "cost_price": 14.36,
+            "nominal_price": 11.977,
+            "pl_val": -476.7,
+            "pl_ratio": -16.6,
+            "side": "LONG"
+          },
+          {
+            "code": "US.IWM260417C264000",
+            "name": "IWM 260417 264.00C",
+            "qty": 6.0,
+            "cost_price": 1.833,
+            "nominal_price": 0.875,
+            "pl_val": -575.0,
+            "pl_ratio": -52.26,
+            "side": "LONG"
+          },
+          {
+            "code": "US.IWM260410P260000",
+            "name": "IWM 260410 260.00P",
+            "qty": 6.0,
+            "cost_price": 12.573,
+            "nominal_price": 9.357,
+            "pl_val": -1929.8,
+            "pl_ratio": -25.58,
+            "side": "LONG"
+          },
+          {
+            "code": "US.GLD260417P405000",
+            "name": "GLD 260417 405.00P",
+            "qty": 8.0,
+            "cost_price": 10.505,
+            "nominal_price": 4.507,
+            "pl_val": -4798.8,
+            "pl_ratio": -57.1,
+            "side": "LONG"
+          },
+          {
+            "code": "US.AMD260618P140000",
+            "name": "AMD 260618 140.00P",
+            "qty": 3.0,
+            "cost_price": 2.23,
+            "nominal_price": 1.955,
+            "pl_val": -82.5,
+            "pl_ratio": -12.33,
+            "side": "LONG"
+          }
+        ]
+      }
+    ],
+    "warnings": []
+  },
+  "macro": {
+    "macro": {
+      "yield_curve": {
+        "1M": 3.72,
+        "3M": 3.7,
+        "6M": 3.72,
+        "1Y": 3.68,
+        "2Y": 3.79,
+        "3Y": 3.82,
+        "5Y": 3.94,
+        "10Y": 4.31,
+        "30Y": 4.88
+      },
+      "spread_2s10s": 0.52,
+      "yield_curve_inverted": false,
+      "indicators": [
+        {
+          "name": "CPI",
+          "label": "消費者物價指數 (CPI)",
+          "series": "CPIAUCSL",
+          "latest": 327.46,
+          "previous": 326.588,
+          "change": 0.872,
+          "trend": "上升",
+          "date": "2026-02-01"
+        },
+        {
+          "name": "核心PCE",
+          "label": "核心個人消費支出 (Core PCE)",
+          "series": "PCEPILFE",
+          "latest": 128.394,
+          "previous": 127.929,
+          "change": 0.465,
+          "trend": "上升",
+          "date": "2026-01-01"
+        },
+        {
+          "name": "失業率",
+          "label": "失業率",
+          "series": "UNRATE",
+          "latest": 4.3,
+          "previous": 4.4,
+          "change": -0.1,
+          "trend": "下降",
+          "date": "2026-03-01"
+        },
+        {
+          "name": "非農就業人數",
+          "label": "非農就業人數 (NFP)",
+          "series": "PAYEMS",
+          "latest": 158637.0,
+          "previous": 158459.0,
+          "change": 178.0,
+          "trend": "上升",
+          "date": "2026-03-01"
+        },
+        {
+          "name": "GDP",
+          "label": "國內生產毛額 (GDP)",
+          "series": "GDP",
+          "latest": 31442.483,
+          "previous": 31098.027,
+          "change": 344.456,
+          "trend": "上升",
+          "date": "2025-10-01"
+        },
+        {
+          "name": "初領失業救濟金",
+          "label": "初領失業救濟金人數",
+          "series": "ICSA",
+          "latest": 202000.0,
+          "previous": 211000.0,
+          "change": -9000.0,
+          "trend": "下降",
+          "date": "2026-03-28"
+        },
+        {
+          "name": "消費者信心指數",
+          "label": "密歇根消費者信心指數",
+          "series": "UMCSENT",
+          "latest": 56.6,
+          "previous": 56.4,
+          "change": 0.2,
+          "trend": "上升",
+          "date": "2026-02-01"
+        }
+      ],
+      "calendar": [
+        {
+          "date": "2026-04-08",
+          "event": "消費者物價指數 (CPI)",
+          "importance": "HIGH"
+        },
+        {
+          "date": "2026-04-09",
+          "event": "初領失業救濟金",
+          "importance": "MEDIUM"
+        },
+        {
+          "date": "2026-04-11",
+          "event": "零售銷售",
+          "importance": "MEDIUM"
+        }
+      ],
+      "updated_at": "2026-04-04T04:01:14"
+    }
+  },
+  "news": {
+    "news": {
+      "items": [
+        {
+          "time": "2026-04-02T20:32:00",
+          "source": "yahoo",
+          "headline": "What Oil Shock? S&P 500 Estimates Keep Rising. These Stocks' Views Rise Most.",
+          "relevance_score": 9,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.54,
+            "vix": -2.25
+          },
+          "related_hypotheses": [
+            "H4"
+          ],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-03T13:51:06",
+          "source": "cnbc",
+          "headline": "Wall Street snapped its 5-week losing streak. Here are 3 themes that caught our eye",
+          "relevance_score": 9,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H1"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-02T20:24:20",
+          "source": "cnbc",
+          "headline": "CFTC sues Arizona, Connecticut, Illinois over prediction market regulation",
+          "relevance_score": 8,
+          "sentiment": "bearish",
+          "impact": {
+            "spy": -0.48,
+            "vix": 2.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-02T21:52:00",
+          "source": "yahoo",
+          "headline": "2 Healthcare Dividend Stocks to Buy as the Tech-Heavy Nasdaq Dips Below Correction Territory",
+          "relevance_score": 8,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-02T20:25:06",
+          "source": "yahoo",
+          "headline": "How Options Can Help Traders Wrangle SMCI Stock's Volatility",
+          "relevance_score": 7,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-02T20:28:05",
+          "source": "yahoo",
+          "headline": "Iran War Fuels Defense Contracts. Analysts Divided On RTX Stock.",
+          "relevance_score": 7,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H1"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-02T21:55:17",
+          "source": "yahoo",
+          "headline": "Stock Market Today, April 2: Ambev Slips as Analyst Ratings Temper Sentiment",
+          "relevance_score": 7,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-02T21:58:16",
+          "source": "yahoo",
+          "headline": "Stock Market Today, April 2: Nike Shares Slide After Numerous Price Target Cuts From Wall Street",
+          "relevance_score": 7,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-02T22:23:33",
+          "source": "cnbc",
+          "headline": "Cramer’s week ahead: Two key economic reports and earnings from Levi's, Delta",
+          "relevance_score": 7,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H1",
+            "H2"
+          ],
+          "category": "earnings"
+        },
+        {
+          "time": "2026-04-03T00:36:22",
+          "source": "cnbc",
+          "headline": "Microsoft executive touts Copilot sales traction as AI anxiety weighs on stock",
+          "relevance_score": 7,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-03T05:00:01",
+          "source": "cnbc",
+          "headline": "Chinese chip firms hit record high revenue driven by the AI boom and U.S. curbs",
+          "relevance_score": 7,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.42,
+            "vix": -1.75
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "earnings"
+        },
+        {
+          "time": "2025-11-19T21:21:42",
+          "source": "yahoo",
+          "headline": "Best credit cards for shopping on Amazon for April 2026: Boost your Amazon purchases with valuable rewards",
+          "relevance_score": 6,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H1",
+            "H3",
+            "H5"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-02T14:12:31",
+          "source": "cnbc",
+          "headline": "Analysis: Trump's Iran speech ignores the risks of a return to the 1970s",
+          "relevance_score": 6,
+          "sentiment": "bearish",
+          "impact": {
+            "spy": -0.65,
+            "vix": 3.0
+          },
+          "related_hypotheses": [
+            "H1",
+            "H4"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-02T18:46:52",
+          "source": "cnbc",
+          "headline": "Iran and Oman drafting protocol to 'monitor' Hormuz Strait traffic: IRNA",
+          "relevance_score": 6,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H1",
+            "H3",
+            "H4"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-02T18:59:44",
+          "source": "cnbc",
+          "headline": "Amazon to add 3.5% fuel and logistics surcharge for sellers as Iran war drives up energy prices",
+          "relevance_score": 6,
+          "sentiment": "bearish",
+          "impact": {
+            "spy": -0.65,
+            "vix": 3.0
+          },
+          "related_hypotheses": [
+            "H1",
+            "H3",
+            "H4"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-02T20:25:42",
+          "source": "yahoo",
+          "headline": "Sphere Entertainment Scores Positive Wall Street Reports. Stock Hits Record High.",
+          "relevance_score": 6,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.36,
+            "vix": -1.5
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-02T20:32:26",
+          "source": "yahoo",
+          "headline": "Should You Chase the Amazon-Driven Rally in Globalstar Stock Today?",
+          "relevance_score": 6,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.36,
+            "vix": -1.5
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-02T20:32:48",
+          "source": "cnbc",
+          "headline": "Trump fires Attorney General Pam Bondi",
+          "relevance_score": 6,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "earnings"
+        },
+        {
+          "time": "2026-04-02T20:40:10",
+          "source": "yahoo",
+          "headline": "Stocks Recover on Hopes Strait of Hormuz Could Soon Reopen",
+          "relevance_score": 6,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-02T20:46:52",
+          "source": "cnbc",
+          "headline": "One year on from Trump's 'liberation day,' global investors are rethinking American exceptionalism",
+          "relevance_score": 6,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H5"
+          ],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-02T21:55:49",
+          "source": "yahoo",
+          "headline": "U.S. Oil Futures Rise 11.4% in Wake of Trump Address",
+          "relevance_score": 6,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.36,
+            "vix": -1.5
+          },
+          "related_hypotheses": [
+            "H4"
+          ],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-02T21:57:01",
+          "source": "yahoo",
+          "headline": "Decibel explains how onchain markets remove slow middlemen",
+          "relevance_score": 6,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-03T05:19:48",
+          "source": "cnbc",
+          "headline": "Japan's Sakura Internet jumps 20% as Microsoft plans $10 billion AI push with SoftBank",
+          "relevance_score": 6,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.36,
+            "vix": -1.5
+          },
+          "related_hypotheses": [
+            "H3",
+            "H5"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-03T07:39:47",
+          "source": "cnbc",
+          "headline": "Asia-Pacific markets mostly rise in Easter trade on hopes for Hormuz reopening",
+          "relevance_score": 6,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.36,
+            "vix": -1.5
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-03T11:30:01",
+          "source": "cnbc",
+          "headline": "Trump tariff fallout: Some industries grapple with lingering effects one year later",
+          "relevance_score": 6,
+          "sentiment": "bearish",
+          "impact": {
+            "spy": -0.65,
+            "vix": 3.0
+          },
+          "related_hypotheses": [
+            "H1",
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-03T13:00:01",
+          "source": "cnbc",
+          "headline": "The cost to fly private is up as much as 20% with fuel prices soaring",
+          "relevance_score": 6,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.65,
+            "vix": -3.0
+          },
+          "related_hypotheses": [
+            "H1",
+            "H3"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-03T13:35:34",
+          "source": "cnbc",
+          "headline": "U.S. payrolls rose by 178,000 in March, more than expected; unemployment at 4.3%",
+          "relevance_score": 6,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H5"
+          ],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-03T15:17:46",
+          "source": "cnbc",
+          "headline": "Trump threatens to destroy Iranian infrastructure, saying its government 'knows what has to be done'",
+          "relevance_score": 6,
+          "sentiment": "bearish",
+          "impact": {
+            "spy": -0.36,
+            "vix": 1.5
+          },
+          "related_hypotheses": [
+            "H1",
+            "H3"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2024-02-27T21:16:06",
+          "source": "yahoo",
+          "headline": "Credit card fees explained: 8 types you should know",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3",
+            "H5"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-02T19:06:30",
+          "source": "cnbc",
+          "headline": "OpenAI acquires popular tech podcast TBPN",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-02T20:26:51",
+          "source": "cnbc",
+          "headline": "Tesla's stock suffers steepest drop of 2026 on disappointing deliveries report",
+          "relevance_score": 5,
+          "sentiment": "bearish",
+          "impact": {
+            "spy": -0.3,
+            "vix": 1.25
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-02T20:56:41",
+          "source": "yahoo",
+          "headline": "Why Bernstein Thinks You Should Buy the Dip in Sandisk Stock Here",
+          "relevance_score": 5,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.3,
+            "vix": -1.25
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-02T21:11:26",
+          "source": "yahoo",
+          "headline": "Plug Power Just Scored a New Deal in Canada. Should You Buy Plug Stock Here?",
+          "relevance_score": 5,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.3,
+            "vix": -1.25
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-02T21:17:37",
+          "source": "cnbc",
+          "headline": "Coinbase clears key regulatory hurdle in bid to bolster its stablecoin business",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3",
+            "H5"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-02T21:31:00",
+          "source": "yahoo",
+          "headline": "Whether Position Trading Or Swing Trading, Here's Why Dell Stock Was A Quick Profit",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-02T21:47:23",
+          "source": "yahoo",
+          "headline": "Roundtable CEO James Heckman Clarifies Equity Status, Announces One Year Lock",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-03T12:32:11",
+          "source": "cnbc",
+          "headline": "United Airlines hikes checked bag fee by $10 as fuel prices continue to climb",
+          "relevance_score": 5,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.3,
+            "vix": -1.25
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-03T13:00:01",
+          "source": "cnbc",
+          "headline": "These master's degrees lead to fast-growing, in-demand jobs—but offer low ROI",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3",
+            "H5"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-03T17:07:55",
+          "source": "cnbc",
+          "headline": "Meta, Google under attack as court cases bypass 30-year-old legal shield",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-03T22:13:34",
+          "source": "cnbc",
+          "headline": "'Chasing vibes' — OpenAI's M&A strategy gets more confusing with TBPN purchase",
+          "relevance_score": 5,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.3,
+            "vix": -1.25
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-03T22:40:38",
+          "source": "cnbc",
+          "headline": "OpenAI's Fidji Simo takes medical leave, announces leadership changes",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2024-02-28T17:23:44",
+          "source": "yahoo",
+          "headline": "The 10 best online banks of 2026",
+          "relevance_score": 4,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H5"
+          ],
+          "category": "macro"
+        },
+        {
+          "time": "2024-08-08T22:22:28",
+          "source": "yahoo",
+          "headline": "How to calculate credit card interest",
+          "relevance_score": 4,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H5"
+          ],
+          "category": "macro"
+        },
+        {
+          "time": "2025-09-08T19:03:15",
+          "source": "yahoo",
+          "headline": "The best balance transfer credit cards for April 2026: Don't pay any interest until 2027",
+          "relevance_score": 4,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H5"
+          ],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-02T21:00:05",
+          "source": "yahoo",
+          "headline": "Daily ETF Flows: GLD Gathers $550M",
+          "relevance_score": 4,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-02T21:30:40",
+          "source": "yahoo",
+          "headline": "The new energy shock, Part 3: Where capital moves next",
+          "relevance_score": 4,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H4"
+          ],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-02T22:00:00",
+          "source": "yahoo",
+          "headline": "Fuel Shock Forces Airlines Into Emergency Mode",
+          "relevance_score": 4,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-03T00:10:52",
+          "source": "cnbc",
+          "headline": "Warner, Schiff probe potential insider trading in government",
+          "relevance_score": 4,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H1"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-03T11:01:19",
+          "source": "yahoo",
+          "headline": "Daily – Vickers Top Buyers & Sellers for 04/03/2026",
+          "relevance_score": 4,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-03T11:01:19",
+          "source": "yahoo",
+          "headline": "Daily – Vickers Top Insider Picks for 04/03/2026",
+          "relevance_score": 4,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-03T15:00:02",
+          "source": "cnbc",
+          "headline": "I study happiness for a living: The most emotionally secure people share these 7 'quietly powerful' traits",
+          "relevance_score": 4,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-03T21:05:30",
+          "source": "cnbc",
+          "headline": "U.S. fighter jet shot down in Iran, one crew member rescued, MS NOW reports",
+          "relevance_score": 4,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H1"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2024-02-27T21:30:09",
+          "source": "yahoo",
+          "headline": "What is a balance transfer and how does it work?",
+          "relevance_score": 3,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-02T21:11:48",
+          "source": "cnbc",
+          "headline": "Trump administration sets up to 100% tariffs on some imported drugs, with many companies exempt",
+          "relevance_score": 3,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-02T21:40:02",
+          "source": "yahoo",
+          "headline": "Can You Predict The Sphere’s Future?",
+          "relevance_score": 3,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-02T21:55:18",
+          "source": "yahoo",
+          "headline": "Two solid ‘yes’ votes for Echo Global’s acquisition: Moody’s and S&P",
+          "relevance_score": 3,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-02T22:14:44",
+          "source": "yahoo",
+          "headline": "Corn Heads into the Long Weekend Mixed",
+          "relevance_score": 3,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-02T23:30:02",
+          "source": "yahoo",
+          "headline": "Sysco Just Announced a $29.1 Billion Acquisition and Wall Street Is Nervous. Can a 3% Dividend Sweeten the Deal?",
+          "relevance_score": 3,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-03T00:55:24",
+          "source": "cnbc",
+          "headline": "Tiger Woods called Trump after DUI crash, he told cop on bodycam video",
+          "relevance_score": 3,
+          "sentiment": "bearish",
+          "impact": {
+            "spy": -0.27,
+            "vix": 1.2
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-03T12:05:47",
+          "source": "cnbc",
+          "headline": "United unveils basic Polaris business fare in premium cabin overhaul",
+          "relevance_score": 3,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        }
+      ],
+      "summary": {
+        "bullish_count": 12,
+        "bearish_count": 7,
+        "neutral_count": 41,
+        "total_items": 60,
+        "avg_relevance": 5.3,
+        "top_theme": "AI科技泡沫"
+      },
+      "source_counts": {
+        "jin10": 0,
+        "yahoo": 30,
+        "cnbc": 30
+      },
+      "updated_at": "2026-04-04T04:01:26"
+    }
+  },
+  "greeks": [],
+  "edges": [],
+  "stop_rules": [],
+  "mispricing": {
+    "as_of": "2026-04-04",
+    "market_spy": 655.83,
+    "expected_spy": 570.05,
+    "mispricing_pct": 13.0796,
+    "history": [
+      {
+        "date": "2026-04-04",
+        "market_spy": 655.83,
+        "expected_spy": 570.05,
+        "mispricing_pct": 13.0796
+      }
+    ]
+  }
 }
