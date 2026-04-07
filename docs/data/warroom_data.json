@@ -1,23 +1,1449 @@
 {
-  "date": "2026-03-19",
-  "market": { "spy": 659, "qqq": 593, "vix": 26.78, "wti": 96.14, "brent": 108.65, "rate10y": 3.625 },
+  "meta": {
+    "generated_at": "2026-04-08T02:06:00.218664+00:00",
+    "as_of": "2026-04-07",
+    "output_path": "docs\\data\\warroom_data.json",
+    "warnings": []
+  },
+  "market": {
+    "as_of": "2026-04-07",
+    "items": {
+      "SPY": {
+        "symbol": "SPY",
+        "label": "SPDR S&P 500 ETF",
+        "price": 659.22,
+        "change_pct": 0.04,
+        "prev_close": 658.93,
+        "as_of": "2026-04-07"
+      },
+      "QQQ": {
+        "symbol": "QQQ",
+        "label": "Invesco QQQ",
+        "price": 588.59,
+        "change_pct": 0.02,
+        "prev_close": 588.5,
+        "as_of": "2026-04-07"
+      },
+      "VIX": {
+        "symbol": "^VIX",
+        "label": "CBOE Volatility Index",
+        "price": 25.78,
+        "change_pct": 6.66,
+        "prev_close": 24.17,
+        "as_of": "2026-04-07"
+      },
+      "IWM": {
+        "symbol": "IWM",
+        "label": "iShares Russell 2000 ETF",
+        "price": 252.91,
+        "change_pct": 0.22,
+        "prev_close": 252.36,
+        "as_of": "2026-04-07"
+      },
+      "NVDA": {
+        "symbol": "NVDA",
+        "label": "NVIDIA",
+        "price": 178.1,
+        "change_pct": 0.26,
+        "prev_close": 177.64,
+        "as_of": "2026-04-07"
+      },
+      "BRENT": {
+        "symbol": "BZ=F",
+        "label": "Brent Crude Futures",
+        "price": 94.96,
+        "change_pct": -13.49,
+        "prev_close": 109.77,
+        "as_of": "2026-04-07"
+      },
+      "DXY": {
+        "symbol": "DX-Y.NYB",
+        "label": "US Dollar Index",
+        "price": 98.938,
+        "change_pct": -1.04,
+        "prev_close": 99.98,
+        "as_of": "2026-04-07"
+      },
+      "TNX": {
+        "symbol": "^TNX",
+        "label": "US 10Y Treasury Yield",
+        "price": 4.343,
+        "change_pct": 0.18,
+        "prev_close": 4.335,
+        "as_of": "2026-04-07"
+      }
+    }
+  },
+  "moodring": {
+    "as_of": "2026-04-07",
+    "source_url": "https://wenyuchiou.github.io/moodring/data/dashboard_data.json",
+    "regions": {
+      "US": {
+        "date": "2026-04-07",
+        "score": 51.7,
+        "signal": "中性"
+      },
+      "TW": {
+        "date": "2026-04-07",
+        "score": 74.3,
+        "signal": "偏貪婪"
+      },
+      "JP": {
+        "date": "2026-04-07",
+        "score": 61.3,
+        "signal": "偏貪婪"
+      },
+      "KR": {
+        "date": "2026-04-07",
+        "score": 56.2,
+        "signal": "偏貪婪"
+      },
+      "EU": {
+        "date": "2026-04-07",
+        "score": 59.4,
+        "signal": "偏貪婪"
+      }
+    }
+  },
   "scenarios": [
-    { "id": "S1", "name": "Quick deal + pause", "prob": 5, "spy": 685, "nash": "Not EQ", "duration": "<4 wks" },
-    { "id": "S2", "name": "SOF + partial deal", "prob": 20, "spy": 630, "nash": "Weak", "duration": "4-8 wks" },
-    { "id": "S3", "name": "Protracted standoff + stagflation", "prob": 42, "spy": 575, "nash": "Strong", "duration": "3-6 mo" },
-    { "id": "S4", "name": "Ground escalation + recession", "prob": 33, "spy": 510, "nash": "Unstable", "duration": "6+ mo" }
-  ],
-  "positions": [
-    { "id": "P1", "ticker": "QQQ", "type": "Bear Put", "buyStrike": 595, "sellStrike": 575, "expiry": "Apr 17", "cost": 5.16, "qty": 2, "status": "ITM" },
-    { "id": "P2", "ticker": "SPY", "type": "Bear Put", "buyStrike": 655, "sellStrike": 630, "cost": 7.00, "qty": 2, "expiry": "May 15", "status": "Near ITM" },
-    { "id": "P3", "ticker": "SPY", "type": "Bear Put", "buyStrike": 600, "sellStrike": 570, "cost": 3.87, "qty": 1, "expiry": "Jun 19", "status": "OTM (B1/3)" }
+    {
+      "id": "S1",
+      "name": "Quick deal + pause",
+      "prob": 5,
+      "spy": 685,
+      "nash": "Not EQ",
+      "duration": "<4 wks"
+    },
+    {
+      "id": "S2",
+      "name": "SOF + partial deal",
+      "prob": 20,
+      "spy": 630,
+      "nash": "Weak",
+      "duration": "4-8 wks"
+    },
+    {
+      "id": "S3",
+      "name": "Protracted standoff + stagflation",
+      "prob": 42,
+      "spy": 575,
+      "nash": "Strong",
+      "duration": "3-6 mo"
+    },
+    {
+      "id": "S4",
+      "name": "Ground escalation + recession",
+      "prob": 33,
+      "spy": 510,
+      "nash": "Unstable",
+      "duration": "6+ mo"
+    }
   ],
   "hypotheses": [
-    { "id": 1, "text": "美伊戰爭 4-6 週結束", "status": "BROKEN" },
-    { "id": 2, "text": "Fed 2026 降息 1 次", "status": "BROKEN" },
-    { "id": 3, "text": "AI capex → 營收變現", "status": "SPLIT" },
-    { "id": 4, "text": "油價 Q3 回到 $75", "status": "BROKEN" },
-    { "id": 5, "text": "2026 美國不衰退", "status": "CHALLENGED" }
+    {
+      "id": 1,
+      "text": "美伊戰爭 4-6 週結束",
+      "status": "BROKEN"
+    },
+    {
+      "id": 2,
+      "text": "Fed 2026 降息 1 次",
+      "status": "BROKEN"
+    },
+    {
+      "id": 3,
+      "text": "AI capex → 營收變現",
+      "status": "SPLIT"
+    },
+    {
+      "id": 4,
+      "text": "油價 Q3 回到 $75",
+      "status": "BROKEN"
+    },
+    {
+      "id": 5,
+      "text": "2026 美國不衰退",
+      "status": "CHALLENGED"
+    }
   ],
-  "capital": { "poolA": 20, "poolB": 15, "poolC": 50, "cash": 48, "deployed": 37 }
+  "positions": {
+    "as_of": "2026-04-07",
+    "accounts": [
+      {
+        "account_name": "cash",
+        "acc_id": "283445328432576687",
+        "strategy": "stocks",
+        "funds": {
+          "total_assets": 6466.53,
+          "cash": 6061.23,
+          "market_val": 405.3,
+          "power": 6061.23
+        },
+        "positions": [
+          {
+            "code": "US.IBIT",
+            "name": "iShares Bitcoin Trust",
+            "qty": 10.0,
+            "cost_price": 36.0,
+            "nominal_price": 40.53,
+            "pl_val": 45.3,
+            "pl_ratio": 12.58,
+            "side": "LONG"
+          }
+        ]
+      },
+      {
+        "account_name": "margin",
+        "acc_id": "283445329185003354",
+        "strategy": "options",
+        "funds": {
+          "total_assets": 30734.93,
+          "cash": 22082.51,
+          "market_val": 8652.42,
+          "power": 24965.02
+        },
+        "positions": [
+          {
+            "code": "US.SPY260515P657000",
+            "name": "SPY 260515 657.00P",
+            "qty": -3.0,
+            "cost_price": 16.29,
+            "nominal_price": 15.974,
+            "pl_val": 94.95,
+            "pl_ratio": 1.94,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.SPY260515P630000",
+            "name": "SPY 260515 630.00P",
+            "qty": -2.0,
+            "cost_price": 13.26,
+            "nominal_price": 8.915,
+            "pl_val": 869.0,
+            "pl_ratio": 32.77,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.SPY260417P660000",
+            "name": "SPY 260417 660.00P",
+            "qty": -4.0,
+            "cost_price": 11.98,
+            "nominal_price": 10.47,
+            "pl_val": 604.0,
+            "pl_ratio": 12.6,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.QQQ260417P595000",
+            "name": "QQQ 260417 595.00P",
+            "qty": -2.0,
+            "cost_price": 15.75,
+            "nominal_price": 13.151,
+            "pl_val": 519.8,
+            "pl_ratio": 16.5,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.QQQ260417P575000",
+            "name": "QQQ 260417 575.00P",
+            "qty": -2.0,
+            "cost_price": 7.58,
+            "nominal_price": 6.14,
+            "pl_val": 288.0,
+            "pl_ratio": 19.0,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.IWM260618P210000",
+            "name": "IWM 260618 210.00P",
+            "qty": -2.0,
+            "cost_price": 3.33,
+            "nominal_price": 2.335,
+            "pl_val": 199.0,
+            "pl_ratio": 29.88,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.IWM260501P250000",
+            "name": "IWM 260501 250.00P",
+            "qty": -2.0,
+            "cost_price": 8.84,
+            "nominal_price": 6.5,
+            "pl_val": 468.02,
+            "pl_ratio": 26.47,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.IWM260417C258000",
+            "name": "IWM 260417 258.00C",
+            "qty": -6.0,
+            "cost_price": 3.847,
+            "nominal_price": 3.175,
+            "pl_val": 403.0,
+            "pl_ratio": 17.47,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.IWM260410P255000",
+            "name": "IWM 260410 255.00P",
+            "qty": -9.0,
+            "cost_price": 7.313,
+            "nominal_price": 4.88,
+            "pl_val": 2189.82,
+            "pl_ratio": 33.27,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.GLD260417P410000",
+            "name": "GLD 260417 410.00P",
+            "qty": -12.0,
+            "cost_price": 9.652,
+            "nominal_price": 3.65,
+            "pl_val": 7202.12,
+            "pl_ratio": 62.19,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.AMD260618P125000",
+            "name": "AMD 260618 125.00P",
+            "qty": -3.0,
+            "cost_price": 1.27,
+            "nominal_price": 0.9244,
+            "pl_val": 103.68,
+            "pl_ratio": 27.21,
+            "side": "SHORT"
+          },
+          {
+            "code": "US.SPY260515P662000",
+            "name": "SPY 260515 662.00P",
+            "qty": 3.0,
+            "cost_price": 18.23,
+            "nominal_price": 17.776,
+            "pl_val": -136.11,
+            "pl_ratio": -2.49,
+            "side": "LONG"
+          },
+          {
+            "code": "US.SPY260515P655000",
+            "name": "SPY 260515 655.00P",
+            "qty": 2.0,
+            "cost_price": 20.31,
+            "nominal_price": 15.305,
+            "pl_val": -1001.0,
+            "pl_ratio": -24.64,
+            "side": "LONG"
+          },
+          {
+            "code": "US.SPY260417P665000",
+            "name": "SPY 260417 665.00P",
+            "qty": 4.0,
+            "cost_price": 14.435,
+            "nominal_price": 12.616,
+            "pl_val": -727.56,
+            "pl_ratio": -12.6,
+            "side": "LONG"
+          },
+          {
+            "code": "US.QQQ260417P605000",
+            "name": "QQQ 260417 605.00P",
+            "qty": 4.0,
+            "cost_price": 22.4,
+            "nominal_price": 18.899,
+            "pl_val": -1400.32,
+            "pl_ratio": -15.63,
+            "side": "LONG"
+          },
+          {
+            "code": "US.IWM260618P225000",
+            "name": "IWM 260618 225.00P",
+            "qty": 2.0,
+            "cost_price": 5.78,
+            "nominal_price": 4.152,
+            "pl_val": -325.6,
+            "pl_ratio": -28.17,
+            "side": "LONG"
+          },
+          {
+            "code": "US.IWM260501P260000",
+            "name": "IWM 260501 260.00P",
+            "qty": 2.0,
+            "cost_price": 14.36,
+            "nominal_price": 11.021,
+            "pl_val": -667.78,
+            "pl_ratio": -23.25,
+            "side": "LONG"
+          },
+          {
+            "code": "US.IWM260417C264000",
+            "name": "IWM 260417 264.00C",
+            "qty": 6.0,
+            "cost_price": 1.833,
+            "nominal_price": 1.185,
+            "pl_val": -389.0,
+            "pl_ratio": -35.35,
+            "side": "LONG"
+          },
+          {
+            "code": "US.IWM260410P260000",
+            "name": "IWM 260410 260.00P",
+            "qty": 9.0,
+            "cost_price": 11.006,
+            "nominal_price": 8.083,
+            "pl_val": -2630.39,
+            "pl_ratio": -26.56,
+            "side": "LONG"
+          },
+          {
+            "code": "US.GLD260417P405000",
+            "name": "GLD 260417 405.00P",
+            "qty": 12.0,
+            "cost_price": 8.163,
+            "nominal_price": 2.871,
+            "pl_val": -6351.16,
+            "pl_ratio": -64.83,
+            "side": "LONG"
+          },
+          {
+            "code": "US.AMD260618P140000",
+            "name": "AMD 260618 140.00P",
+            "qty": 3.0,
+            "cost_price": 2.23,
+            "nominal_price": 1.767,
+            "pl_val": -139.05,
+            "pl_ratio": -20.78,
+            "side": "LONG"
+          }
+        ]
+      }
+    ],
+    "warnings": []
+  },
+  "macro": {
+    "macro": {
+      "yield_curve": {
+        "1M": 3.72,
+        "3M": 3.72,
+        "6M": 3.74,
+        "1Y": 3.72,
+        "2Y": 3.84,
+        "3Y": 3.88,
+        "5Y": 3.98,
+        "10Y": 4.34,
+        "30Y": 4.89
+      },
+      "spread_2s10s": 0.5,
+      "yield_curve_inverted": false,
+      "indicators": [
+        {
+          "name": "CPI",
+          "label": "消費者物價指數 (CPI)",
+          "series": "CPIAUCSL",
+          "latest": 327.46,
+          "previous": 326.588,
+          "change": 0.872,
+          "trend": "上升",
+          "date": "2026-02-01"
+        },
+        {
+          "name": "核心PCE",
+          "label": "核心個人消費支出 (Core PCE)",
+          "series": "PCEPILFE",
+          "latest": 128.394,
+          "previous": 127.929,
+          "change": 0.465,
+          "trend": "上升",
+          "date": "2026-01-01"
+        },
+        {
+          "name": "失業率",
+          "label": "失業率",
+          "series": "UNRATE",
+          "latest": 4.3,
+          "previous": 4.4,
+          "change": -0.1,
+          "trend": "下降",
+          "date": "2026-03-01"
+        },
+        {
+          "name": "非農就業人數",
+          "label": "非農就業人數 (NFP)",
+          "series": "PAYEMS",
+          "latest": 158637.0,
+          "previous": 158459.0,
+          "change": 178.0,
+          "trend": "上升",
+          "date": "2026-03-01"
+        },
+        {
+          "name": "GDP",
+          "label": "國內生產毛額 (GDP)",
+          "series": "GDP",
+          "latest": 31442.483,
+          "previous": 31098.027,
+          "change": 344.456,
+          "trend": "上升",
+          "date": "2025-10-01"
+        },
+        {
+          "name": "初領失業救濟金",
+          "label": "初領失業救濟金人數",
+          "series": "ICSA",
+          "latest": 202000.0,
+          "previous": 211000.0,
+          "change": -9000.0,
+          "trend": "下降",
+          "date": "2026-03-28"
+        },
+        {
+          "name": "消費者信心指數",
+          "label": "密歇根消費者信心指數",
+          "series": "UMCSENT",
+          "latest": 56.6,
+          "previous": 56.4,
+          "change": 0.2,
+          "trend": "上升",
+          "date": "2026-02-01"
+        }
+      ],
+      "calendar": [
+        {
+          "date": "2026-04-08",
+          "event": "消費者物價指數 (CPI)",
+          "importance": "HIGH"
+        },
+        {
+          "date": "2026-04-09",
+          "event": "初領失業救濟金",
+          "importance": "MEDIUM"
+        },
+        {
+          "date": "2026-04-11",
+          "event": "零售銷售",
+          "importance": "MEDIUM"
+        }
+      ],
+      "updated_at": "2026-04-08T02:05:56"
+    }
+  },
+  "news": {
+    "news": {
+      "items": [
+        {
+          "time": "2026-04-07T22:23:38",
+          "source": "cnbc",
+          "headline": "Cramer says Tuesday’s stock market action gives investors a glimpse of the U.S. economy’s fate if Iran war persists",
+          "relevance_score": 10,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H1",
+            "H2",
+            "H3"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-08T01:48:19",
+          "source": "cnbc",
+          "headline": "South Korea stocks lead gains in Asia as oil prices plunge after U.S.-Iran ceasefire deal",
+          "relevance_score": 10,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H1",
+            "H3",
+            "H4"
+          ],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-06T14:15:02",
+          "source": "yahoo",
+          "headline": "As Iran Threatens Attacks on Nvidia, Should You Actually Sell NVDA Stock?",
+          "relevance_score": 8,
+          "sentiment": "bearish",
+          "impact": {
+            "spy": -0.48,
+            "vix": 2.0
+          },
+          "related_hypotheses": [
+            "H1",
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-06T14:36:45",
+          "source": "yahoo",
+          "headline": "C3.ai (AI): CEO Stock Sale Adds to Pressure on a Company Already Facing Weak Revenue Trends",
+          "relevance_score": 8,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "earnings"
+        },
+        {
+          "time": "2026-04-07T21:14:34",
+          "source": "cnbc",
+          "headline": "House Democrats call on federal regulator to crack down on offshore prediction market war bets",
+          "relevance_score": 8,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H1",
+            "H2",
+            "H3"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-06T14:05:00",
+          "source": "yahoo",
+          "headline": "The Top Three Nuclear Energy Stocks to Buy Right Now",
+          "relevance_score": 7,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.76,
+            "vix": -3.5
+          },
+          "related_hypotheses": [
+            "H1",
+            "H4"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-06T14:38:08",
+          "source": "yahoo",
+          "headline": "Goldman Sachs' blunt warning to laid-off tech workers: It will take time and earnings loss to find a new job",
+          "relevance_score": 7,
+          "sentiment": "bearish",
+          "impact": {
+            "spy": -0.76,
+            "vix": 3.5
+          },
+          "related_hypotheses": [
+            "H1",
+            "H3"
+          ],
+          "category": "earnings"
+        },
+        {
+          "time": "2026-04-06T14:05:32",
+          "source": "yahoo",
+          "headline": "Stocks Climb on the Push for a Ceasefire in Iran",
+          "relevance_score": 6,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H1"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-06T14:15:10",
+          "source": "yahoo",
+          "headline": "Barclays PLC (BCS) Rose on Earnings Beat Driven by Investment Banking Strength",
+          "relevance_score": 6,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.36,
+            "vix": -1.5
+          },
+          "related_hypotheses": [
+            "H5"
+          ],
+          "category": "earnings"
+        },
+        {
+          "time": "2026-04-06T14:48:57",
+          "source": "yahoo",
+          "headline": "Consumer hardware trade in danger as Iran war triggers memory chip pricing explosion",
+          "relevance_score": 6,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H1",
+            "H3"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-07T10:07:32",
+          "source": "cnbc",
+          "headline": "'The thaw is real': Indian delegation visits China to talk EVs and more",
+          "relevance_score": 6,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H1",
+            "H4"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-07T16:07:36",
+          "source": "cnbc",
+          "headline": "Jet fuel supply concerns grow as war with Iran drags on, airlines cut flights",
+          "relevance_score": 6,
+          "sentiment": "bearish",
+          "impact": {
+            "spy": -0.65,
+            "vix": 3.0
+          },
+          "related_hypotheses": [
+            "H1",
+            "H3"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-07T17:32:35",
+          "source": "cnbc",
+          "headline": "Bill Gates interview about Jeffrey Epstein by House Oversight set for June 10",
+          "relevance_score": 6,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "earnings"
+        },
+        {
+          "time": "2026-04-07T19:52:22",
+          "source": "cnbc",
+          "headline": "Anthropic limits Mythos AI rollout over fears hackers could use model for cyberattacks",
+          "relevance_score": 6,
+          "sentiment": "bearish",
+          "impact": {
+            "spy": -0.65,
+            "vix": 3.0
+          },
+          "related_hypotheses": [
+            "H1",
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-07T20:16:18",
+          "source": "cnbc",
+          "headline": "AWS teams working around the clock to keep Middle East services up after drone strikes, CEO says",
+          "relevance_score": 6,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H1",
+            "H3"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-07T20:17:37",
+          "source": "cnbc",
+          "headline": "Universal Music stock rises after Pershing Square's $64 billion takeover proposal",
+          "relevance_score": 6,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.36,
+            "vix": -1.5
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-07T21:24:47",
+          "source": "cnbc",
+          "headline": "Levi Strauss revenue jumps again, with DTC making up more than half of sales for the first time",
+          "relevance_score": 6,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.36,
+            "vix": -1.5
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "earnings"
+        },
+        {
+          "time": "2026-04-07T23:37:42",
+          "source": "cnbc",
+          "headline": "Google CEO Sundar Pichai says 'AI shift' opens opportunities to invest in startups",
+          "relevance_score": 6,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-08T00:16:36",
+          "source": "cnbc",
+          "headline": "Oil prices plunge below $100 after Iran agrees to safe passage through Strait of Hormuz during ceasefire",
+          "relevance_score": 6,
+          "sentiment": "bearish",
+          "impact": {
+            "spy": -0.36,
+            "vix": 1.5
+          },
+          "related_hypotheses": [
+            "H1",
+            "H3",
+            "H4"
+          ],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-06T14:00:02",
+          "source": "yahoo",
+          "headline": "Want to Profit From the Artemis II Mission? Lockheed Martin and Boeing Could Be 2 Top Stocks to Buy.",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-06T14:02:20",
+          "source": "yahoo",
+          "headline": "Cathie Wood Is Now Letting You Invest Directly in OpenAI Through Her Flagship ARKK ETF",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-06T14:07:00",
+          "source": "yahoo",
+          "headline": "Veteran analyst drops a surprise verdict on S&P 500",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-06T14:16:04",
+          "source": "yahoo",
+          "headline": "Why Are ORCL Stock Investors So Excited About Oracle Layoffs?",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-06T14:36:35",
+          "source": "yahoo",
+          "headline": "Why XBP Global (XBP) Shares Have Slumped as Revenue and EBITDA Came Under Pressure",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "earnings"
+        },
+        {
+          "time": "2026-04-06T14:37:02",
+          "source": "yahoo",
+          "headline": "Genuine Parts' Quarterly Earnings Preview: What You Need to Know",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "earnings"
+        },
+        {
+          "time": "2026-04-06T14:42:05",
+          "source": "yahoo",
+          "headline": "India's Back Buying Iranian Oil, and It's Costing Them",
+          "relevance_score": 5,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.3,
+            "vix": -1.25
+          },
+          "related_hypotheses": [
+            "H1",
+            "H4"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-06T18:03:00",
+          "source": "yahoo",
+          "headline": "JPMorgan has a stark message on the next Fed rate cut",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H2"
+          ],
+          "category": "policy"
+        },
+        {
+          "time": "2026-04-07T16:30:02",
+          "source": "yahoo",
+          "headline": "Market Update: CHWY",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-07T19:32:59",
+          "source": "cnbc",
+          "headline": "ICE agents shoot man in California after he 'weaponized' vehicle, DHS says",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H2",
+            "H5"
+          ],
+          "category": "policy"
+        },
+        {
+          "time": "2026-04-07T21:10:11",
+          "source": "cnbc",
+          "headline": "USDA Secretary Brooke Rollins sent Easter email to staff touting 'Jesus' and 'God'",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H1",
+            "H3"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-07T23:34:15",
+          "source": "cnbc",
+          "headline": "Elon Musk seeks ouster of OpenAI CEO Sam Altman as part of lawsuit",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-08T00:10:28",
+          "source": "cnbc",
+          "headline": "Trump-Iran agree to two-week ceasefire, plan to open Strait of Hormuz",
+          "relevance_score": 5,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H1",
+            "H3"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-06T13:56:06",
+          "source": "yahoo",
+          "headline": "Inspire Medical (INSP) is Gaining Strength from Its Product Offering and Differentiation",
+          "relevance_score": 4,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.24,
+            "vix": -1.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-06T13:56:21",
+          "source": "yahoo",
+          "headline": "Tapestry CEO says she's committed to fixing Kate Spade, pushing Coach forward",
+          "relevance_score": 4,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H1"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-06T14:08:00",
+          "source": "yahoo",
+          "headline": "Nuclear, Pharma & Travel Buybacks: Confident or Cautious Signals?",
+          "relevance_score": 4,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.43,
+            "vix": -2.0
+          },
+          "related_hypotheses": [
+            "H1"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-06T14:33:38",
+          "source": "yahoo",
+          "headline": "Dollar Slips on Hopes of a Ceasefire in Iran",
+          "relevance_score": 4,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H1"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-06T14:36:23",
+          "source": "yahoo",
+          "headline": "Veritone (VERI): How the Oracle Cloud Deal Fits Veritone’s Push to Scale Enterprise and Government AI",
+          "relevance_score": 4,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.24,
+            "vix": -1.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-06T14:37:47",
+          "source": "yahoo",
+          "headline": "Why Cantor Fitzgerald Stayed Neutral on BigBear.ai (BBAI) After a Messy Quarter",
+          "relevance_score": 4,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-07T11:04:03",
+          "source": "yahoo",
+          "headline": "Daily – Vickers Top Insider Picks for 04/07/2026",
+          "relevance_score": 4,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-07T11:24:53",
+          "source": "yahoo",
+          "headline": "Daily Spotlight: First-Quarter Segment Returns",
+          "relevance_score": 4,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-07T15:47:15",
+          "source": "cnbc",
+          "headline": "Trump Accounts put Robinhood in front of the next generation of investors, says CEO Vlad Tenev",
+          "relevance_score": 4,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H5"
+          ],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-07T17:31:38",
+          "source": "cnbc",
+          "headline": "National College Decision Day is approaching. How to maximize aid",
+          "relevance_score": 4,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-07T17:41:07",
+          "source": "cnbc",
+          "headline": "With gas prices above $4, drivers across the country grapple with higher costs: “I have to spend it—there’s no other way”",
+          "relevance_score": 4,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.24,
+            "vix": -1.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-07T18:49:06",
+          "source": "cnbc",
+          "headline": "Trump praises Hungary PM Viktor Orbán after Vance calls him at Budapest rally",
+          "relevance_score": 4,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.24,
+            "vix": -1.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-07T19:35:41",
+          "source": "cnbc",
+          "headline": "Is it time to buy tech, again? A flurry of good news from Broadcom may hold the answer",
+          "relevance_score": 4,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.24,
+            "vix": -1.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-07T21:28:17",
+          "source": "cnbc",
+          "headline": "Apple shares sink on report of foldable iPhone delays",
+          "relevance_score": 4,
+          "sentiment": "bearish",
+          "impact": {
+            "spy": -0.24,
+            "vix": 1.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-07T21:35:09",
+          "source": "cnbc",
+          "headline": "Delta, Southwest raise checked bag fees $10 amid jet fuel price surge, joining other carriers",
+          "relevance_score": 4,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.24,
+            "vix": -1.0
+          },
+          "related_hypotheses": [
+            "H3"
+          ],
+          "category": "technical"
+        },
+        {
+          "time": "2026-04-08T00:15:24",
+          "source": "cnbc",
+          "headline": "Trump faces calls for removal over threats to wipe out 'whole civilization' in Iran",
+          "relevance_score": 4,
+          "sentiment": "bearish",
+          "impact": {
+            "spy": -0.24,
+            "vix": 1.0
+          },
+          "related_hypotheses": [
+            "H1"
+          ],
+          "category": "geopolitical"
+        },
+        {
+          "time": "2026-04-06T14:00:20",
+          "source": "yahoo",
+          "headline": "Micron Worries Pile Up Ahead of Rival’s $10 Billion US Listing",
+          "relevance_score": 3,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-06T14:24:25",
+          "source": "yahoo",
+          "headline": "UBS Upgrades JFrog (FROG) to Buy with $60 Price Target on Demand Strength",
+          "relevance_score": 3,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.18,
+            "vix": -0.75
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-06T14:36:55",
+          "source": "yahoo",
+          "headline": "UiPath (PATH): How Its New Purchase-to-Pay Launch Extends the Agentic Automation Push",
+          "relevance_score": 3,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-06T14:37:36",
+          "source": "yahoo",
+          "headline": "Why Stifel Turned More Cautious on ServiceNow (NOW) Despite Keeping a Buy Rating",
+          "relevance_score": 3,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.18,
+            "vix": -0.75
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-07T11:22:42",
+          "source": "yahoo",
+          "headline": "Technical Assessment: Bullish in the Intermediate-Term",
+          "relevance_score": 3,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.18,
+            "vix": -0.75
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-07T12:44:36",
+          "source": "cnbc",
+          "headline": "Trump administration finalizes better-than-feared Medicare Advantage payment rate in boost to health insurers",
+          "relevance_score": 3,
+          "sentiment": "bearish",
+          "impact": {
+            "spy": -0.18,
+            "vix": 0.75
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-07T14:22:04",
+          "source": "cnbc",
+          "headline": "Used car prices rise to highest point since summer 2023",
+          "relevance_score": 3,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.18,
+            "vix": -0.75
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-07T16:05:39",
+          "source": "cnbc",
+          "headline": "Chrysler CEO says there is a minivan 'resurgence' but stays quiet on product plans",
+          "relevance_score": 3,
+          "sentiment": "bullish",
+          "impact": {
+            "spy": 0.18,
+            "vix": -0.75
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-07T16:45:02",
+          "source": "yahoo",
+          "headline": "Analyst Report: Chewy Inc",
+          "relevance_score": 3,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-07T17:42:33",
+          "source": "cnbc",
+          "headline": "41-year-old high school teacher's side hustle brings in $3.8 million a year—he shares 'every high and every low' with students",
+          "relevance_score": 3,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-07T17:50:44",
+          "source": "cnbc",
+          "headline": "NASA Artemis II photo captures moon eclipse of sun — 'Absolutely stunning'",
+          "relevance_score": 3,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        },
+        {
+          "time": "2026-04-07T23:42:09",
+          "source": "cnbc",
+          "headline": "Novo Nordisk's explosive Wegovy pill launch draws a new wave of patients into GLP-1 weight loss treatment",
+          "relevance_score": 3,
+          "sentiment": "neutral",
+          "impact": {
+            "spy": 0.0,
+            "vix": 0.0
+          },
+          "related_hypotheses": [],
+          "category": "macro"
+        }
+      ],
+      "summary": {
+        "bullish_count": 17,
+        "bearish_count": 8,
+        "neutral_count": 35,
+        "total_items": 60,
+        "avg_relevance": 4.9,
+        "top_theme": "AI科技泡沫"
+      },
+      "source_counts": {
+        "jin10": 0,
+        "yahoo": 30,
+        "cnbc": 30
+      },
+      "updated_at": "2026-04-08T02:06:00"
+    }
+  },
+  "greeks": [],
+  "edges": [],
+  "stop_rules": [],
+  "mispricing": {
+    "as_of": "2026-04-07",
+    "market_spy": 659.22,
+    "expected_spy": 570.05,
+    "mispricing_pct": 13.5266,
+    "history": [
+      {
+        "date": "2026-04-07",
+        "market_spy": 659.22,
+        "expected_spy": 570.05,
+        "mispricing_pct": 13.5266
+      }
+    ]
+  }
 }
