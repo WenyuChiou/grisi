@@ -788,12 +788,16 @@ function renderAgentSection(agentData, mktKey) {
   const crossView  = agent.cross_market_summary || summary.cross_market_view_en || summary.cross_market_view || '';
   const outlook    = summary.forward_outlook_en || agent.forward_outlook || '';
   const badgeCls   = sigWord === 'BUY' ? 'badge-buy' : sigWord === 'SELL' ? 'badge-sell' : 'badge-hold';
+  const thr = agent.action_thresholds;
+  const tooltipText = thr && !thr.fallback
+    ? `Dynamic percentile thresholds (${thr.lookback_days}d, n=${thr.sample_size}):&#10;P20=${thr.p20}  P40=${thr.p40}  P60=${thr.p60}  P80=${thr.p80}`
+    : 'Static thresholds 25/40/55/75 (fallback due to insufficient history)';
 
   const factorsHtml = factors.map(f => `<li>${f}</li>`).join('');
 
   el.innerHTML = `
     <div class="signal-top">
-      <div class="signal-badge ${badgeCls}">${sigWord}</div>
+      <div class="signal-badge ${badgeCls}" title="${tooltipText}">${sigWord}</div>
       <div class="cross-market-text">${crossView}</div>
     </div>
     <hr class="agent-divider">

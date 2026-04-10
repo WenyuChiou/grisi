@@ -652,12 +652,16 @@ function renderAgentSection(agentData, mktKey) {
   const watchFor   = agent.watch_for_tw  || agent.what_quant_misses || agent.forward_outlook || '';
   const crossView  = agent.cross_market_summary || summary.cross_market_view_tw || summary.cross_market_view || '';
   const outlook    = summary.forward_outlook_tw || agent.forward_outlook || '';
+  const thr = agent.action_thresholds;
+  const tooltipText = thr && !thr.fallback
+    ? `動態分位數門檻 (近 ${thr.lookback_days} 日, n=${thr.sample_size}):&#10;P20=${thr.p20}  P40=${thr.p40}  P60=${thr.p60}  P80=${thr.p80}`
+    : '使用靜態門檻 25/40/55/75 (樣本不足回退)';
 
   const factorsHtml = factors.map(f => `<li>${f}</li>`).join('');
 
   el.innerHTML = `
     <div class="signal-top">
-      <div class="signal-badge ${badgeCls}">${sigDisplay}</div>
+      <div class="signal-badge ${badgeCls}" title="${tooltipText}">${sigDisplay}</div>
       <div class="cross-market-text">${crossView}</div>
     </div>
     <hr class="agent-divider">

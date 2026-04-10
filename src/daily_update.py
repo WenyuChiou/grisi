@@ -31,8 +31,10 @@ os.environ['PYTHONUTF8'] = '1'
 # Validation gate — imported lazily to avoid circular deps at module level
 # Called in main() before any write operations
 from validation_gate import validate_daily_scores, DataValidationError  # noqa: E402
+from action_classifier import compute_action_thresholds, classify_action, write_thresholds_json  # noqa: E402
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
+_CURRENT_THRESHOLDS: dict = {}
 
 
 def finmind_with_retry(fn, *args, max_retries=3, backoff=10, **kwargs):
@@ -1124,10 +1126,12 @@ def score_to_sentiment_level(score):
     return 'EXTREME_GREED'
 
 
-def score_to_action(score):
+def score_to_action(score, market: str = None):
     """Map a Moodring score to a Chinese action recommendation."""
     if score is None:
         return '觀望持有'
+    if market and market in _CURRENT_THRESHOLDS:
+        return classify_action(score, _CURRENT_THRESHOLDS[market])
     if score < 25:
         return '積極加碼'
     if score < 40:
@@ -1957,6 +1961,14 @@ def update_agent_results(snapshot, us_data, tw_data, tw_retail, jp_data, kr_data
         'tw_agent': generate_forward_outlook_tw(score=tw_base, retail=retail, mkt_data=tw_mkt),
     }
 
+    # --- Phase 1: compute dynamic action thresholds for US + TW ---
+    global _CURRENT_THRESHOLDS
+    _CURRENT_THRESHOLDS = {
+        'us': compute_action_thresholds('us'),
+        'tw': compute_action_thresholds('tw'),
+    }
+    write_thresholds_json(_CURRENT_THRESHOLDS)
+
     for agent_key in ['us_agent', 'tw_agent', 'jp_agent', 'kr_agent', 'eu_agent']:
         if agent_key not in agents:
             continue
@@ -1968,7 +1980,12 @@ def update_agent_results(snapshot, us_data, tw_data, tw_retail, jp_data, kr_data
             agents[agent_key]['sentiment_level'] = sl
 
         # Action field: derived from individual market score, never shared
-        agents[agent_key]['action'] = score_to_action(score)
+        market_key = {
+            'us_agent': 'us', 'tw_agent': 'tw',
+            'jp_agent': None, 'kr_agent': None, 'eu_agent': None,
+        }.get(agent_key)
+        agents[agent_key]['action'] = score_to_action(score, market=market_key)
+        agents[agent_key]['action_thresholds'] = _CURRENT_THRESHOLDS.get(market_key) if market_key else None
 
         # Issue 2: narrative_tw = emotional Chinese monologue; narrative_en = quant summary
         narr_tw = narr_tw_map[agent_key]
