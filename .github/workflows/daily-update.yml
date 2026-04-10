@@ -23,8 +23,18 @@ jobs:
       - name: Install dependencies
         run: pip install yfinance pandas numpy scipy FinMind requests tqdm
 
+      - name: Pre-run history audit (tripwire — blocks on existing violations)
+        run: |
+          YESTERDAY=$(date -d "yesterday" +%Y-%m-%d)
+          python scripts/audit_history.py --strict --since 2026-04-07 --until "$YESTERDAY"
+
       - name: Pull fresh market data
         run: python src/daily_update.py
+
+      - name: Post-run history audit (verify recent data is clean)
+        run: |
+          YESTERDAY=$(date -d "yesterday" +%Y-%m-%d)
+          python scripts/audit_history.py --strict --since 2026-04-07 --until "$YESTERDAY"
 
       - name: Rebuild dashboard JSON
         run: python src/rebuild_dashboard_daily.py

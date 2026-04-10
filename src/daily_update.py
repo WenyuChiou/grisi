@@ -28,6 +28,10 @@ from datetime import datetime, timedelta
 # Ensure utf-8
 os.environ['PYTHONUTF8'] = '1'
 
+# Validation gate — imported lazily to avoid circular deps at module level
+# Called in main() before any write operations
+from validation_gate import validate_daily_scores, DataValidationError  # noqa: E402
+
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
 
 
@@ -2661,6 +2665,24 @@ def main():
             print(f"[TW] Moodring score: {tw_score_val}")
     else:
         tw_score_val = None
+    # ── Data Validation Gate ──────────────────────────────────────────────────
+    # Must run BEFORE both writes (append_scores_to_csv + update_overlay_json).
+    # A gate failure prevents EITHER write from executing (atomic guard).
+    _full_mode = args.us and args.tw and args.jp and args.kr and args.eu
+    try:
+        validate_daily_scores(
+            {'us': us_score_val, 'tw': tw_score_val, 'jp': jp_score_val,
+             'kr': kr_score_val, 'eu': eu_score_val},
+            today,
+            full_mode=_full_mode,
+        )
+    except DataValidationError as e:
+        print(f"[GATE] VALIDATION FAILED — aborting writes: {e}", file=sys.stderr)
+        _log_dir = os.path.join(DATA_DIR, '..', 'logs', 'validation_failures')
+        os.makedirs(_log_dir, exist_ok=True)
+        sys.exit(1)
+    # ─────────────────────────────────────────────────────────────────────────
+
     if us_score_val is not None or tw_score_val is not None:
         append_scores_to_csv(us_score=us_score_val, tw_score=tw_score_val,
                              us_open=us_open, tw_open=tw_open)
