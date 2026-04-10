@@ -283,6 +283,18 @@ def clean_holiday_anomalies(sync_docs=True):
                 new_scores[i] = fixed_val
                 fixed_count += 1
 
+        # Pass 3: value-based flatline detection
+        # If score[i] == score[i-1] AND date[i] not in price_dates_set → null it (gap marker)
+        for i in range(1, len(new_scores)):
+            if score_dates[i] not in price_dates_set:
+                prev = new_scores[i - 1]
+                curr = new_scores[i]
+                if curr is not None and prev is not None and curr == prev:
+                    print(f"[CLEAN] {score_key} {score_dates[i]}: flatline {curr} → None "
+                          f"(no price + value unchanged from previous)")
+                    new_scores[i] = None
+                    fixed_count += 1
+
         ov[score_key] = new_scores
 
     print(f"[CLEAN] Fixed {fixed_count} anomalies in overlay_data.json")
@@ -316,8 +328,13 @@ def clean_holiday_anomalies(sync_docs=True):
 
             if us_val is not None:
                 if date not in spy_dates_set and last_us is not None:
-                    print(f"[CLEAN-CSV] us_score {date}: {us_val} → {last_us} (no SPY price)")
-                    row['us_score'] = str(last_us)
+                    if us_val == last_us:
+                        # Flatline: null rather than carry-forward
+                        print(f"[CLEAN-CSV] us_score {date}: flatline {us_val} → '' (no SPY price)")
+                        row['us_score'] = ''
+                    else:
+                        print(f"[CLEAN-CSV] us_score {date}: {us_val} → {last_us} (no SPY price)")
+                        row['us_score'] = str(last_us)
                     us_changed = True
                     csv_fixed += 1
                 else:
@@ -325,17 +342,25 @@ def clean_holiday_anomalies(sync_docs=True):
 
             if tw_val is not None:
                 if date not in twii_dates_set and last_tw is not None:
-                    print(f"[CLEAN-CSV] tw_score {date}: {tw_val} → {last_tw} (no TWII price)")
-                    row['tw_score'] = str(last_tw)
+                    if tw_val == last_tw:
+                        # Flatline: null rather than carry-forward
+                        print(f"[CLEAN-CSV] tw_score {date}: flatline {tw_val} → '' (no TWII price)")
+                        row['tw_score'] = ''
+                    else:
+                        print(f"[CLEAN-CSV] tw_score {date}: {tw_val} → {last_tw} (no TWII price)")
+                        row['tw_score'] = str(last_tw)
                     tw_changed = True
                     csv_fixed += 1
                 else:
                     last_tw = tw_val
 
             if us_changed or tw_changed:
-                us_v = float(row.get('us_score', 0) or 0)
-                tw_v = float(row.get('tw_score', 0) or 0)
-                row['divergence'] = str(round(abs(us_v - tw_v), 1))
+                us_v = row.get('us_score', '')
+                tw_v = row.get('tw_score', '')
+                try:
+                    row['divergence'] = str(round(abs(float(us_v) - float(tw_v)), 1)) if us_v and tw_v else ''
+                except (TypeError, ValueError):
+                    row['divergence'] = ''
 
         print(f"[CLEAN-CSV] Fixed {csv_fixed} rows in historical_scores.csv")
 
@@ -780,11 +805,12 @@ def update_snapshot(us_data=None, tw_data=None, tw_retail=None, global_ctx=None,
     return snapshot
 
 
-def append_scores_to_csv(us_score=None, tw_score=None):
+def append_scores_to_csv(us_score=None, tw_score=None, us_open=True, tw_open=True):
     """Append today's US/TW scores to historical_scores.csv.
 
-    This is required so that rebuild_dashboard_daily.py picks up the latest
-    scores when it rebuilds dashboard_data.json from the CSV.
+    When us_open=False or tw_open=False, writes an empty string for that market's
+    score column instead of carrying forward the previous value. This prevents
+    holiday flatlines from being persisted.
     """
     import csv
 
@@ -799,31 +825,43 @@ def append_scores_to_csv(us_score=None, tw_score=None):
             fieldnames = reader.fieldnames or ['date', 'us_score', 'tw_score', 'divergence']
             rows = list(reader)
 
+    def _div(u, t):
+        try:
+            return round(abs(float(u) - float(t)), 1)
+        except (TypeError, ValueError):
+            return ''
+
     # Check if today already exists
     if rows and rows[-1].get('date') == today:
         print(f"[CSV] historical_scores.csv already has entry for {today}, updating in place")
         last = rows[-1]
-        if us_score is not None:
+        if not us_open:
+            last['us_score'] = ''
+        elif us_score is not None:
             last['us_score'] = round(us_score, 1)
-        if tw_score is not None:
+        if not tw_open:
+            last['tw_score'] = ''
+        elif tw_score is not None:
             last['tw_score'] = round(tw_score, 1)
-        us_val = float(last.get('us_score', 0) or 0)
-        tw_val = float(last.get('tw_score', 0) or 0)
-        last['divergence'] = round(abs(us_val - tw_val), 1)
+        last['divergence'] = _div(last.get('us_score', ''), last.get('tw_score', ''))
     else:
-        # Fill missing score from last row if not provided
-        last_us = float(rows[-1].get('us_score', 50) or 50) if rows else 50
-        last_tw = float(rows[-1].get('tw_score', 50) or 50) if rows else 50
-        us_val = us_score if us_score is not None else last_us
-        tw_val = tw_score if tw_score is not None else last_tw
+        # When market closed, write blank — do NOT carry forward from last row
+        us_val = '' if not us_open else (us_score if us_score is not None else
+                                         float(rows[-1].get('us_score', 50) or 50) if rows else 50)
+        tw_val = '' if not tw_open else (tw_score if tw_score is not None else
+                                         float(rows[-1].get('tw_score', 50) or 50) if rows else 50)
+        if us_val != '':
+            us_val = round(float(us_val), 1)
+        if tw_val != '':
+            tw_val = round(float(tw_val), 1)
         new_row = {
             'date': today,
-            'us_score': round(us_val, 1),
-            'tw_score': round(tw_val, 1),
-            'divergence': round(abs(us_val - tw_val), 1),
+            'us_score': us_val,
+            'tw_score': tw_val,
+            'divergence': _div(us_val, tw_val),
         }
         rows.append(new_row)
-        print(f"[CSV] Appended to historical_scores.csv: {today} us={round(us_val,1)} tw={round(tw_val,1)}")
+        print(f"[CSV] Appended to historical_scores.csv: {today} us={us_val} tw={tw_val}")
 
     with open(csv_path, 'w', encoding='utf-8', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=['date', 'us_score', 'tw_score', 'divergence'])
@@ -915,11 +953,15 @@ def update_overlay_json(snapshot, jp_score=None, kr_score=None, eu_score=None,
     # US/TW scores: use live computed values passed in directly.
     # DO NOT read from dashboard_data.json — its tw_score/us_score arrays are rebuilt by
     # rebuild_dashboard_daily.py (a separate process) and are one day behind at this point.
+    # When market is closed, write None (gap marker) instead of carry-forward to prevent flatlines.
     if us_score is not None:
         ov.setdefault('dates', []).append(today)
-        ov.setdefault('us_score', []).append(round(float(us_score), 1))
+        ov.setdefault('us_score', []).append(round(float(us_score), 1) if us_open else None)
     if tw_score is not None:
-        ov.setdefault('tw_score', []).append(round(float(tw_score), 1))
+        ov.setdefault('tw_score', []).append(round(float(tw_score), 1) if tw_open else None)
+    elif us_score is not None:
+        # Keep tw_score in sync with dates when tw is not running
+        pass
 
     # Prices from snapshot
     us_mkt = snapshot.get('us_market', {})
@@ -946,13 +988,14 @@ def update_overlay_json(snapshot, jp_score=None, kr_score=None, eu_score=None,
     if eu_open:
         append_price('stoxx50_dates', 'stoxx50', eu_mkt.get('STOXX50_close'))
 
-    # JP/KR/EU scores
+    # JP/KR/EU scores — only write when market was actually open
+    _open_flags = {'jp': jp_open, 'kr': kr_open, 'eu': eu_open}
     for mkt, score_val, d_key, s_key in [
         ('jp', jp_score, 'jp_dates', 'jp_score'),
         ('kr', kr_score, 'kr_dates', 'kr_score'),
         ('eu', eu_score, 'eu_dates', 'eu_score'),
     ]:
-        if score_val is not None:
+        if score_val is not None and _open_flags.get(mkt, True):
             existing = ov.get(d_key, [])
             if not existing or existing[-1] != today:
                 ov.setdefault(d_key, []).append(today)
@@ -2603,7 +2646,8 @@ def main():
     else:
         tw_score_val = None
     if us_score_val is not None or tw_score_val is not None:
-        append_scores_to_csv(us_score=us_score_val, tw_score=tw_score_val)
+        append_scores_to_csv(us_score=us_score_val, tw_score=tw_score_val,
+                             us_open=us_open, tw_open=tw_open)
 
     snapshot = update_snapshot(us_data, tw_data, tw_retail, global_ctx, usdtwd,
                               jp_data, kr_data, eu_data)
