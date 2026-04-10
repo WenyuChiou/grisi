@@ -3,3 +3,7 @@ __pycache__/
 *.env
 .claude/
 .cache/
+ghrun*.txt
+gitfetch*.txt
+gitlog.txt
+.ai/*_run_log.txt

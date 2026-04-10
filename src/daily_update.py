@@ -284,17 +284,25 @@ def clean_holiday_anomalies(sync_docs=True):
                 fixed_count += 1
 
         # Pass 3: value-based flatline detection
-        # If score[i] == score[i-1] AND date[i] not in price_dates_set → null it (gap marker)
+        # If score[i] == last open-day score AND date[i] not in price_dates_set → null it.
         # ORDERING GUARD: skip the final entry (i == len-1). Today's price may not yet be
         # in price_dates_set when --clean runs before the daily fetch, and nulling a fresh
         # valid score would create the same write-ordering bug it's meant to prevent.
+        # BUG FIX: track last_open_score separately so multi-day flatline runs are fully
+        # caught.  The old code compared new_scores[i-1], which becomes None after the
+        # first closed day is nulled — causing days 2..N of the run to be missed.
+        last_open_score = None
         for i in range(1, len(new_scores) - 1):
-            if score_dates[i] not in price_dates_set:
-                prev = new_scores[i - 1]
-                curr = new_scores[i]
-                if curr is not None and prev is not None and curr == prev:
+            curr = new_scores[i]
+            if score_dates[i] in price_dates_set:
+                # Open trading day — update reference score (only if non-null)
+                if curr is not None:
+                    last_open_score = curr
+            else:
+                # Closed day — null if carry-forward matches last open-day score
+                if curr is not None and last_open_score is not None and curr == last_open_score:
                     print(f"[CLEAN] {score_key} {score_dates[i]}: flatline {curr} → None "
-                          f"(no price + value unchanged from previous)")
+                          f"(no price + value unchanged from last open day)")
                     new_scores[i] = None
                     fixed_count += 1
 
