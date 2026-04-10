@@ -1519,6 +1519,56 @@ def generate_watch_for_tw(mkt_data, mkt_name, score=None, retail=None, global_ct
     return "；".join(parts) + "。" if parts else None
 
 
+def generate_forward_outlook_tw(score=None, retail=None, mkt_data=None):
+    """Generate Chinese 前瞻展望 (forward outlook) text from current TW market data.
+
+    Replaces any previously stored static text so the field stays current.
+    Always includes the live score so downstream assertions can verify freshness.
+    """
+    if score is None:
+        return None
+
+    parts = []
+
+    # Bias sentence based on current score
+    if score >= 75:
+        parts.append(f"短期偏多、情緒熱度高（Moodring {score:.1f}）")
+    elif score >= 55:
+        parts.append(f"短期中性偏多（Moodring {score:.1f}）")
+    elif score >= 40:
+        parts.append(f"短期中性偏弱（Moodring {score:.1f}）")
+    else:
+        parts.append(f"短期偏空（Moodring {score:.1f}）")
+
+    # Foreign investor flow context
+    if retail:
+        direction = retail.get('foreign_consecutive_direction', '')
+        consec = retail.get('foreign_consecutive_days', 0) or 0
+        tsmc_margin = retail.get('TSMC_margin_30d_change_pct')
+
+        if direction == 'buy' and consec:
+            parts.append(f"外資連買 {consec} 天形成支撐，若持續買超則動能可望延伸")
+        elif direction == 'sell' and consec:
+            parts.append(f"外資連賣 {consec} 天，需翻買（連買 2-3 天確認）才是反彈訊號")
+
+        if tsmc_margin is not None and tsmc_margin > 15:
+            parts.append(f"台積電融資月增 {tsmc_margin:+.1f}%，槓桿風險升高，需留意追繳壓力")
+
+    # RSI context
+    if mkt_data:
+        rsi = mkt_data.get('TAIEX_RSI14')
+        sma20 = mkt_data.get('TAIEX_SMA20')
+        if rsi is not None:
+            if rsi < 30:
+                parts.append(f"RSI {rsi:.1f} 深度超賣，技術面有反彈條件")
+            elif rsi > 70:
+                parts.append(f"RSI {rsi:.1f} 偏熱，短線需防過熱修正")
+        if sma20 is not None:
+            parts.append(f"關鍵支撐：TAIEX SMA20 ({sma20:.0f})")
+
+    return "；".join(parts) + "。" if parts else None
+
+
 def build_cross_market_view(us_final, tw_final, divergence, snapshot, jp_score, kr_score, eu_score, kr_scores_hist=None):
     """Rebuild cross_market_view from live data each run — keeps numbers fresh."""
     us_mkt = snapshot.get('us_market', {})
@@ -1902,6 +1952,11 @@ def update_agent_results(snapshot, us_data, tw_data, tw_retail, jp_data, kr_data
         'eu_agent': generate_watch_for_tw(eu_mkt, 'EU', score=eu_score),
     }
 
+    # --- Generate forward_outlook for all agents (keeps the narrative field fresh each run) ---
+    forward_outlook_map = {
+        'tw_agent': generate_forward_outlook_tw(score=tw_base, retail=retail, mkt_data=tw_mkt),
+    }
+
     for agent_key in ['us_agent', 'tw_agent', 'jp_agent', 'kr_agent', 'eu_agent']:
         if agent_key not in agents:
             continue
@@ -1935,6 +1990,11 @@ def update_agent_results(snapshot, us_data, tw_data, tw_retail, jp_data, kr_data
         wf = watch_for_map[agent_key]
         if wf:
             agents[agent_key]['watch_for_tw'] = wf
+
+        # Regenerate forward_outlook narrative so it reflects current score, not stale value
+        fo = forward_outlook_map.get(agent_key)
+        if fo:
+            agents[agent_key]['forward_outlook'] = fo
 
     # --- Issue 5: Recalculate summary final scores ---
     if 'summary' not in agents:
@@ -2696,6 +2756,23 @@ def main():
                         kr_open=kr_open, eu_open=eu_open)
     update_agent_results(snapshot, us_data, tw_data, tw_retail, jp_data, kr_data, eu_data, global_ctx,
                          us_score_live=us_score_val, tw_score_live=tw_score_val)
+
+    # --- Assertion: tw_agent.forward_outlook must reference current tw_score ---
+    if tw_score_val is not None:
+        _p2_path = os.path.join(DATA_DIR, 'phase2_agent_results.json')
+        try:
+            with open(_p2_path, 'r', encoding='utf-8') as _f:
+                _p2 = json.load(_f)
+            _fo = _p2.get('tw_agent', {}).get('forward_outlook', '')
+            _expected = f"{tw_score_val:.1f}"
+            if _expected not in _fo:
+                print(f"[ASSERTION FAIL] tw_agent.forward_outlook does not contain current tw_score {_expected}. "
+                      f"Content: {_fo[:120]}")
+                raise SystemExit(1)
+            else:
+                print(f"[ASSERTION OK] forward_outlook contains current tw_score {_expected}")
+        except (FileNotFoundError, json.JSONDecodeError) as _e:
+            print(f"[ASSERTION SKIP] Could not verify forward_outlook: {_e}")
 
     # 建立 compute_score 參考值供 sanity check 使用
     live_compute_scores = {}
