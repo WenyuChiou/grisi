@@ -10,3 +10,14 @@ gitlog.txt
 *_run_log.txt
 VALIDATION_GATE_PLAN.md
 logs/validation_failures/*.json
+
+# pytest-xdist creates per-worker cache dirs at repo root and under tests/
+# These can land with EPERM permissions that break tool folder scans
+pytest-cache-files-*/
+tests/pytest-cache-files-*/
+.pytest_cache/
+
+# Legacy dead-letter file from v1 daily prompt (retail_sentiment_commentary
+# was never read by the dashboard). New daily flow writes to
+# phase2_agent_results.json narrative fields instead.
+data/retail_commentary.txt

@@ -819,7 +819,41 @@ def update_snapshot(us_data=None, tw_data=None, tw_retail=None, global_ctx=None,
             json.dump(clean_snapshot, f, indent=2, ensure_ascii=False)
 
     print(f"[SAVE] Snapshot saved: {dated_path}")
+    _prune_old_snapshots(DATA_DIR, keep_days=30)
+    docs_data_dir = os.path.join(os.path.dirname(__file__), '..', 'docs', 'data')
+    if os.path.isdir(docs_data_dir):
+        _prune_old_snapshots(docs_data_dir, keep_days=30)
     return snapshot
+
+
+def _prune_old_snapshots(dir_path, keep_days=30):
+    """Delete snapshot_YYYYMMDD.json files older than keep_days in dir_path.
+
+    Rolling retention so dated snapshots don't accumulate forever. Never
+    touches snapshot_latest.json. Silent on permission errors so the
+    pipeline never fails due to cleanup.
+    """
+    import re
+    import glob
+    cutoff = datetime.now() - timedelta(days=keep_days)
+    pattern = re.compile(r'snapshot_(\d{8})\.json$')
+    removed = 0
+    for path in glob.glob(os.path.join(dir_path, 'snapshot_*.json')):
+        m = pattern.search(os.path.basename(path))
+        if not m:
+            continue
+        try:
+            file_date = datetime.strptime(m.group(1), '%Y%m%d')
+        except ValueError:
+            continue
+        if file_date < cutoff:
+            try:
+                os.remove(path)
+                removed += 1
+            except OSError:
+                pass
+    if removed:
+        print(f"[PRUNE] removed {removed} snapshot file(s) older than {keep_days}d from {dir_path}")
 
 
 def append_scores_to_csv(us_score=None, tw_score=None, us_open=True, tw_open=True):
