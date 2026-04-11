@@ -13,7 +13,7 @@ import argparse
 import json
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 DOCS_DATA = os.path.join(os.path.dirname(__file__), '..', 'docs', 'data')
 NARRATIVE_FILE = os.path.normpath(os.path.join(DOCS_DATA, 'phase2_agent_results.json'))
@@ -37,9 +37,18 @@ def check_narrative_freshness(max_hours=DEFAULT_MAX_HOURS):
             data = json.load(f)
         fo = data.get('tw_agent', {}).get('forward_outlook', '')
         date_str = data.get('date', '')
-        today = datetime.now().strftime('%Y-%m-%d')
-        if date_str and date_str != today:
-            print(f"[AUDIT WARN] phase2_agent_results.json date field is {date_str!r}, today is {today}",
+        today_dt = datetime.now().date()
+        today = today_dt.strftime('%Y-%m-%d')
+        # Weekend grace: on Sat/Sun the latest valid trading day is Friday.
+        # Allow both today and the most recent prior weekday so the audit
+        # doesn't false-fail on weekend checks.
+        allowed_dates = {today}
+        if today_dt.weekday() == 5:  # Saturday -> allow Friday
+            allowed_dates.add((today_dt - timedelta(days=1)).strftime('%Y-%m-%d'))
+        elif today_dt.weekday() == 6:  # Sunday -> allow Friday
+            allowed_dates.add((today_dt - timedelta(days=2)).strftime('%Y-%m-%d'))
+        if date_str and date_str not in allowed_dates:
+            print(f"[AUDIT WARN] phase2_agent_results.json date field is {date_str!r}, expected one of {sorted(allowed_dates)}",
                   file=sys.stderr)
             stale_ok = False
     except (json.JSONDecodeError, UnicodeDecodeError) as e:
