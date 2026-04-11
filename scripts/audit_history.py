@@ -19,7 +19,7 @@ import csv
 import json
 import os
 import sys
-from datetime import datetime, timedelta
+from datetime import date as date_cls, datetime, timedelta
 
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -66,7 +66,26 @@ def build_open_dates(market: str, date_list: list[str]) -> set[str]:
         close = close[close > 0]
         if hasattr(close.index, "tz") and close.index.tz is not None:
             close.index = close.index.tz_localize(None)
-        return {d.strftime("%Y-%m-%d") for d in close.index}
+        open_dates = {d.strftime("%Y-%m-%d") for d in close.index}
+
+        # yfinance propagation-lag grace: Asian/EU indices often trail the
+        # real market calendar by 1–3 days in yfinance's intraday feed. If a
+        # queried date is within 3 days of today AND is a weekday AND we
+        # already have upstream data for it, trust the data over yfinance's
+        # absence. Phase 2B will replace this with pandas_market_calendars.
+        today = date_cls.today()
+        for date_str in date_list:
+            if date_str in open_dates:
+                continue
+            try:
+                d = datetime.strptime(date_str, "%Y-%m-%d").date()
+            except ValueError:
+                continue
+            if (today - d).days <= 3 and d.weekday() < 5:
+                open_dates.add(date_str)
+                print(f"[AUDIT] grace: {market.upper()} {date_str} absent from yfinance but within 3d lag window — treating as open")
+
+        return open_dates
     except Exception as exc:
         print(f"[AUDIT] Warning: could not fetch {market.upper()} calendar: {exc}")
         return set(date_list)
