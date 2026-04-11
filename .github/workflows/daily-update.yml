@@ -21,12 +21,13 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install yfinance pandas numpy scipy FinMind requests tqdm
+        run: pip install -r requirements.txt
 
       - name: Pre-run history audit (tripwire — blocks on existing violations)
         run: |
           YESTERDAY=$(date -d "yesterday" +%Y-%m-%d)
-          python scripts/audit_history.py --strict --since 2026-04-07 --until "$YESTERDAY"
+          SINCE=$(date -d "7 days ago" +%Y-%m-%d)
+          python scripts/audit_history.py --strict --since "$SINCE" --until "$YESTERDAY"
 
       - name: Pull fresh market data
         run: python src/daily_update.py
@@ -34,7 +35,8 @@ jobs:
       - name: Post-run history audit (verify recent data is clean)
         run: |
           YESTERDAY=$(date -d "yesterday" +%Y-%m-%d)
-          python scripts/audit_history.py --strict --since 2026-04-07 --until "$YESTERDAY"
+          SINCE=$(date -d "7 days ago" +%Y-%m-%d)
+          python scripts/audit_history.py --strict --since "$SINCE" --until "$YESTERDAY"
 
       - name: Rebuild dashboard JSON
         run: python src/rebuild_dashboard_daily.py
@@ -48,6 +50,6 @@ jobs:
         run: |
           git config user.name "Moodring Bot"
           git config user.email "moodring-bot@users.noreply.github.com"
-          git add data/ docs/data/ src/
+          git add data/ docs/data/
           git diff --staged --quiet || git commit -m "daily: Moodring update $(date +%Y-%m-%d)"
           git push

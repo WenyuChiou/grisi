@@ -1,0 +1,7 @@
+yfinance
+pandas
+numpy
+scipy
+FinMind
+requests
+tqdm
