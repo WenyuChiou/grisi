@@ -2786,6 +2786,8 @@ def main():
              'kr': kr_score_val, 'eu': eu_score_val},
             today,
             full_mode=_full_mode,
+            open_states={'us': us_open, 'tw': tw_open, 'jp': jp_open,
+                         'kr': kr_open, 'eu': eu_open},
         )
     except DataValidationError as e:
         print(f"[GATE] VALIDATION FAILED — aborting writes: {e}", file=sys.stderr)

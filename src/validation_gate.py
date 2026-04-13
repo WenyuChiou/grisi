@@ -112,9 +112,19 @@ def get_market_history(market: str, n: int = 5) -> list[float]:
 
 
 def validate_daily_scores(
-    scores: dict[str, float | None], asof_date: str, full_mode: bool = False
+    scores: dict[str, float | None],
+    asof_date: str,
+    full_mode: bool = False,
+    open_states: dict[str, bool] | None = None,
 ) -> None:
-    """Validate a daily score payload before writing it to persistent storage."""
+    """Validate a daily score payload before writing it to persistent storage.
+
+    open_states: optional per-market open/closed flags from the caller. When
+    a market is explicitly marked closed (False), skip the calendar check —
+    the caller has already detected closure and is writing a carry-forward
+    score on purpose, so gate rejection here would just deadlock the pipeline.
+    Range + flatline + missing_open_market checks still run.
+    """
     failures: list[dict[str, str]] = []
     warnings: list[dict[str, str]] = []
     open_cache: dict[str, bool] = {}
@@ -122,6 +132,10 @@ def validate_daily_scores(
     for market in MARKETS:
         score = scores.get(market)
         if score is None:
+            continue
+
+        if open_states is not None and open_states.get(market) is False:
+            open_cache[market] = False
             continue
 
         is_open = _is_market_open(asof_date, market)
