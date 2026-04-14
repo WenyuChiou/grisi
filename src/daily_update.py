@@ -1544,52 +1544,52 @@ def generate_watch_for_tw(mkt_data, mkt_name, score=None, retail=None, global_ct
         rsi = mkt_data.get('NIKKEI_RSI14') if mkt_data else None
         if usdjpy is not None:
             if usdjpy > 155:
-                parts.append(f"USDJPY {usdjpy:.1f} 円安區間，BOJ 干預風險隨時存在")
+                parts.append(f"USD/JPY {usdjpy:.1f} 円安，BOJ 什麼時候出手干預是最大不確定")
             elif usdjpy < 145:
-                parts.append(f"USDJPY {usdjpy:.1f} 円高壓力，出口股獲利空間收窄")
+                parts.append(f"USD/JPY {usdjpy:.1f} 円高壓力，出口股獲利要開始算了")
             else:
-                parts.append(f"USDJPY {usdjpy:.1f} — BOJ 下次利率決策是最重要催化劑")
+                parts.append(f"USD/JPY {usdjpy:.1f}，BOJ 下次利率決策才是真正催化劑")
         if rsi is not None:
             if rsi > 70:
-                parts.append(f"日經 RSI {rsi:.1f} 偏熱，留意技術性回調")
+                parts.append(f"日經 RSI {rsi:.1f} 有點熱，技術面要小心修正")
             elif rsi < 35:
-                parts.append(f"日經 RSI {rsi:.1f} 接近超賣，技術反彈條件具備，但需美股穩定配合")
+                parts.append(f"日經 RSI {rsi:.1f} 快超賣了，等美股穩定下來再說")
             else:
-                parts.append(f"日經 RSI {rsi:.1f}，等待方向性突破")
+                parts.append(f"日經 RSI {rsi:.1f}，等一個方向性突破")
         else:
-            parts.append("BOJ 下次利率決策時間點及措辭是最重要催化劑")
+            parts.append("BOJ 利率決策時間點跟措辭才是關鍵，一句話就能讓円升破 5%")
 
     elif mkt_name == 'KR':
         rsi = mkt_data.get('KOSPI_RSI14') if mkt_data else None
         r5d = mkt_data.get('KOSPI_5d_return_pct') if mkt_data else None
         if rsi is not None:
             if rsi > 70:
-                parts.append(f"KOSPI RSI {rsi:.1f} 偏熱，貪婪區需留意回調風險")
+                parts.append(f"KOSPI RSI {rsi:.1f} 有點熱，追高要很謹慎")
             elif rsi < 35:
-                parts.append(f"KOSPI RSI {rsi:.1f} 超賣，逢低布局機會但需確認")
+                parts.append(f"KOSPI RSI {rsi:.1f} 超賣，逢低可以留意，但先確認")
             else:
-                parts.append(f"KOSPI RSI {rsi:.1f}，三星/SK 海力士 AI 記憶體出貨動向是主要催化劑")
+                parts.append(f"KOSPI RSI {rsi:.1f}，三星/SK 海力士 AI 記憶體出貨是最大催化劑")
         else:
-            parts.append("三星/SK 海力士 DRAM 報價走勢及韓元匯率是韓股主要驅動力")
+            parts.append("三星/海力士 DRAM 報價跟韓元匯率，跟著走就對了")
         if r5d is not None and abs(r5d) > 3:
-            parts.append(f"近 5 日 KOSPI {r5d:+.1f}%，{'強勢延伸，追高需謹慎' if r5d > 0 else '快速回落，支撐位確認中'}")
+            parts.append(f"近五天 KOSPI {r5d:+.1f}%，{'衝太快了，追高要謹慎' if r5d > 0 else '跌比較急，支撐在哪先確認'}")
 
     elif mkt_name == 'EU':
         rsi = mkt_data.get('STOXX50_RSI14') if mkt_data else None
         r5d = mkt_data.get('STOXX50_5d_return_pct') if mkt_data else None
         if rsi is not None:
             if rsi > 70:
-                parts.append(f"STOXX50 RSI {rsi:.1f} 偏熱，短線過熱風險需留意")
+                parts.append(f"STOXX50 RSI {rsi:.1f} 有點熱，短線過熱要注意")
             elif rsi < 35:
-                parts.append(f"STOXX50 RSI {rsi:.1f} 超賣，技術反彈條件具備")
+                parts.append(f"STOXX50 RSI {rsi:.1f} 超賣，技術面反彈條件有了")
             else:
-                parts.append(f"STOXX50 RSI {rsi:.1f}，ECB 降息路徑是歐股非對稱風險主要來源")
+                parts.append(f"STOXX50 RSI {rsi:.1f}，ECB 怎麼降息才是真正影響歐股的變數")
         else:
-            parts.append("ECB 降息路徑及德國財政刺激規模是歐股非對稱風險主要來源")
+            parts.append("ECB 怎麼降息、德國財政刺激多大，這才是影響歐股的真正催化劑")
         if r5d is not None and abs(r5d) > 3:
-            parts.append(f"近 5 日 STOXX50 {r5d:+.1f}%，地緣風險溢價難以量化")
+            parts.append(f"近五天 STOXX50 {r5d:+.1f}%，地緣政治溢價難量化")
         else:
-            parts.append("地緣風險溢價及歐元走勢為重要觀察變數")
+            parts.append("地緣政治跟歐元走勢是另外兩個要看的變數")
 
     return "；".join(parts) + "。" if parts else None
 
@@ -1607,13 +1607,13 @@ def generate_forward_outlook_tw(score=None, retail=None, mkt_data=None):
 
     # Bias sentence based on current score
     if score >= 75:
-        parts.append(f"短期偏多、情緒熱度高（Moodring {score:.1f}）")
+        parts.append(f"台股現在 Moodring {score:.1f}，情緒已經很嗨，這個位置追進去感覺像韭菜")
     elif score >= 55:
-        parts.append(f"短期中性偏多（Moodring {score:.1f}）")
+        parts.append(f"台股 Moodring {score:.1f}，偏多但 FOMO 氛圍蠻濃，追高要小心")
     elif score >= 40:
-        parts.append(f"短期中性偏弱（Moodring {score:.1f}）")
+        parts.append(f"台股 Moodring {score:.1f}，不上不下，觀望等方向比較安全")
     else:
-        parts.append(f"短期偏空（Moodring {score:.1f}）")
+        parts.append(f"台股 Moodring {score:.1f}，盤感很差，先躺著比較安全")
 
     # Foreign investor flow context
     if retail:
@@ -1622,12 +1622,12 @@ def generate_forward_outlook_tw(score=None, retail=None, mkt_data=None):
         tsmc_margin = retail.get('TSMC_margin_30d_change_pct')
 
         if direction == 'buy' and consec:
-            parts.append(f"外資連買 {consec} 天形成支撐，若持續買超則動能可望延伸")
+            parts.append(f"外資連買 {consec} 天了，多頭有支撐感，繼續買才算真的")
         elif direction == 'sell' and consec:
-            parts.append(f"外資連賣 {consec} 天，需翻買（連買 2-3 天確認）才是反彈訊號")
+            parts.append(f"外資連賣 {consec} 天，等他們翻買再說，至少要連買 2-3 天才算確認")
 
         if tsmc_margin is not None and tsmc_margin > 15:
-            parts.append(f"台積電融資月增 {tsmc_margin:+.1f}%，槓桿風險升高，需留意追繳壓力")
+            parts.append(f"台積電融資月增 {tsmc_margin:+.1f}%，散戶槓桿堆太高，小心斷頭潮")
 
     # RSI context
     if mkt_data:
@@ -1635,11 +1635,11 @@ def generate_forward_outlook_tw(score=None, retail=None, mkt_data=None):
         sma20 = mkt_data.get('TAIEX_SMA20')
         if rsi is not None:
             if rsi < 30:
-                parts.append(f"RSI {rsi:.1f} 深度超賣，技術面有反彈條件")
+                parts.append(f"RSI {rsi:.1f} 超賣，技術面有反彈可能，但先等穩一點")
             elif rsi > 70:
-                parts.append(f"RSI {rsi:.1f} 偏熱，短線需防過熱修正")
+                parts.append(f"RSI {rsi:.1f} 有點熱，短線小心修正")
         if sma20 is not None:
-            parts.append(f"關鍵支撐：TAIEX SMA20 ({sma20:.0f})")
+            parts.append(f"TAIEX SMA20 ({sma20:.0f}) 守住才算穩，失守要小心")
 
     return "；".join(parts) + "。" if parts else None
 
@@ -1651,55 +1651,55 @@ def generate_forward_outlook_us(score, mkt_data, global_ctx=None, delta_5d=None)
     parts = []
 
     if score >= 80:
-        parts.append(f"Moodring {score:.1f} 位於貪婪區高位")
+        parts.append(f"美股 Moodring {score:.1f}，嗨翻了，這種高位感覺有點燙手")
     elif score >= 65:
-        parts.append(f"Moodring {score:.1f} 進入偏多區間")
+        parts.append(f"美股 Moodring {score:.1f}，偏多，FOMO 氛圍蠻濃")
     elif score >= 50:
-        parts.append(f"Moodring {score:.1f} 中性偏多")
+        parts.append(f"美股 Moodring {score:.1f}，中性，多空都有道理")
     elif score >= 35:
-        parts.append(f"Moodring {score:.1f} 中性偏弱")
+        parts.append(f"美股 Moodring {score:.1f}，偏弱，不太敢進場")
     else:
-        parts.append(f"Moodring {score:.1f} 位於恐懼區")
+        parts.append(f"美股 Moodring {score:.1f}，恐慌模式，感覺還沒止跌")
 
     if delta_5d is not None and abs(delta_5d) > 4:
         if delta_5d > 0:
-            parts.append(f"五日累漲 {delta_5d:+.1f} 分，動能持續")
+            parts.append(f"五天衝了 {delta_5d:+.1f} 分，FOMO 蠻濃")
         else:
-            parts.append(f"五日累跌 {delta_5d:+.1f} 分，注意動能衰退")
+            parts.append(f"五天跌了 {delta_5d:+.1f} 分，動能感覺在轉弱")
 
     rsi = mkt_data.get('SPY_RSI14') if mkt_data else None
     if rsi is not None:
         if rsi > 75:
-            parts.append(f"SPY RSI {rsi:.1f} 偏熱，短線留意過熱回調")
+            parts.append(f"SPY RSI {rsi:.1f}，有點過熱，小心回調")
         elif rsi < 30:
-            parts.append(f"SPY RSI {rsi:.1f} 深度超賣，技術反彈條件具備")
+            parts.append(f"SPY RSI {rsi:.1f} 超賣，技術面有反彈可能，但先等穩再說")
         elif rsi < 40:
-            parts.append(f"SPY RSI {rsi:.1f} 接近超賣，尋底訊號")
+            parts.append(f"SPY RSI {rsi:.1f} 快超賣了，逢低可以留意")
         elif 40 <= rsi <= 60:
-            parts.append(f"SPY RSI {rsi:.1f} 中性區，方向待確認")
+            parts.append(f"SPY RSI {rsi:.1f}，方向不明，觀望為主")
 
     vix = mkt_data.get('VIX') if mkt_data else None
     if vix is not None:
         if vix > 30:
-            parts.append(f"VIX {vix:.1f} 恐慌高位，注意避險需求")
+            parts.append(f"VIX {vix:.1f}，恐慌指數很高，市場很怕")
         elif vix > 20:
-            parts.append(f"VIX {vix:.1f} 偏高，市場仍有隱憂")
+            parts.append(f"VIX {vix:.1f}，還是有點緊張，不算穩")
         elif vix < 15:
-            parts.append(f"VIX {vix:.1f} 低迷，波動率壓縮")
+            parts.append(f"VIX {vix:.1f}，波動壓很低，大家都躺著")
 
     yield10y = mkt_data.get('US_10Y_yield') if mkt_data else None
     if yield10y is not None:
         if yield10y > 4.5:
-            parts.append(f"10Y 殖利率 {yield10y:.2f}% 偏高，壓制估值擴張")
+            parts.append(f"10Y 殖利率 {yield10y:.2f}%，算高，估值壓力在")
         elif 4.0 <= yield10y <= 4.5:
-            parts.append(f"10Y 殖利率 {yield10y:.2f}%，聯準會路徑為關鍵變數")
+            parts.append(f"10Y 殖利率 {yield10y:.2f}%，再來就看 Fed 怎麼講")
         elif yield10y < 3.5:
-            parts.append(f"10Y 殖利率 {yield10y:.2f}% 走低，有利風險資產")
+            parts.append(f"10Y 殖利率 {yield10y:.2f}% 走低，對股市算友善")
 
     sma20 = mkt_data.get('SPY_SMA20') if mkt_data else None
     close = mkt_data.get('SPY_close') if mkt_data else None
     if sma20 is not None and close is not None and score <= 55:
-        parts.append(f"SPY 能否守住 SMA20 ({sma20:.0f}) 為短期關鍵支撐")
+        parts.append(f"SPY 能不能守住 SMA20 ({sma20:.0f}) 蠻關鍵的")
 
     return "；".join(parts) + "。"
 
@@ -1711,45 +1711,45 @@ def generate_forward_outlook_jp(score, mkt_data, global_ctx=None, delta_5d=None)
     parts = []
 
     if score >= 80:
-        parts.append(f"日股 Moodring {score:.1f}，短線偏多動能強勁")
+        parts.append(f"日股 Moodring {score:.1f}，追起來了，這個高度追高要小心")
     elif score >= 65:
-        parts.append(f"日股 Moodring {score:.1f}，偏多但需確認延續性")
+        parts.append(f"日股 Moodring {score:.1f}，偏多，感覺還有動能")
     elif score >= 50:
-        parts.append(f"日股 Moodring {score:.1f}，中性觀望")
+        parts.append(f"日股 Moodring {score:.1f}，看盤不動，等方向")
     elif score >= 35:
-        parts.append(f"日股 Moodring {score:.1f}，偏弱，下行風險需注意")
+        parts.append(f"日股 Moodring {score:.1f}，有點弱，不敢進場")
     else:
-        parts.append(f"日股 Moodring {score:.1f}，恐慌模式")
+        parts.append(f"日股 Moodring {score:.1f}，怕了，先躺著")
 
     if delta_5d is not None and abs(delta_5d) > 4:
         if delta_5d > 0:
-            parts.append(f"近 5 日上漲 {delta_5d:+.1f} 分")
+            parts.append(f"五天漲了 {delta_5d:+.1f} 分，動能蠻強")
         else:
-            parts.append(f"近 5 日下跌 {delta_5d:+.1f} 分，注意動能轉折")
+            parts.append(f"五天跌了 {delta_5d:+.1f} 分，感覺在轉折")
 
     usdjpy = (global_ctx or {}).get('USDJPY')
     if usdjpy is not None:
         if usdjpy > 155:
-            parts.append(f"USDJPY {usdjpy:.1f}，円安持續支撐出口股獲利")
+            parts.append(f"USD/JPY {usdjpy:.1f}，円安繼續幫出口股衝")
         elif usdjpy > 150:
-            parts.append(f"USDJPY {usdjpy:.1f}，日圓弱勢區間，BOJ 干預風險存在")
+            parts.append(f"USD/JPY {usdjpy:.1f}，日圓弱，BOJ 干預風險要注意")
         elif usdjpy < 145:
-            parts.append(f"USDJPY {usdjpy:.1f}，円高壓力，注意出口股獲利回吐")
+            parts.append(f"USD/JPY {usdjpy:.1f}，円高壓力，出口股要小心獲利回吐")
 
     rsi = mkt_data.get('NIKKEI_RSI14') if mkt_data else None
     if rsi is not None:
         if rsi > 75:
-            parts.append(f"RSI {rsi:.1f} 偏熱，短線留意技術修正")
+            parts.append(f"RSI {rsi:.1f} 有點熱，短線留意")
         elif rsi < 30:
-            parts.append(f"RSI {rsi:.1f} 超賣，技術反彈條件具備")
+            parts.append(f"RSI {rsi:.1f} 超賣，技術面有反彈機會，等穩一點")
         elif rsi < 40:
-            parts.append(f"RSI {rsi:.1f} 接近超賣")
+            parts.append(f"RSI {rsi:.1f} 快超賣了")
         elif 40 <= rsi <= 60:
-            parts.append(f"RSI {rsi:.1f} 中性")
+            parts.append(f"RSI {rsi:.1f}，方向待確認")
 
     r5d = mkt_data.get('NIKKEI_5d_return_pct') if mkt_data else None
     if r5d is not None and abs(r5d) > 3:
-        parts.append(f"近 5 日 {r5d:+.1f}%，{'強勢反彈' if r5d > 0 else '快速回落'}")
+        parts.append(f"近五天 {r5d:+.1f}%，{'很強，衝勁在' if r5d > 0 else '跌比較快，要小心'}")
 
     return "；".join(parts) + "。"
 
@@ -1761,41 +1761,41 @@ def generate_forward_outlook_kr(score, mkt_data, delta_5d=None):
     parts = []
 
     if score >= 80:
-        parts.append(f"韓股 Moodring {score:.1f}，貪婪區，動能偏強")
+        parts.append(f"韓股 Moodring {score:.1f}，已經很嗨，追高要謹慎")
     elif score >= 65:
-        parts.append(f"韓股 Moodring {score:.1f}，偏多，但貪婪訊號需確認")
+        parts.append(f"韓股 Moodring {score:.1f}，偏多但感覺有點 FOMO 了")
     elif score >= 50:
-        parts.append(f"韓股 Moodring {score:.1f}，中性偏多")
+        parts.append(f"韓股 Moodring {score:.1f}，中性偏多，等確認方向")
     elif score >= 35:
-        parts.append(f"韓股 Moodring {score:.1f}，中性偏弱")
+        parts.append(f"韓股 Moodring {score:.1f}，偏弱，觀望為主")
     else:
-        parts.append(f"韓股 Moodring {score:.1f}，恐懼區")
+        parts.append(f"韓股 Moodring {score:.1f}，怕了，先扛著")
 
     if delta_5d is not None and abs(delta_5d) > 4:
         if delta_5d > 0:
-            parts.append(f"近 5 日上漲 {delta_5d:+.1f} 分，動能加速")
+            parts.append(f"五天漲了 {delta_5d:+.1f} 分，衝勁蠻強")
         else:
-            parts.append(f"近 5 日下跌 {delta_5d:+.1f} 分")
+            parts.append(f"五天跌了 {delta_5d:+.1f} 分，注意動能")
 
     rsi = mkt_data.get('KOSPI_RSI14') if mkt_data else None
     if rsi is not None:
         if rsi > 75:
-            parts.append(f"KOSPI RSI {rsi:.1f} 偏熱，留意短線過熱")
+            parts.append(f"KOSPI RSI {rsi:.1f} 有點過熱，留意回調")
         elif rsi < 30:
-            parts.append(f"KOSPI RSI {rsi:.1f} 超賣，技術反彈空間存在")
+            parts.append(f"KOSPI RSI {rsi:.1f} 超賣，逢低可以留意")
         elif rsi < 40:
-            parts.append(f"KOSPI RSI {rsi:.1f} 接近超賣")
+            parts.append(f"KOSPI RSI {rsi:.1f} 快超賣了，小心")
         elif 40 <= rsi <= 60:
-            parts.append(f"KOSPI RSI {rsi:.1f} 中性")
+            parts.append(f"KOSPI RSI {rsi:.1f}，三星/海力士出貨方向是關鍵")
 
     r5d = mkt_data.get('KOSPI_5d_return_pct') if mkt_data else None
     if r5d is not None and abs(r5d) > 3:
-        parts.append(f"近 5 日 KOSPI {r5d:+.1f}%，{'強勢上揚' if r5d > 0 else '快速下滑'}")
+        parts.append(f"近五天 KOSPI {r5d:+.1f}%，{'追高要小心' if r5d > 0 else '跌比較急'}")
 
     sma20 = mkt_data.get('KOSPI_SMA20') if mkt_data else None
     close = mkt_data.get('KOSPI_close') if mkt_data else None
     if sma20 is not None and close is not None and score <= 55:
-        parts.append(f"KOSPI 能否守住 SMA20 ({sma20:.0f}) 是近期關鍵支撐")
+        parts.append(f"KOSPI SMA20 ({sma20:.0f}) 能不能守住蠻關鍵")
 
     return "；".join(parts) + "。"
 
@@ -1807,40 +1807,40 @@ def generate_forward_outlook_eu(score, mkt_data, delta_5d=None):
     parts = []
 
     if score >= 80:
-        parts.append(f"歐股 Moodring {score:.1f}，貪婪區，動能持續")
+        parts.append(f"歐股 Moodring {score:.1f}，已經嗨了，追高要留意")
     elif score >= 65:
-        parts.append(f"歐股 Moodring {score:.1f}，偏多，歐股動能延伸中")
+        parts.append(f"歐股 Moodring {score:.1f}，偏多，歐股動能還在延伸")
     elif score >= 50:
-        parts.append(f"歐股 Moodring {score:.1f}，中性偏多")
+        parts.append(f"歐股 Moodring {score:.1f}，中性偏多，不急進場")
     elif score >= 35:
-        parts.append(f"歐股 Moodring {score:.1f}，中性偏弱")
+        parts.append(f"歐股 Moodring {score:.1f}，偏弱，先觀望")
     else:
-        parts.append(f"歐股 Moodring {score:.1f}，恐懼區")
+        parts.append(f"歐股 Moodring {score:.1f}，怕了，等止跌")
 
     if delta_5d is not None and abs(delta_5d) > 4:
         if delta_5d > 0:
-            parts.append(f"近 5 日上漲 {delta_5d:+.1f} 分，偏多動能延伸")
+            parts.append(f"五天漲了 {delta_5d:+.1f} 分，偏多動能還在")
         else:
-            parts.append(f"近 5 日下跌 {delta_5d:+.1f} 分，注意修正風險")
+            parts.append(f"五天跌了 {delta_5d:+.1f} 分，注意修正")
 
     rsi = mkt_data.get('STOXX50_RSI14') if mkt_data else None
     if rsi is not None:
         if rsi > 75:
-            parts.append(f"STOXX50 RSI {rsi:.1f} 偏熱，短線過熱風險")
+            parts.append(f"STOXX50 RSI {rsi:.1f} 有點過熱，留意短線風險")
         elif rsi < 30:
-            parts.append(f"STOXX50 RSI {rsi:.1f} 超賣，技術反彈條件存在")
+            parts.append(f"STOXX50 RSI {rsi:.1f} 超賣，技術反彈機會有，等穩再說")
         elif rsi < 40:
-            parts.append(f"STOXX50 RSI {rsi:.1f} 接近超賣")
+            parts.append(f"STOXX50 RSI {rsi:.1f} 快超賣了")
         elif 40 <= rsi <= 60:
-            parts.append(f"STOXX50 RSI {rsi:.1f} 中性")
+            parts.append(f"STOXX50 RSI {rsi:.1f}，ECB 降息路徑是這邊的核心劇本")
 
     r5d = mkt_data.get('STOXX50_5d_return_pct') if mkt_data else None
     if r5d is not None and abs(r5d) > 3:
-        parts.append(f"近 5 日 STOXX50 {r5d:+.1f}%，{'強勢反彈' if r5d > 0 else '快速回落'}")
+        parts.append(f"近五天 STOXX50 {r5d:+.1f}%，{'反彈蠻強' if r5d > 0 else '跌比較快'}")
 
     sma20 = mkt_data.get('STOXX50_SMA20') if mkt_data else None
     if sma20 is not None and score <= 55:
-        parts.append(f"STOXX50 SMA20 ({sma20:.0f}) 為近期支撐關鍵")
+        parts.append(f"STOXX50 SMA20 ({sma20:.0f}) 是近期重要支撐")
 
     return "；".join(parts) + "。"
 
