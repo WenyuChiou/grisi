@@ -41,10 +41,30 @@ jobs:
       - name: Rebuild dashboard JSON
         run: python src/rebuild_dashboard_daily.py
 
+      - name: Regenerate narratives via Claude API
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python src/regen_narratives.py
+
       - name: Sync data to docs
         run: |
           mkdir -p docs/data
           cp data/*.json docs/data/
+
+      - name: Validate narratives (freshness assertion)
+        run: |
+          python -c "
+          import json
+          d = json.loads(open('docs/data/phase2_agent_results.json', encoding='utf-8').read())
+          for k in ['tw_agent', 'us_agent']:
+              score_key = f'{k[:2]}_base_score'
+              score = d.get(score_key)
+              fo = (d.get(k, {}) or {}).get('forward_outlook', '') or ''
+              if score is not None:
+                  s = f'{score:.1f}'
+                  assert s in fo, f'{k}.forward_outlook missing {s}: {fo[:80]}'
+          print('narrative freshness OK')
+          "
 
       - name: Commit and push
         run: |

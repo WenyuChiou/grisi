@@ -5,3 +5,4 @@ scipy
 FinMind
 requests
 tqdm
+anthropic
