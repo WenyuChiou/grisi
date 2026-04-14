@@ -24,7 +24,7 @@
     ],
     "what_quant_misses": "純量化看不出 Robinhood / WSB 散戶情緒的 leverage build-up 真實規模 — put/call ratio 低於 0.55、零日期權交易量同比 +60% 都是 spot VIX 抓不到的 tail risk。歷史上類似 momentum + retail 情緒的尾段，回檔來時是 -8% 而不是 -3%。",
     "forward_outlook": "Moodring 81.8 高於 P80=53.4 達 28 分，位於過去一年 top 15% 區間；歷史此位置後 20 日中位數報酬偏負，加上 RSI14 67.9 接近超買。建議分批減碼高 beta 部位、把現金拉回 30%，等回測 SMA20 (659) 或 Moodring 退到 65 以下再評估增持。",
-    "narrative_en": "SPY at 686. RSI 67.9 (neutral). 5d return +4.1%. 20d return +3.9%. Moodring score 81.8 (extreme greed — historically poor entry point). VIX at 19.12 (moderate). Gold $4,763.",
+    "narrative_en": "SPY at 686. RSI 67.9 (neutral). 5d return +4.1%. 20d return +3.9%. Moodring score 81.8 (extreme greed — historically poor entry point). VIX at 19.12 (moderate). Gold $4,794.",
     "narrative_tw": "Moodring 81.8 寫在臉上的興奮，但 P80 才 53.4 — 我帳戶離歷史頂部區間只剩 RSI 67.9 和 VIX 19 一個距離。SPY 686 站上 SMA20 +4.1%、10Y 4.3% 也沒拖累 multiple，這種 setup WSB 不會放過。紀律上是 trim 10%、留現金，實際每天還是手癢加單。+12 分的 5 日斜率是反轉前奏，但等不及看下一根 K。",
     "key_factors_tw": [
       "Moodring 81.8 vs P80 53.4 — 距積極減碼門檻 +28 分",
@@ -90,7 +90,7 @@
     "us_final_score": 80.8,
     "tw_final_score": 86.6,
     "divergence": 5.8,
-    "cross_market_view": "US (80.8) 和 TW (86.6) 分歧 5.8 — TW 回升至貪婪區，US 偏強。US RSI 67.9 中性，台股 RSI 60.1 中性。TW 外資連賣 1 天（161.8億）；散戶逆勢接刀 61億；台積電融資月增 24.4%。韓股 (72.9) 由上週中性回落至貪婪區，歐股 Moodring 68.8 仍在貪婪區，RSI 70.9 偏弱。",
+    "cross_market_view": "US (80.8) 和 TW (86.6) 分歧 5.8 — TW 回升至貪婪區，US 偏強。US RSI 67.9 中性，台股 RSI 60.1 中性。TW 外資連賣 1 天（161.8億）；散戶逆勢接刀 61億；台積電融資月增 24.4%。韓股 (72.9) 由上週中性回落至貪婪區，歐股 Moodring 68.8 仍在貪婪區，RSI 64.8 偏弱。",
     "actionable_signal": "HOLD — US 超賣但趨勢未逆轉，等 RSI 從超賣反彈確認。TW 散戶槓桿加速追買+外資賣超，不宜追多。等外資翻買連確認（2-3 天+）再動。"
   },
   "jp_agent": {
@@ -102,7 +102,7 @@
       "日經 RSI 69.1 中性",
       "5 日報酬 +7.2% — 小幅反彈",
       "20 日報酬 +4.5% — 中等回調",
-      "USDJPY 159.4 — 日圓偏弱，出口股獲利"
+      "USDJPY 159.2 — 日圓偏弱，出口股獲利"
     ],
     "what_quant_misses": "BOJ 利率決策和日圓套利交易平倉是目前日股最大不確定因素，非技術指標可以量化。日圓一旦快速升值（如 USD/JPY 跌破 155），可能引發套利交易大規模平倉。",
     "forward_outlook": "偏觀望。日圓方向是關鍵變數，需觀察 BOJ 訊號。RSI 接近超賣提供技術反彈可能性，但需美股配合提供方向。",
@@ -112,11 +112,11 @@
       "日經 RSI 69.1 中性",
       "5 日報酬 +7.2% — 小幅反彈",
       "20 日報酬 +4.5% — 中等回調",
-      "USDJPY 159.4 — 日圓偏弱，出口股獲利"
+      "USDJPY 159.2 — 日圓偏弱，出口股獲利"
     ],
-    "watch_for_tw": "USDJPY 159.4 — 日圓升破 150 將觸發套利平倉，是最大尾部風險；BOJ 下次利率決策時間點及措辭是最重要催化劑；RSI 技術超賣提供反彈可能，但需美股穩定配合。",
+    "watch_for_tw": "USDJPY 159.2 — 日圓升破 150 將觸發套利平倉，是最大尾部風險；BOJ 下次利率決策時間點及措辭是最重要催化劑；RSI 技術超賣提供反彈可能，但需美股穩定配合。",
     "action": "積極減碼",
-    "cross_market_summary": "日經 Moodring 86.8 貪婪；RSI 69.1 中性；20 日 +4.5%；USDJPY 159.4 日圓偏弱（利出口）。",
+    "cross_market_summary": "日經 Moodring 86.8 貪婪；RSI 69.1 中性；20 日 +4.5%；USDJPY 159.2 日圓偏弱（利出口）。",
     "action_thresholds": null
   },
   "kr_agent": {
@@ -151,23 +151,23 @@
     "conviction": "LOW",
     "narrative": "歐股最近有點起色！德國財政刺激消息，ESG 主題股也跟著漲...估值比美股便宜很多，被動 ETF 部位開始回血。要加碼歐股做分散嗎？感覺有點吸引力，但地緣風險還在，小額慢慢加。",
     "key_factors": [
-      "STOXX50 RSI 70.9 中性",
-      "5 日報酬 +3.7% — 小幅震盪",
-      "20 日報酬 +2.7% — 中期回調"
+      "STOXX50 RSI 64.8 中性",
+      "5 日報酬 +3.4% — 小幅震盪",
+      "20 日報酬 +2.3% — 中期回調"
     ],
     "what_quant_misses": "ECB 政策路徑、俄烏局勢和德國財政刺激的規模是歐股非對稱風險的主要來源，這些因素使技術超賣的反彈幅度難以預估。",
     "forward_outlook": "RSI 超賣有短線技術反彈條件，但 Moodring 需跌破 40 才進入高確信逆勢區。暫時觀望，等訊號更明確。",
-    "narrative_en": "STOXX50 at 5,905. RSI 70.9 (overbought). 5d return +3.7%. 20d return +2.7%. Moodring score 68.8 (greedy — caution warranted).",
+    "narrative_en": "STOXX50 at 5,926. RSI 64.8 (neutral). 5d return +3.4%. 20d return +2.3%. Moodring score 68.8 (greedy — caution warranted).",
     "narrative_tw": "歐股最近有點起色！德國財政刺激消息，ESG 主題股也跟著漲...估值比美股便宜很多，被動 ETF 部位開始回血。要加碼歐股做分散嗎？感覺有點吸引力，但地緣風險還在，小額慢慢加。",
     "key_factors_tw": [
-      "STOXX50 RSI 70.9 中性",
-      "5 日報酬 +3.7% — 小幅震盪",
-      "20 日報酬 +2.7% — 中期回調"
+      "STOXX50 RSI 64.8 中性",
+      "5 日報酬 +3.4% — 小幅震盪",
+      "20 日報酬 +2.3% — 中期回調"
     ],
     "watch_for_tw": "ECB 降息路徑及德國財政刺激規模是歐股非對稱風險主要來源；RSI 超賣提供技術反彈條件，但地緣風險溢價難以量化。",
     "action": "逐步減碼",
-    "cross_market_summary": "歐股 Moodring 68.8 貪婪區；STOXX50 RSI 70.9 偏弱；近 5 日 +3.7%；20 日 +2.7%。",
+    "cross_market_summary": "歐股 Moodring 68.8 貪婪區；STOXX50 RSI 64.8 偏弱；近 5 日 +3.4%；20 日 +2.3%。",
     "action_thresholds": null
   },
-  "global_narrative": "2026-04-13：美股 SPY RSI 67.9 中性，VIX 19.12，Moodring 80.8 偏強。台股回升至 Moodring 86.6，TAIEX RSI 60.1，外資連賣 1 天（161.8億），散戶逆勢接刀 61億。日經 Moodring 86.8 貪婪，USDJPY 159.4 日圓偏弱。韓股 Moodring 72.9 由上週中性回落貪婪，KOSPI 近 5 日 +9.0%。歐股 Moodring 68.8 貪婪區，STOXX50 RSI 70.9 偏弱，20 日 +2.7%。整體：等外資翻買確認。"
+  "global_narrative": "2026-04-13：美股 SPY RSI 67.9 中性，VIX 19.12，Moodring 80.8 偏強。台股回升至 Moodring 86.6，TAIEX RSI 60.1，外資連賣 1 天（161.8億），散戶逆勢接刀 61億。日經 Moodring 86.8 貪婪，USDJPY 159.2 日圓偏弱。韓股 Moodring 72.9 由上週中性回落貪婪，KOSPI 近 5 日 +9.0%。歐股 Moodring 68.8 貪婪區，STOXX50 RSI 64.8 偏弱，20 日 +2.3%。整體：等外資翻買確認。"
 }

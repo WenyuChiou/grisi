@@ -59,17 +59,17 @@
     "kr_moodring_score": 72.9
   },
   "eu_market": {
-    "STOXX50_close": 5905.02,
-    "STOXX50_RSI14": 70.9,
-    "STOXX50_SMA20": 5688.23,
-    "STOXX50_vs_52w_high_pct": 95.7,
-    "STOXX50_5d_return_pct": 3.73,
-    "STOXX50_20d_return_pct": 2.72,
+    "STOXX50_close": 5926.11,
+    "STOXX50_RSI14": 64.8,
+    "STOXX50_SMA20": 5680.42,
+    "STOXX50_vs_52w_high_pct": 96.0,
+    "STOXX50_5d_return_pct": 3.37,
+    "STOXX50_20d_return_pct": 2.27,
     "eu_moodring_score": 68.8
   },
   "global_context": {
-    "Gold": 4763.0,
-    "USDJPY": 159.45,
-    "USDTWD": 31.64
+    "Gold": 4794.0,
+    "USDJPY": 159.21,
+    "USDTWD": 31.66
   }
 }
