@@ -1,12 +1,12 @@
 {
   "date": "2026-04-17",
   "kr": {
-    "current_score": 81.4,
+    "current_score": 81.6,
     "analogues": [
       {
         "date": "2009-04-09",
         "score": 82.2,
-        "distance": 0.8,
+        "distance": 0.6,
         "fwd_5d": 1.55,
         "fwd_10d": 3.98,
         "fwd_20d": 7.51,
@@ -15,7 +15,7 @@
       {
         "date": "2009-04-10",
         "score": 82.3,
-        "distance": 0.9,
+        "distance": 0.7,
         "fwd_5d": -0.53,
         "fwd_10d": 1.35,
         "fwd_20d": 5.05,
@@ -30,61 +30,11 @@
       "worst_analogue": "2009-04-10"
     }
   },
-  "eu": {
-    "current_score": 69.9,
-    "analogues": [
-      {
-        "date": "2021-08-13",
-        "score": 69.9,
-        "distance": 0.0,
-        "fwd_5d": -1.94,
-        "fwd_10d": -0.92,
-        "fwd_20d": -1.4,
-        "context": "Score near 52w high"
-      },
-      {
-        "date": "2021-08-12",
-        "score": 69.9,
-        "distance": 0.0,
-        "fwd_5d": -2.4,
-        "fwd_10d": -1.34,
-        "fwd_20d": -1.16,
-        "context": "Score near 52w high"
-      },
-      {
-        "date": "2013-05-22",
-        "score": 69.9,
-        "distance": 0.0,
-        "fwd_5d": -1.71,
-        "fwd_10d": -4.43,
-        "fwd_20d": -5.33,
-        "context": "20d move +10.1%"
-      },
-      {
-        "date": "2017-05-09",
-        "score": 70.0,
-        "distance": 0.1,
-        "fwd_5d": -0.2,
-        "fwd_10d": -1.48,
-        "fwd_20d": -2.33,
-        "context": "Score near 52w high"
-      },
-      {
-        "date": "2016-12-06",
-        "score": 70.0,
-        "distance": 0.1,
-        "fwd_5d": 4.38,
-        "fwd_10d": 5.76,
-        "fwd_20d": 6.96,
-        "context": "Score near 52w high"
-      }
-    ],
-    "summary": {
-      "n_similar": 147,
-      "avg_fwd_20d": 1.45,
-      "win_rate_20d": 66.0,
-      "best_analogue": "2009-04-08",
-      "worst_analogue": "2015-08-05"
-    }
+  "cross_market": {
+    "pattern": "US Extreme Greed + TW Extreme Greed",
+    "n_occurrences": 2,
+    "avg_fwd_20d_us": 1.3,
+    "avg_fwd_20d_tw": -1.03,
+    "last_occurred": "2013-03-11"
   }
 }
