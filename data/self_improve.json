@@ -84,9 +84,9 @@
     },
     "eu": {
       "full_ic_20d": -0.0581,
-      "recent_ic_20d": -0.4578,
+      "recent_ic_20d": -0.4577,
       "ic_trend": "improving",
-      "ic_change_pct": 688.0,
+      "ic_change_pct": 687.8,
       "score_mean_60d": 47.8,
       "score_std_60d": 12.1,
       "zone_distribution_60d": {
