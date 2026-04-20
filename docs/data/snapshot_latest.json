@@ -1,5 +1,5 @@
 {
-  "date": "2026-04-18",
+  "date": "2026-04-20",
   "data_sources": {
     "market_prices": "Yahoo Finance (yfinance)",
     "tw_margin": "FinMind API (TWSE OpenData)",
@@ -19,12 +19,12 @@
     "US_10Y_yield": 4.25
   },
   "tw_market": {
-    "TAIEX_close": 36804.0,
-    "TAIEX_RSI14": 70.3,
-    "TAIEX_SMA20": 34156.0,
-    "TAIEX_vs_52w_high_pct": 99.1,
-    "TAIEX_5d_return_pct": 3.91,
-    "TAIEX_20d_return_pct": 7.15,
+    "TAIEX_close": 37225.0,
+    "TAIEX_RSI14": 73.5,
+    "TAIEX_SMA20": 34333.0,
+    "TAIEX_vs_52w_high_pct": 100.0,
+    "TAIEX_5d_return_pct": 4.99,
+    "TAIEX_20d_return_pct": 10.49,
     "TSMC_close": 2030.0,
     "TSMC_vs_52w_high_pct": 97.4
   },
@@ -38,25 +38,25 @@
     "foreign_consecutive_days": 1,
     "foreign_consecutive_direction": "sell",
     "TSMC_margin_balance": 25670,
-    "TSMC_margin_30d_change_pct": 15.58
+    "TSMC_margin_30d_change_pct": 8.62
   },
   "jp_market": {
-    "NIKKEI_close": 58475.9,
-    "NIKKEI_RSI14": 72.7,
-    "NIKKEI_SMA20": 54662.49,
-    "NIKKEI_vs_52w_high_pct": 98.2,
-    "NIKKEI_5d_return_pct": 2.73,
-    "NIKKEI_20d_return_pct": 9.56,
-    "jp_moodring_score": 90.9
+    "NIKKEI_close": 58942.08,
+    "NIKKEI_RSI14": 77.8,
+    "NIKKEI_SMA20": 55033.82,
+    "NIKKEI_vs_52w_high_pct": 99.0,
+    "NIKKEI_5d_return_pct": 4.32,
+    "NIKKEI_20d_return_pct": 14.42,
+    "jp_moodring_score": 95.2
   },
   "kr_market": {
-    "KOSPI_close": 6191.92,
-    "KOSPI_RSI14": 70.7,
-    "KOSPI_SMA20": 5633.05,
-    "KOSPI_vs_52w_high_pct": 98.2,
-    "KOSPI_5d_return_pct": 5.68,
-    "KOSPI_20d_return_pct": 7.1,
-    "kr_moodring_score": 81.6
+    "KOSPI_close": 6259.26,
+    "KOSPI_RSI14": 79.4,
+    "KOSPI_SMA20": 5675.73,
+    "KOSPI_vs_52w_high_pct": 99.2,
+    "KOSPI_5d_return_pct": 7.76,
+    "KOSPI_20d_return_pct": 15.79,
+    "kr_moodring_score": 93.2
   },
   "eu_market": {
     "STOXX50_close": 6057.71,
@@ -69,7 +69,7 @@
   },
   "global_context": {
     "Gold": 4858.0,
-    "USDJPY": 158.58,
-    "USDTWD": 31.46
+    "USDJPY": 158.93,
+    "USDTWD": 31.49
   }
 }
