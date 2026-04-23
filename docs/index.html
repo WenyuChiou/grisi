@@ -774,12 +774,11 @@ function renderAgentSection(agentData, mktKey) {
     return;
   }
 
-  // Per-market action badge derived from individual agent score (not shared global signal)
+  // Per-market action badge — agent.action is computed by Python using dynamic percentile
+  // thresholds (compute_action_thresholds → classify_action). JS only translates Chinese→English.
   const actionTw = agent.action || '觀望持有';
-  let sigWord;
-  if (actionTw === '積極加碼' || actionTw === '逢低布局') sigWord = 'BUY';
-  else if (actionTw === '逐步減碼' || actionTw === '積極減碼') sigWord = 'SELL';
-  else sigWord = 'HOLD';
+  const _ACTION_EN = { '積極加碼': 'BUY', '逢低布局': 'BUY', '觀望持有': 'HOLD', '逐步減碼': 'SELL', '積極減碼': 'SELL' };
+  const sigWord = _ACTION_EN[actionTw] ?? 'HOLD';
 
   // Prefer narrative_tw (Chinese retail monologue = 散戶心聲) over narrative_en (English quant)
   const narrative  = agent.narrative_tw  || agent.narrative_en  || agent.narrative  || '';
