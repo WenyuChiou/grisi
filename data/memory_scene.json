@@ -1,12 +1,12 @@
 {
   "date": "2026-04-22",
   "us": {
-    "current_score": 93.4,
+    "current_score": 94.0,
     "analogues": [
       {
         "date": "2026-04-16",
         "score": 91.0,
-        "distance": 2.4,
+        "distance": 3.0,
         "fwd_5d": null,
         "fwd_10d": null,
         "fwd_20d": null,

@@ -6,7 +6,7 @@
       "recent_ic_20d": 0.1658,
       "ic_trend": "decaying",
       "ic_change_pct": -0.6,
-      "score_mean_60d": 51.0,
+      "score_mean_60d": 51.1,
       "score_std_60d": 18.2,
       "zone_distribution_60d": {
         "extreme_fear": 0,
@@ -44,18 +44,18 @@
       "calibration_days_ago": 11
     },
     "jp": {
-      "full_ic_20d": -0.0676,
-      "recent_ic_20d": -0.1357,
+      "full_ic_20d": -0.0681,
+      "recent_ic_20d": -0.1337,
       "ic_trend": "improving",
-      "ic_change_pct": 100.7,
-      "score_mean_60d": 52.1,
-      "score_std_60d": 15.7,
+      "ic_change_pct": 96.3,
+      "score_mean_60d": 52.9,
+      "score_std_60d": 16.6,
       "zone_distribution_60d": {
         "extreme_fear": 1,
         "fear": 10,
-        "neutral": 37,
+        "neutral": 36,
         "greed": 3,
-        "extreme_greed": 6
+        "extreme_greed": 7
       },
       "health": "warning",
       "flags": [],
@@ -63,18 +63,18 @@
       "calibration_days_ago": 28
     },
     "kr": {
-      "full_ic_20d": -0.1089,
-      "recent_ic_20d": -0.3482,
+      "full_ic_20d": -0.1091,
+      "recent_ic_20d": -0.3498,
       "ic_trend": "improving",
-      "ic_change_pct": 219.7,
-      "score_mean_60d": 56.7,
-      "score_std_60d": 15.1,
+      "ic_change_pct": 220.6,
+      "score_mean_60d": 57.2,
+      "score_std_60d": 15.9,
       "zone_distribution_60d": {
         "extreme_fear": 2,
         "fear": 8,
         "neutral": 16,
-        "greed": 29,
-        "extreme_greed": 3
+        "greed": 28,
+        "extreme_greed": 4
       },
       "health": "good",
       "flags": [],
