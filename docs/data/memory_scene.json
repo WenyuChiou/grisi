@@ -1,26 +1,5 @@
 {
-  "date": "2026-04-24",
-  "us": {
-    "current_score": 94.6,
-    "analogues": [
-      {
-        "date": "2026-04-17",
-        "score": 94.6,
-        "distance": 0.0,
-        "fwd_5d": 0.54,
-        "fwd_10d": null,
-        "fwd_20d": null,
-        "context": "Score near 52w high, 5d rally of +4.3%, 20d move +6.6%"
-      }
-    ],
-    "summary": {
-      "n_similar": 1,
-      "avg_fwd_20d": null,
-      "win_rate_20d": null,
-      "best_analogue": null,
-      "worst_analogue": null
-    }
-  },
+  "date": "2026-04-27",
   "eu": {
     "current_score": 66.2,
     "analogues": [
@@ -77,12 +56,5 @@
       "best_analogue": "2009-04-07",
       "worst_analogue": "2015-08-10"
     }
-  },
-  "cross_market": {
-    "pattern": "US Extreme Greed + TW Extreme Greed",
-    "n_occurrences": 2,
-    "avg_fwd_20d_us": 1.3,
-    "avg_fwd_20d_tw": -1.03,
-    "last_occurred": "2013-03-11"
   }
 }
