@@ -2,61 +2,61 @@
   "date": "2026-04-28",
   "markets": {
     "us": {
-      "full_ic_20d": -0.1679,
-      "recent_ic_20d": 0.1992,
+      "full_ic_20d": -0.1683,
+      "recent_ic_20d": 0.1854,
       "ic_trend": "decaying",
-      "ic_change_pct": 18.6,
-      "score_mean_60d": 53.9,
-      "score_std_60d": 20.8,
+      "ic_change_pct": 10.2,
+      "score_mean_60d": 54.5,
+      "score_std_60d": 21.2,
       "zone_distribution_60d": {
         "extreme_fear": 0,
         "fear": 17,
         "neutral": 24,
         "greed": 2,
-        "extreme_greed": 12
+        "extreme_greed": 13
       },
       "health": "good",
       "flags": [
-        "IC decaying: recent 0.1992 vs historical -0.1679",
+        "IC decaying: recent 0.1854 vs historical -0.1683",
         "Calibration stale: 2026-03-25 (34d ago)"
       ],
       "calibration_stale": true,
       "calibration_days_ago": 34
     },
     "tw": {
-      "full_ic_20d": -0.1271,
-      "recent_ic_20d": 0.1516,
+      "full_ic_20d": -0.1275,
+      "recent_ic_20d": 0.1419,
       "ic_trend": "decaying",
-      "ic_change_pct": 19.3,
-      "score_mean_60d": 61.7,
-      "score_std_60d": 24.2,
+      "ic_change_pct": 11.3,
+      "score_mean_60d": 60.9,
+      "score_std_60d": 23.9,
       "zone_distribution_60d": {
         "extreme_fear": 0,
         "fear": 15,
         "neutral": 11,
         "greed": 7,
-        "extreme_greed": 14
+        "extreme_greed": 13
       },
-      "health": "good",
+      "health": "warning",
       "flags": [
-        "IC decaying: recent 0.1516 vs historical -0.1271"
+        "IC decaying: recent 0.1419 vs historical -0.1275"
       ],
       "calibration_stale": false,
       "calibration_days_ago": 17
     },
     "jp": {
-      "full_ic_20d": -0.0693,
-      "recent_ic_20d": -0.1323,
+      "full_ic_20d": -0.0687,
+      "recent_ic_20d": -0.132,
       "ic_trend": "improving",
-      "ic_change_pct": 90.9,
-      "score_mean_60d": 54.3,
-      "score_std_60d": 18.3,
+      "ic_change_pct": 92.1,
+      "score_mean_60d": 53.6,
+      "score_std_60d": 17.5,
       "zone_distribution_60d": {
         "extreme_fear": 1,
         "fear": 10,
-        "neutral": 34,
+        "neutral": 35,
         "greed": 3,
-        "extreme_greed": 9
+        "extreme_greed": 8
       },
       "health": "warning",
       "flags": [
@@ -66,18 +66,18 @@
       "calibration_days_ago": 34
     },
     "kr": {
-      "full_ic_20d": -0.1098,
-      "recent_ic_20d": -0.3536,
+      "full_ic_20d": -0.1095,
+      "recent_ic_20d": -0.3531,
       "ic_trend": "improving",
-      "ic_change_pct": 222.0,
-      "score_mean_60d": 58.1,
-      "score_std_60d": 17.3,
+      "ic_change_pct": 222.5,
+      "score_mean_60d": 57.7,
+      "score_std_60d": 16.6,
       "zone_distribution_60d": {
         "extreme_fear": 2,
         "fear": 8,
         "neutral": 16,
-        "greed": 26,
-        "extreme_greed": 6
+        "greed": 27,
+        "extreme_greed": 5
       },
       "health": "good",
       "flags": [],
@@ -85,17 +85,17 @@
       "calibration_days_ago": 17
     },
     "eu": {
-      "full_ic_20d": -0.0591,
-      "recent_ic_20d": -0.421,
+      "full_ic_20d": -0.0593,
+      "recent_ic_20d": -0.4174,
       "ic_trend": "improving",
-      "ic_change_pct": 612.4,
-      "score_mean_60d": 50.6,
+      "ic_change_pct": 603.9,
+      "score_mean_60d": 51.0,
       "score_std_60d": 13.8,
       "zone_distribution_60d": {
         "extreme_fear": 0,
         "fear": 14,
-        "neutral": 29,
-        "greed": 10,
+        "neutral": 28,
+        "greed": 11,
         "extreme_greed": 3
       },
       "health": "good",
@@ -107,8 +107,8 @@
   "system_health": {
     "overall": "warning",
     "active_flags": [
-      "US: IC decaying: recent 0.1992 vs historical -0.1679",
-      "TW: IC decaying: recent 0.1516 vs historical -0.1271",
+      "US: IC decaying: recent 0.1854 vs historical -0.1683",
+      "TW: IC decaying: recent 0.1419 vs historical -0.1275",
       "US: Calibration stale: 2026-03-25 (34d ago)",
       "JP: Calibration stale: 2026-03-25 (34d ago)"
     ],
