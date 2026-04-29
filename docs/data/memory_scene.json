@@ -1,38 +1,29 @@
 {
-  "date": "2026-04-28",
-  "us": {
-    "current_score": 91.0,
+  "date": "2026-04-29",
+  "tw": {
+    "current_score": 97.8,
     "analogues": [
       {
-        "date": "2026-04-16",
-        "score": 91.0,
-        "distance": 0.0,
-        "fwd_5d": 1.31,
+        "date": "2026-04-22",
+        "score": 97.7,
+        "distance": 0.1,
+        "fwd_5d": null,
         "fwd_10d": null,
         "fwd_20d": null,
-        "context": "Score near 52w high, 5d rally of +3.8%"
+        "context": "Score near 52w high, 5d rally of +3.1%, 20d move +10.3%"
       },
       {
         "date": "2026-04-21",
-        "score": 89.4,
-        "distance": 1.6,
-        "fwd_5d": 0.9,
+        "score": 96.0,
+        "distance": 1.8,
+        "fwd_5d": 4.97,
         "fwd_10d": null,
         "fwd_20d": null,
-        "context": "Score near 52w high, 20d move +6.7%"
-      },
-      {
-        "date": "2026-04-20",
-        "score": 93.0,
-        "distance": 2.0,
-        "fwd_5d": 0.92,
-        "fwd_10d": null,
-        "fwd_20d": null,
-        "context": "Score near 52w high, 20d move +6.8%"
+        "context": "Score near 52w high, 5d rally of +3.6%, 20d move +11.1%"
       }
     ],
     "summary": {
-      "n_similar": 3,
+      "n_similar": 2,
       "avg_fwd_20d": null,
       "win_rate_20d": null,
       "best_analogue": null,
