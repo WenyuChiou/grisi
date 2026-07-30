@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="MoodRing - Contrarian retail investor sentiment indicator tracking 5 global markets">
+<meta property="og:title" content="MoodRing Dashboard">
+<meta property="og:description" content="Buy in fear, not in greed — retail sentiment tracker for US, TW, JP, KR, EU markets">
 <title>MoodRing 情緒儀表板</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
@@ -120,6 +123,7 @@ body {
 .thermo-marker { position: absolute; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
 .thermo-marker-arrow { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 8px solid #fff; }
 .thermo-percentile { font-size: 0.92em; color: #8b949e; margin-top: 6px; }
+.thermo-color-legend { font-size: 0.82em; color: #6e7681; margin-top: 6px; }
 
 /* ── FORWARD RETURNS ── */
 .returns-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
@@ -319,6 +323,7 @@ body {
       <div class="thermo-labels" id="mkt-zone-labels"></div>
     </div>
     <div class="thermo-percentile" id="mkt-pct">百分位: --%</div>
+    <div class="thermo-color-legend">🟢 綠色 = 恐懼（買入機會）· 🔴 紅色 = 貪婪（謹慎）</div>
   </div>
 </div>
 
@@ -1157,7 +1162,14 @@ async function loadDashboard() {
   // Step 1: Fetch — red error only for network / HTTP / JSON failures
   let fwdData, agentData, quintileData, dashData, overlayData, zoneReturns, icData, memoryData, selfImproveData, calibrationData;
   try {
-    const cb = '?v=' + Date.now();
+    // Fetch the small version.json first (always cache-busted) to get a
+    // version string that only changes when data actually updates. All the
+    // larger JSON payloads below are then fetched with that version as a
+    // cache key, so the browser can cache them across page loads instead of
+    // re-downloading ~2.3MB every time.
+    const vRes = await fetch('data/version.json?_=' + Date.now());
+    const { v } = await vRes.json();
+    const cb = '?v=' + v;
     const fetchJSON = url => fetch(url + cb).then(r => {
       if (!r.ok) throw new Error(url + ' HTTP ' + r.status);
       return r.json();
@@ -1239,10 +1251,21 @@ function toggleSection(titleEl) {
   icon.textContent = isCollapsed ? '\u25BC' : '\u25BA';
 }
 
-// Expand all collapsible sections on desktop
+// "Historical Proof" and "Backtest Validation" are expanded by default on all
+// screen sizes (they're the strongest evidence for the indicator). "Memory
+// Scene" and "System Health" stay collapsed on mobile to keep the page short,
+// but auto-expand on desktop where there's more room.
+function expandSection(id) {
+  const section = document.getElementById(id);
+  if (!section) return;
+  const content = section.querySelector('.section-content');
+  const icon = section.querySelector('.collapse-icon');
+  if (content) content.style.display = 'block';
+  if (icon) icon.textContent = '\u25BC';
+}
+['quintile-section', 'ic-section'].forEach(expandSection);
 if (window.innerWidth >= 769) {
-  document.querySelectorAll('.section-content').forEach(el => el.style.display = 'block');
-  document.querySelectorAll('.collapse-icon').forEach(el => el.textContent = '\u25BC');
+  ['memory-section', 'selfimprove-section'].forEach(expandSection);
 }
 </script>
 </body>

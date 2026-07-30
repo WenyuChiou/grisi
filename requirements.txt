@@ -6,3 +6,5 @@ FinMind
 requests
 tqdm
 anthropic
+pandas_market_calendars
+pytest

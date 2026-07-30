@@ -19,7 +19,7 @@ import csv
 import json
 import os
 import sys
-from datetime import date as date_cls, datetime, timedelta
+from datetime import datetime, timedelta
 
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,67 +27,41 @@ DATA_DIR = os.path.join(REPO_ROOT, "data")
 MARKETS = ["us", "tw", "jp", "kr", "eu"]
 
 
-def _configure_yfinance_cache() -> None:
-    import yfinance as yf
-
-    cache_dir = os.path.join(REPO_ROOT, ".cache", "yfinance")
-    os.makedirs(cache_dir, exist_ok=True)
-    if hasattr(yf, "set_tz_cache_location"):
-        yf.set_tz_cache_location(cache_dir)
+# Exchange calendar mapping for pandas_market_calendars. These are the
+# canonical calendars for each market's primary index, and give deterministic
+# holiday schedules that don't change based on when the audit is run — unlike
+# the old approach of re-querying yfinance live at audit time (see history:
+# that made audit results non-reproducible as yfinance's data changed).
+MARKET_CALENDARS = {"us": "NYSE", "tw": "XTAI", "jp": "JPX", "kr": "XKRX", "eu": "EUREX"}
 
 
 def build_open_dates(market: str, date_list: list[str]) -> set[str]:
     """
     Given a list of dates for a market, return the set of dates
     when the market was actually open.
-    Uses ONE yfinance call covering the full date range.
+
+    Uses pandas_market_calendars for a deterministic exchange holiday
+    calendar instead of inferring open/closed days from live yfinance price
+    data. This makes audit results reproducible: the same (market, date_list)
+    input always yields the same output, regardless of when the audit runs
+    or how yfinance's upstream data has changed since.
     """
-    import pandas as pd
-    import yfinance as yf
+    import pandas_market_calendars as mcal
 
-    _configure_yfinance_cache()
-
-    tickers = {"us": "SPY", "tw": "^TWII", "jp": "^N225", "kr": "^KS11", "eu": "^STOXX50E"}
-    ticker = tickers.get(market)
-    if not ticker or not date_list:
+    calendar_name = MARKET_CALENDARS.get(market)
+    if not calendar_name or not date_list:
         return set(date_list)
 
     start = min(date_list)
     end = (datetime.strptime(max(date_list), "%Y-%m-%d") + timedelta(days=2)).strftime("%Y-%m-%d")
 
     try:
-        raw = yf.download(ticker, start=start, end=end, progress=False, auto_adjust=True)
-        if raw is None or raw.empty:
-            return set()
-        close = raw["Close"]
-        if isinstance(close, pd.DataFrame):
-            close = close.iloc[:, 0]
-        close = close.dropna()
-        close = close[close > 0]
-        if hasattr(close.index, "tz") and close.index.tz is not None:
-            close.index = close.index.tz_localize(None)
-        open_dates = {d.strftime("%Y-%m-%d") for d in close.index}
-
-        # yfinance propagation-lag grace: Asian/EU indices often trail the
-        # real market calendar by 1–3 days in yfinance's intraday feed. If a
-        # queried date is within 3 days of today AND is a weekday AND we
-        # already have upstream data for it, trust the data over yfinance's
-        # absence. Phase 2B will replace this with pandas_market_calendars.
-        today = date_cls.today()
-        for date_str in date_list:
-            if date_str in open_dates:
-                continue
-            try:
-                d = datetime.strptime(date_str, "%Y-%m-%d").date()
-            except ValueError:
-                continue
-            if (today - d).days <= 3 and d.weekday() < 5:
-                open_dates.add(date_str)
-                print(f"[AUDIT] grace: {market.upper()} {date_str} absent from yfinance but within 3d lag window — treating as open")
-
+        cal = mcal.get_calendar(calendar_name)
+        schedule = cal.schedule(start_date=start, end_date=end)
+        open_dates = {d.strftime("%Y-%m-%d") for d in schedule.index}
         return open_dates
     except Exception as exc:
-        print(f"[AUDIT] Warning: could not fetch {market.upper()} calendar: {exc}")
+        print(f"[AUDIT] Warning: could not build {market.upper()} calendar ({calendar_name}): {exc}")
         return set(date_list)
 
 

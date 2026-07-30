@@ -10,7 +10,17 @@ import numpy as np
 import pandas as pd
 
 STATIC_THRESHOLDS = {"p20": 25.0, "p40": 40.0, "p60": 55.0, "p80": 75.0}
-MARKET_COLUMNS = {"us": "us_score", "tw": "tw_score"}
+MARKET_COLUMNS = {
+    "us": "us_score",
+    "tw": "tw_score",
+    "jp": "jp_score",
+    "kr": "kr_score",
+    "eu": "eu_score",
+}
+# us/tw have per-day history in historical_scores.csv; jp/kr/eu only have
+# their score history in overlay_data.json (as parallel score arrays), so
+# those markets are sourced from there instead.
+CSV_MARKETS = {"us", "tw"}
 ACTION_SELL = "積極減碼"
 ACTION_REDUCE = "逐步減碼"
 ACTION_HOLD = "觀望持有"
@@ -33,6 +43,38 @@ def _percentile(values: pd.Series, q: int) -> float:
     return round(float(result), 1)
 
 
+def _scores_from_csv(market_key: str, history_csv: str, lookback_days: int) -> pd.Series:
+    history_path = _resolve_path(history_csv)
+    df = pd.read_csv(history_path)
+    df["date"] = pd.to_datetime(df["date"], errors="coerce")
+    df = df.sort_values("date", ascending=True).tail(lookback_days)
+
+    col = MARKET_COLUMNS[market_key]
+    if col not in df.columns:
+        return pd.Series(dtype=float)
+    return pd.to_numeric(df[col], errors="coerce").dropna()
+
+
+def _scores_from_overlay(
+    market_key: str,
+    lookback_days: int,
+    overlay_json: str = "data/overlay_data.json",
+) -> pd.Series:
+    """JP/KR/EU only have their score history stored as arrays in
+    overlay_data.json (no per-day row in historical_scores.csv), so read
+    the market's score array from there instead."""
+    overlay_path = _resolve_path(overlay_json)
+    if not overlay_path.exists():
+        return pd.Series(dtype=float)
+    with overlay_path.open("r", encoding="utf-8") as f:
+        overlay = json.load(f)
+
+    col = MARKET_COLUMNS[market_key]
+    values = overlay.get(col, [])
+    series = pd.to_numeric(pd.Series(values), errors="coerce").dropna()
+    return series.tail(lookback_days)
+
+
 def compute_action_thresholds(
     market: str,
     history_csv: str = "data/historical_scores.csv",
@@ -43,12 +85,11 @@ def compute_action_thresholds(
     if market_key not in MARKET_COLUMNS:
         raise ValueError(f"Unsupported market: {market}")
 
-    history_path = _resolve_path(history_csv)
-    df = pd.read_csv(history_path)
-    df["date"] = pd.to_datetime(df["date"], errors="coerce")
-    df = df.sort_values("date", ascending=True).tail(lookback_days)
+    if market_key in CSV_MARKETS:
+        scores = _scores_from_csv(market_key, history_csv, lookback_days)
+    else:
+        scores = _scores_from_overlay(market_key, lookback_days)
 
-    scores = pd.to_numeric(df[MARKET_COLUMNS[market_key]], errors="coerce").dropna()
     thresholds = {
         "market": market_key,
         "lookback_days": lookback_days,

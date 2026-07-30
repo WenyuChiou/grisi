@@ -37,6 +37,8 @@ from datetime import datetime, timedelta
 
 os.environ['PYTHONUTF8'] = '1'
 
+from utils import rsi as _rsi_series, safe_clamp  # noqa: E402
+
 DATA_DIR        = os.path.join(os.path.dirname(__file__), '..', 'data')
 RECAL_LOG_PATH  = os.path.join(DATA_DIR, 'recalibration_log.json')
 PARAMS_PATH     = os.path.join(DATA_DIR, 'calibration_params.json')
@@ -97,17 +99,15 @@ def _spearman(x, y):
 def _compute_rsi14(prices):
     """SMA-based RSI-14 matching daily_update.py's pandas rolling-mean computation.
 
-    Uses simple 14-period rolling average of gains and losses (not Wilder's EMA)
-    so that the sub-signal values here are identical to what compute_score() sees
-    in the live pipeline.
+    Delegates to the shared utils.rsi() (aliased _rsi_series) so this stays
+    byte-for-byte identical to what compute_score() sees in the live pipeline;
+    only wraps it to return a plain list of rounded values (or None) instead
+    of a pandas Series.
     """
     import pandas as pd
     s = pd.Series(prices, dtype=float)
-    d = s.diff()
-    gains  = d.where(d > 0, 0.0).rolling(14).mean()
-    losses = (-d.where(d < 0, 0.0)).rolling(14).mean()
-    rsi    = 100.0 - 100.0 / (1.0 + gains / losses)
-    return [None if pd.isna(v) else round(float(v), 2) for v in rsi]
+    rsi_vals = _rsi_series(s, period=14)
+    return [None if pd.isna(v) else round(float(v), 2) for v in rsi_vals]
 
 
 def _fetch_prices(ticker, start, end):
@@ -133,7 +133,12 @@ def _fetch_prices(ticker, start, end):
 
 
 def _score_with_params(rsi, vs_high, mom, p):
-    """Compute composite score from sub-signals using parameter dict p."""
+    """Compute composite score from sub-signals using parameter dict p.
+
+    Returns None (instead of a silently-clamped 100.0) if any sub-signal
+    is NaN. Callers must filter out None scores before feeding them to
+    _spearman / IC calculations.
+    """
     w_rsi  = p.get('rsi_weight',      1 / 3)
     w_high = p.get('vs_high_weight',  1 / 3)
     w_mom  = p.get('momentum_weight', 1 / 3)
@@ -141,14 +146,27 @@ def _score_with_params(rsi, vs_high, mom, p):
     h_rng  = p.get('vs_high_range',   20.0)
     m_rng  = p.get('momentum_range',  20.0)
 
-    rsi_s  = max(0.0, min(100.0, float(rsi)))
-    high_s = max(0.0, min(100.0, (vs_high - floor) * (100.0 / max(h_rng, 1))))
-    mom_s  = max(0.0, min(100.0, (mom + m_rng / 2)  * (100.0 / max(m_rng, 1))))
+    try:
+        rsi_s  = safe_clamp(rsi, label="rsi")
+        high_s = safe_clamp((vs_high - floor) * (100.0 / max(h_rng, 1)), label="vs_high")
+        mom_s  = safe_clamp((mom + m_rng / 2)  * (100.0 / max(m_rng, 1)), label="momentum")
+    except ValueError as exc:
+        print(f"[RECAL] WARNING: {exc} — dropping this data point")
+        return None
 
     total_w = w_rsi + w_high + w_mom
     if total_w == 0:
         return 50.0
     return round((w_rsi * rsi_s + w_high * high_s + w_mom * mom_s) / total_w, 1)
+
+
+def _filter_paired(scores, fwd):
+    """Drop (score, fwd) pairs where score is None (NaN sub-signal)."""
+    pairs = [(s, f) for s, f in zip(scores, fwd) if s is not None]
+    if not pairs:
+        return [], []
+    filtered_scores, filtered_fwd = zip(*pairs)
+    return list(filtered_scores), list(filtered_fwd)
 
 
 # ── historical sub-signal builder ─────────────────────────────────────────────
@@ -265,7 +283,8 @@ def _grid_search(rows):
                     }
                     scores_train = [_score_with_params(r['rsi'], r['vs_high'], r['mom'], p)
                                     for r in train_rows]
-                    ic_train = _spearman(scores_train, fwd_train)
+                    scores_train_f, fwd_train_f = _filter_paired(scores_train, fwd_train)
+                    ic_train = _spearman(scores_train_f, fwd_train_f)
                     if ic_train is not None and (best_ic_train is None or abs(ic_train) > abs(best_ic_train)):
                         best_ic_train = ic_train
                         best_params   = dict(p)
@@ -279,7 +298,8 @@ def _grid_search(rows):
         fwd_val    = [r['fwd_20d'] for r in val_rows]
         scores_val = [_score_with_params(r['rsi'], r['vs_high'], r['mom'], best_params)
                       for r in val_rows]
-        ic_oos = _spearman(scores_val, fwd_val)
+        scores_val_f, fwd_val_f = _filter_paired(scores_val, fwd_val)
+        ic_oos = _spearman(scores_val_f, fwd_val_f)
         print(f"[RECAL] OOS validation: train IC={best_ic_train}, val IC={ic_oos} "
               f"(train={len(train_rows)} rows, val={len(val_rows)} rows)")
     else:
@@ -316,12 +336,14 @@ def recalibrate_market(market, current_ic, current_params, force=False):
     cur_scores_val = [_score_with_params(r['rsi'], r['vs_high'], r['mom'], merged_params)
                       for r in val_rows]
     fwd_val        = [r['fwd_20d'] for r in val_rows]
-    baseline_oos_ic = _spearman(cur_scores_val, fwd_val) if len(val_rows) >= MIN_PAIRS else None
+    cur_scores_val_f, fwd_val_f = _filter_paired(cur_scores_val, fwd_val)
+    baseline_oos_ic = _spearman(cur_scores_val_f, fwd_val_f) if len(val_rows) >= MIN_PAIRS else None
 
     # In-sample IC with current params (for logging)
     cur_scores_all = [_score_with_params(r['rsi'], r['vs_high'], r['mom'], merged_params)
                       for r in rows]
-    ic_now = _spearman(cur_scores_all, [r['fwd_20d'] for r in rows])
+    cur_scores_all_f, fwd_all_f = _filter_paired(cur_scores_all, [r['fwd_20d'] for r in rows])
+    ic_now = _spearman(cur_scores_all_f, fwd_all_f)
 
     # Walk-forward grid search (trains on first TRAIN_FRAC, evaluates on remainder)
     best_params, best_ic_insample, best_ic_oos = _grid_search(rows)
@@ -333,12 +355,36 @@ def recalibrate_market(market, current_ic, current_params, force=False):
         print(f"[RECAL] {market.upper()}: grid search failed (insufficient data)")
         return None
 
+    # Contrarian indicator: IC should be negative (high score predicts lower
+    # forward returns). A positive OOS IC means the candidate weights are
+    # trend-following, not contrarian — reject outright regardless of
+    # magnitude, since |IC| improving is meaningless if the sign is wrong.
+    if best_ic_oos is not None and best_ic_oos > 0:
+        print(f"[RECAL] {market.upper()}: WARNING — OOS IC is positive ({best_ic_oos:.4f}) "
+              f"— trend-following, not contrarian. Rejecting recalibration.")
+        return None
+
+    # Sign-flip guard: in-sample and OOS IC must agree in sign. Disagreement
+    # means the grid search overfit to in-sample noise rather than finding a
+    # genuine contrarian signal that generalizes out-of-sample.
+    if best_ic_oos is not None and best_ic_insample is not None:
+        if (best_ic_oos > 0) != (best_ic_insample > 0):
+            print(f"[RECAL] {market.upper()}: WARNING — in-sample IC ({best_ic_insample:.4f}) "
+                  f"and OOS IC ({best_ic_oos:.4f}) disagree in sign. Rejecting recalibration.")
+            return None
+
     # Accept new params ONLY if OOS IC improves over baseline OOS IC.
     # Fall back to in-sample comparison if val set was too small for OOS eval.
     if best_ic_oos is not None and baseline_oos_ic is not None:
         improvement = abs(best_ic_oos) > abs(baseline_oos_ic)
         comparison_label = f"OOS {best_ic_oos} vs baseline OOS {baseline_oos_ic}"
     else:
+        # OOS not available — fall back to in-sample comparison, but still
+        # enforce the contrarian sign requirement before accepting.
+        if best_ic_insample is not None and best_ic_insample > 0:
+            print(f"[RECAL] {market.upper()}: WARNING — in-sample IC is positive "
+                  f"({best_ic_insample:.4f}) — trend-following, not contrarian. Rejecting.")
+            return None
         # Fallback: require 10% relative improvement in-sample
         improvement = best_ic_insample is not None and abs(best_ic_insample) > abs(ic_now or 0) * 1.10
         comparison_label = f"in-sample {best_ic_insample} vs {ic_now} (OOS not available)"

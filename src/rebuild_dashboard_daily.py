@@ -83,9 +83,11 @@ def main():
     csv_path = os.path.join(DATA_DIR, 'historical_scores.csv')
     df = pd.read_csv(csv_path, parse_dates=['date'], encoding='utf-8')
     df = df.set_index('date').sort_index()
-    df = df.dropna(subset=['us_score', 'tw_score'], how='all')
-    # Drop rows where both scores are NaN
-    df = df.dropna(subset=['us_score'], how='any')
+    # Keep a row if ANY market has data; only drop when ALL score columns are NaN.
+    # (Previously dropped whenever us_score was NaN, which discarded valid TW-only
+    # rows on US-only holidays.)
+    score_cols = [c for c in df.columns if c.endswith('_score')]
+    df = df.dropna(subset=score_cols, how='all')
 
     print(f"\nHistorical scores: {len(df)} daily rows")
     print(f"  Range: {df.index[0].strftime('%Y-%m-%d')} to {df.index[-1].strftime('%Y-%m-%d')}")
@@ -193,6 +195,15 @@ def main():
             if os.path.exists(src):
                 shutil.copy2(src, dst)
         print(f"Synced {len(sync_files)} files → docs/data/")
+
+        # ── Write version.json — bumps only when data actually updates, so the
+        # dashboard HTML can cache-bust just this one small file instead of
+        # re-downloading the full ~2.3MB of JSON on every page load.
+        version_path = os.path.join(docs_data_dir, 'version.json')
+        version_str = datetime.now().strftime('%Y-%m-%d-%H%M%S')
+        with open(version_path, 'w', encoding='utf-8') as f:
+            json.dump({'v': version_str}, f, indent=2, ensure_ascii=False)
+        print(f"Wrote version.json (v={version_str})")
 
     print("\nDone!")
 
