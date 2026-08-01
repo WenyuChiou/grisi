@@ -41,7 +41,9 @@
     "ic_insample": 0.2026,
     "ic_oos": -0.3793,
     "ic_estimated_post": -0.3793,
-    "reason": "Auto-recalibrated: IC 0.0749 → OOS -0.3793 (in-sample 0.2026) | weights rsi=0.40 high=0.40 mom=0.20 | floor=85.0 h_range=15.0 m_range=10.0"
+    "reason": "Auto-recalibrated: IC 0.0749 → OOS -0.3793 (in-sample 0.2026) | weights rsi=0.40 high=0.40 mom=0.20 | floor=85.0 h_range=15.0 m_range=10.0",
+    "last_checked": "2026-08-01",
+    "health_at_check": "poor"
   },
   "kr": {
     "rsi_weight": 0.33,
