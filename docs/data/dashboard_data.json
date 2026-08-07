@@ -8231,7 +8231,7 @@
     84.0,
     83.7,
     null,
-    null
+    85.5
   ],
   "tw_score": [
     84.1,
@@ -12348,7 +12348,7 @@
     null,
     null,
     43.0,
-    47.3
+    null
   ],
   "divergence": [
     8.3,
@@ -20892,7 +20892,8 @@
     "2026-08-03",
     "2026-08-04",
     "2026-08-05",
-    "2026-08-06"
+    "2026-08-06",
+    "2026-08-07"
   ],
   "spy": [
     67.81,
@@ -21261,7 +21262,7 @@
     82.06,
     83.93,
     83.9,
-    84.03,
+    84.04,
     84.13,
     83.89,
     82.5,
@@ -21796,7 +21797,7 @@
     106.81,
     108.78,
     108.78,
-    108.01,
+    108.02,
     107.92,
     107.18,
     109.3,
@@ -21908,9 +21909,9 @@
     115.59,
     115.88,
     116.8,
-    116.79,
+    116.8,
     116.72,
-    116.79,
+    116.8,
     116.78,
     117.53,
     117.8,
@@ -22235,7 +22236,7 @@
     152.08,
     152.78,
     153.24,
-    153.25,
+    153.26,
     153.04,
     153.33,
     151.99,
@@ -22339,7 +22340,7 @@
     163.93,
     161.29,
     162.57,
-    162.27,
+    162.28,
     161.85,
     159.65,
     159.68,
@@ -22465,7 +22466,7 @@
     170.31,
     170.7,
     172.79,
-    171.28,
+    171.27,
     170.67,
     171.28,
     172.44,
@@ -22708,7 +22709,7 @@
     170.72,
     170.44,
     171.43,
-    172.52,
+    172.51,
     173.19,
     173.44,
     173.35,
@@ -23082,7 +23083,7 @@
     214.59,
     214.56,
     214.31,
-    216.59,
+    216.6,
     217.33,
     217.43,
     217.36,
@@ -23118,7 +23119,7 @@
     223.27,
     225.09,
     224.26,
-    224.6,
+    224.61,
     224.9,
     224.99,
     225.74,
@@ -23939,7 +23940,7 @@
     354.29,
     354.56,
     358.59,
-    360.01,
+    360.0,
     362.6,
     362.36,
     362.21,
@@ -24027,7 +24028,7 @@
     392.8,
     394.63,
     395.28,
-    396.16,
+    396.17,
     395.44,
     393.23,
     393.1,
@@ -24125,7 +24126,7 @@
     425.63,
     429.73,
     430.6,
-    431.35,
+    431.34,
     433.09,
     435.73,
     437.79,
@@ -24230,7 +24231,7 @@
     435.63,
     432.94,
     426.28,
-    427.49,
+    427.48,
     431.15,
     425.7,
     421.44,
@@ -24364,7 +24365,7 @@
     342.67,
     340.5,
     339.38,
-    348.33,
+    348.34,
     340.4,
     349.14,
     353.25,
@@ -24400,7 +24401,7 @@
     388.04,
     387.75,
     387.3,
-    380.33,
+    380.34,
     374.85,
     374.21,
     377.15,
@@ -24708,7 +24709,7 @@
     492.98,
     491.17,
     492.09,
-    491.44,
+    491.43,
     493.2,
     497.83,
     497.3,
@@ -25319,7 +25320,8 @@
     757.67,
     771.33,
     769.79,
-    768.56
+    768.56,
+    773.26
   ],
   "twii_dates": [
     "2009-01-05",
@@ -29618,8 +29620,7 @@
     "2026-08-03",
     "2026-08-04",
     "2026-08-05",
-    "2026-08-06",
-    "2026-08-07"
+    "2026-08-06"
   ],
   "twii": [
     4698.29,
@@ -33918,8 +33919,7 @@
     43386.41,
     43360.66,
     44611.6,
-    44396.7,
-    44244.9
+    44396.7
   ],
   "tsmc_dates": [
     "2009-01-02",
@@ -40992,7 +40992,7 @@
     237.89,
     243.67,
     241.45,
-    245.0,
+    245.01,
     251.67,
     253.45,
     251.67,
@@ -41153,7 +41153,7 @@
     439.86,
     447.52,
     443.46,
-    438.95,
+    438.96,
     440.76,
     440.76,
     433.1,
@@ -41269,7 +41269,7 @@
     515.67,
     521.13,
     516.58,
-    530.22,
+    530.23,
     532.04,
     529.32,
     536.59,
@@ -41585,7 +41585,7 @@
     461.89,
     470.27,
     456.77,
-    451.65,
+    451.64,
     452.58,
     455.37,
     440.0,
@@ -41969,7 +41969,7 @@
     753.72,
     756.62,
     791.41,
-    787.54,
+    787.55,
     792.38,
     790.44,
     778.85,
@@ -41989,7 +41989,7 @@
     759.52,
     773.05,
     774.98,
-    769.18,
+    769.19,
     774.98,
     791.41,
     797.21,
@@ -42016,7 +42016,7 @@
     891.47,
     894.38,
     893.41,
-    914.75,
+    914.76,
     951.62,
     951.62,
     940.95,
@@ -42043,7 +42043,7 @@
     910.87,
     949.68,
     896.32,
-    915.73,
+    915.72,
     911.84,
     906.02,
     931.25,
@@ -42056,7 +42056,7 @@
     911.84,
     912.81,
     919.61,
-    914.75,
+    914.76,
     939.98,
     943.86,
     943.86,
@@ -42066,8 +42066,8 @@
     921.55,
     913.78,
     935.13,
-    914.75,
-    915.73,
+    914.76,
+    915.72,
     919.61,
     911.84,
     862.37,
@@ -42296,7 +42296,7 @@
     1159.54,
     1164.48,
     1164.48,
-    1184.21,
+    1184.22,
     1159.54,
     1164.48,
     1164.48,
@@ -42315,7 +42315,7 @@
     1144.74,
     1164.48,
     1164.48,
-    1184.21,
+    1184.22,
     1208.89,
     1223.69,
     1243.43,
@@ -42535,7 +42535,7 @@
     2320.0,
     2405.0,
     2365.0,
-    2365.0
+    2370.0
   ],
   "nikkei_dates": [
     "2009-01-05",
@@ -46837,8 +46837,7 @@
     "2026-08-03",
     "2026-08-04",
     "2026-08-05",
-    "2026-08-06",
-    "2026-08-07"
+    "2026-08-06"
   ],
   "nikkei": [
     9043.12,
@@ -51140,8 +51139,7 @@
     63754.9,
     63957.53,
     66300.44,
-    65683.26,
-    65103.27
+    65683.26
   ],
   "kospi_dates": [
     "2009-01-02",
@@ -55476,8 +55474,7 @@
     "2026-08-03",
     "2026-08-04",
     "2026-08-05",
-    "2026-08-06",
-    "2026-08-07"
+    "2026-08-06"
   ],
   "kospi": [
     1157.4,
@@ -59812,8 +59809,7 @@
     6257.45,
     6358.95,
     6598.26,
-    6296.38,
-    6222.62
+    6296.38
   ],
   "stoxx50_dates": [
     "2009-01-05",
@@ -64227,7 +64223,8 @@
     "2026-08-03",
     "2026-08-04",
     "2026-08-05",
-    "2026-08-06"
+    "2026-08-06",
+    "2026-08-07"
   ],
   "stoxx50": [
     2553.41,
@@ -68641,7 +68638,8 @@
     6426.5,
     6486.7,
     6476.98,
-    6502.56
+    6502.56,
+    6523.86
   ],
   "snapshot": {
     "date": "2026-08-07",
@@ -68653,69 +68651,69 @@
       "behavioral_params": "Kahneman & Tversky (1979), Banerjee (1992)"
     },
     "us_market": {
-      "SPY_close": 768.56,
-      "SPY_RSI14": 66.6,
-      "SPY_SMA20": 749.26,
-      "SPY_SMA60": 745.12,
-      "SPY_vs_52w_high_pct": 99.6,
-      "SPY_5d_return_pct": 3.62,
-      "SPY_20d_return_pct": 2.24,
-      "VIX": 15.15,
-      "US_10Y_yield": 4.67
+      "SPY_close": 773.26,
+      "SPY_RSI14": 69.6,
+      "SPY_SMA20": 750.17,
+      "SPY_SMA60": 745.74,
+      "SPY_vs_52w_high_pct": 100.0,
+      "SPY_5d_return_pct": 3.51,
+      "SPY_20d_return_pct": 2.43,
+      "VIX": 14.9,
+      "US_10Y_yield": 4.66
     },
     "tw_market": {
-      "TAIEX_close": 44285.0,
-      "TAIEX_RSI14": 57.4,
-      "TAIEX_SMA20": 43622.0,
-      "TAIEX_vs_52w_high_pct": 92.8,
-      "TAIEX_5d_return_pct": 2.7,
-      "TAIEX_20d_return_pct": -2.36,
+      "TAIEX_close": 44397.0,
+      "TAIEX_RSI14": 56.9,
+      "TAIEX_SMA20": 43675.0,
+      "TAIEX_vs_52w_high_pct": 93.0,
+      "TAIEX_5d_return_pct": 11.18,
+      "TAIEX_20d_return_pct": -2.92,
       "TSMC_close": 2370.0,
       "TSMC_vs_52w_high_pct": 94.4
     },
     "tw_retail_indicators": {
-      "margin_balance": 8958262,
-      "margin_5d_change_pct": -2.04,
+      "margin_balance": 8986438,
+      "margin_5d_change_pct": -1.47,
       "margin_5d_trend": "DECREASING",
-      "institutional_net_TWD": 51.2,
-      "retail_net_est_TWD": -51.2,
-      "foreign_net_TWD": 20.2,
-      "foreign_consecutive_days": 2,
-      "foreign_consecutive_direction": "buy",
-      "TSMC_margin_balance": 29949,
-      "TSMC_margin_30d_change_pct": 6.81
+      "institutional_net_TWD": -428.9,
+      "retail_net_est_TWD": 428.9,
+      "foreign_net_TWD": -407.2,
+      "foreign_consecutive_days": 1,
+      "foreign_consecutive_direction": "sell",
+      "TSMC_margin_balance": 29657,
+      "TSMC_margin_30d_change_pct": 5.77
     },
     "jp_market": {
-      "NIKKEI_close": 65143.86,
-      "NIKKEI_RSI14": 53.3,
-      "NIKKEI_SMA20": 65322.67,
-      "NIKKEI_vs_52w_high_pct": 90.0,
-      "NIKKEI_5d_return_pct": 1.21,
-      "NIKKEI_20d_return_pct": -3.84,
+      "NIKKEI_close": 65683.26,
+      "NIKKEI_RSI14": 46.7,
+      "NIKKEI_SMA20": 65452.67,
+      "NIKKEI_vs_52w_high_pct": 90.8,
+      "NIKKEI_5d_return_pct": 6.17,
+      "NIKKEI_20d_return_pct": -1.7,
       "jp_moodring_score": 37.0
     },
     "kr_market": {
-      "KOSPI_close": 6224.47,
-      "KOSPI_RSI14": 46.6,
-      "KOSPI_SMA20": 6573.07,
-      "KOSPI_vs_52w_high_pct": 68.3,
-      "KOSPI_5d_return_pct": -5.62,
-      "KOSPI_20d_return_pct": -14.64,
+      "KOSPI_close": 6296.38,
+      "KOSPI_RSI14": 44.2,
+      "KOSPI_SMA20": 6626.44,
+      "KOSPI_vs_52w_high_pct": 69.1,
+      "KOSPI_5d_return_pct": 12.56,
+      "KOSPI_20d_return_pct": -13.11,
       "kr_moodring_score": 15.8
     },
     "eu_market": {
-      "STOXX50_close": 6502.56,
-      "STOXX50_RSI14": 72.9,
-      "STOXX50_SMA20": 6316.9,
+      "STOXX50_close": 6523.86,
+      "STOXX50_RSI14": 74.3,
+      "STOXX50_SMA20": 6329.6,
       "STOXX50_vs_52w_high_pct": 100.0,
-      "STOXX50_5d_return_pct": 2.49,
-      "STOXX50_20d_return_pct": 3.47,
-      "eu_moodring_score": 68.3
+      "STOXX50_5d_return_pct": 2.61,
+      "STOXX50_20d_return_pct": 4.05,
+      "eu_moodring_score": 87.6
     },
     "global_context": {
-      "Gold": 4242.0,
-      "USDJPY": 158.41,
-      "USDTWD": 32.21
+      "Gold": 4401.0,
+      "USDJPY": 157.74,
+      "USDTWD": 32.24
     }
   },
   "agents": {
@@ -68728,7 +68726,7 @@
       "scoring_method": "Rolling 252-day Z-score, equal-weighted 5 components per market",
       "behavioral_theory": "Prospect Theory (Kahneman & Tversky, 1979), Herding Model (Banerjee, 1992)"
     },
-    "us_base_score": 83.7,
+    "us_base_score": 85.5,
     "tw_base_score": 47.3,
     "us_agent": {
       "adjusted_score_delta": -1,
@@ -68736,107 +68734,107 @@
       "conviction": "HIGH",
       "narrative": "🚀🚀🚀 To the moon！我已經全倉，Robinhood 群友說這波才剛開始！Diamond hands，任何 dip 都是買點！身邊的人也在問要不要進場，感覺 FOMO 氛圍很濃——這種時候歷史上往往就是頂部，但我還是忍不住加碼了。",
       "key_factors": [
-        "RSI 66.6 中性偏弱 — 無強力技術訊號",
+        "RSI 69.6 中性偏弱 — 無強力技術訊號",
         "SPY 站上 SMA20/SMA60 — 多頭格局",
-        "VIX 15.2 溫和 — 市場波動可控",
-        "20 日報酬 +2.2% — 穩健上漲",
-        "10Y 殖利率 4.67% — 聯準會降息預期分歧"
+        "VIX 14.9 溫和 — 市場波動可控",
+        "20 日報酬 +2.4% — 穩健上漲",
+        "10Y 殖利率 4.66% — 聯準會降息預期分歧"
       ],
       "what_quant_misses": "252 天分位數把 77.9 讀成偏熱，卻量不到兩個裂縫：一是這五天 +12 的動能其實靠三兩根大陽線拉出來，續航力比分數看起來弱；二是 RSI 57.1 配上逼近年高的指數，量能沒跟上，價量背離被平均值吃掉了。模型也很難替這週 Fed 點陣圖定價——利率預期一轉，估值分母先動，這不是歷史分位數能提前反映的風險。",
-      "forward_outlook": "美股 Moodring 83.7，嗨翻了，這種高位感覺有點燙手；五天衝了 +20.5 分，FOMO 蠻濃；10Y 殖利率 4.67%，算高，估值壓力在。",
-      "narrative_en": "SPY at 769. RSI 66.6 (neutral). 5d return +3.6%. 20d return +2.2%. Moodring score 83.7 (extreme greed — historically poor entry point). VIX at 15.15 (moderate). Gold $4,242.",
+      "forward_outlook": "美股 Moodring 85.5，嗨翻了，這種高位感覺有點燙手；五天衝了 +16.2 分，FOMO 蠻濃；VIX 14.9，波動壓很低，大家都躺著；10Y 殖利率 4.66%，算高，估值壓力在。",
+      "narrative_en": "SPY at 773. RSI 69.6 (neutral). 5d return +3.5%. 20d return +2.4%. Moodring score 85.5 (extreme greed — historically poor entry point). VIX at 14.9 (calm). Gold $4,401.",
       "narrative_tw": "🚀🚀🚀 To the moon！我已經全倉，Robinhood 群友說這波才剛開始！Diamond hands，任何 dip 都是買點！身邊的人也在問要不要進場，感覺 FOMO 氛圍很濃——這種時候歷史上往往就是頂部，但我還是忍不住加碼了。",
       "key_factors_tw": [
-        "RSI 66.6 中性偏弱 — 無強力技術訊號",
+        "RSI 69.6 中性偏弱 — 無強力技術訊號",
         "SPY 站上 SMA20/SMA60 — 多頭格局",
-        "VIX 15.2 溫和 — 市場波動可控",
-        "20 日報酬 +2.2% — 穩健上漲",
-        "10Y 殖利率 4.67% — 聯準會降息預期分歧"
+        "VIX 14.9 溫和 — 市場波動可控",
+        "20 日報酬 +2.4% — 穩健上漲",
+        "10Y 殖利率 4.66% — 聯準會降息預期分歧"
       ],
-      "watch_for_tw": "SPY 能否收復 SMA20 (749) 是短線趨勢轉折關鍵；10Y 殖利率 4.67% — 注意聯準會措辭及就業數據。",
+      "watch_for_tw": "SPY 能否收復 SMA20 (750) 是短線趨勢轉折關鍵；10Y 殖利率 4.66% — 注意聯準會措辭及就業數據。",
       "action": "積極減碼",
       "action_thresholds": {
         "market": "us",
         "lookback_days": 252,
-        "sample_size": 242,
+        "sample_size": 243,
         "computed_at": "2026-08-07",
         "p20": 43.2,
-        "p40": 48.5,
-        "p60": 54.9,
-        "p80": 77.7,
+        "p40": 48.6,
+        "p60": 55.0,
+        "p80": 77.8,
         "fallback": false
       },
-      "cross_market_summary": "US Moodring 82.7；SPY RSI 66.6 中性；VIX 15.15 正常；20 日 +2.2%；SPY 高於 SMA20 (749)。"
+      "cross_market_summary": "US Moodring 84.5；SPY RSI 69.6 中性；VIX 14.90 正常；20 日 +2.4%；SPY 高於 SMA20 (750)。"
     },
     "tw_agent": {
       "adjusted_score_delta": 2,
       "sentiment_level": "NEUTRAL",
       "conviction": "MEDIUM",
-      "narrative": "台股 44285，這週 +2.7%，不上不下，有點難受。外資連買 2 天，台積電 2370 也沒什麼大動作...這種盤最讓人糾結，當沖也沒什麼機會，不知道要加碼還是保守一點。先維持現在的部位好了，等方向明確再說。",
+      "narrative": "台股 44397，這週 +11.2%，不上不下，有點難受。外資連賣 1 天，台積電 2370 也沒什麼大動作...這種盤最讓人糾結，當沖也沒什麼機會，不知道要加碼還是保守一點。先維持現在的部位好了，等方向明確再說。",
       "key_factors": [
-        "台積電融資月增 +6.8% — 融資增速正常",
-        "融資餘額 5 日 -2.04% — 散戶降槓桿",
-        "外資買超 20.2億，連買 2日 — 外資回流訊號",
-        "散戶估計賣超 51億 — 散戶跟空",
-        "TAIEX RSI 57.4 — 中性偏強，無自動反彈護盾"
+        "台積電融資月增 +5.8% — 融資增速正常",
+        "融資餘額 5 日 -1.47% — 散戶降槓桿",
+        "外資賣超 407.2億，連賣 1日 — 外資賣壓持續",
+        "散戶估計買超 429億 — 散戶逆勢接刀",
+        "TAIEX RSI 56.9 — 中性偏強，無自動反彈護盾"
       ],
       "what_quant_misses": "分位數把 81.1 讀成極熱，卻量不出兩件事：一是外資連 3 天賣超、籌碼方向還沒轉，這比分數更早左右盤面；二是這波分數靠台積電融資月增 26.6% 撐起來，槓桿含量高，追繳一啟動會跌得比模型快。歷史分位數也假設情緒會回歸，但台股在 80 以上鈍化、續創高的時間有時拉得很長，提前空手一樣要付代價。真正的風險在籌碼結構，不在分數高低。",
-      "forward_outlook": "台股 Moodring 47.3，不上不下，觀望等方向比較安全；外資連買 2 天了，多頭有支撐感，繼續買才算真的；TAIEX SMA20 (43622) 守住才算穩，失守要小心。",
-      "narrative_en": "TAIEX at 44,285. Moodring score 47.3 (neutral — no strong directional signal). Foreign investors net buy TWD 20.2B, 2d consecutive buy. Margin balance 5d change -2.0%. TSMC margin 30d change +6.8%.",
-      "narrative_tw": "台股 44285，這週 +2.7%，不上不下，有點難受。外資連買 2 天，台積電 2370 也沒什麼大動作...這種盤最讓人糾結，當沖也沒什麼機會，不知道要加碼還是保守一點。先維持現在的部位好了，等方向明確再說。",
+      "forward_outlook": "台股 Moodring 47.3，不上不下，觀望等方向比較安全；外資連賣 1 天，等他們翻買再說，至少要連買 2-3 天才算確認；TAIEX SMA20 (43675) 守住才算穩，失守要小心。",
+      "narrative_en": "TAIEX at 44,397. Moodring score 47.3 (neutral — no strong directional signal). Foreign investors net sell TWD 407.2B, 1d consecutive sell. Margin balance 5d change -1.5%. TSMC margin 30d change +5.8%.",
+      "narrative_tw": "台股 44397，這週 +11.2%，不上不下，有點難受。外資連賣 1 天，台積電 2370 也沒什麼大動作...這種盤最讓人糾結，當沖也沒什麼機會，不知道要加碼還是保守一點。先維持現在的部位好了，等方向明確再說。",
       "key_factors_tw": [
-        "台積電融資月增 +6.8% — 融資增速正常",
-        "融資餘額 5 日 -2.04% — 散戶降槓桿",
-        "外資買超 20.2億，連買 2日 — 外資回流訊號",
-        "散戶估計賣超 51億 — 散戶跟空",
-        "TAIEX RSI 57.4 — 中性偏強，無自動反彈護盾"
+        "台積電融資月增 +5.8% — 融資增速正常",
+        "融資餘額 5 日 -1.47% — 散戶降槓桿",
+        "外資賣超 407.2億，連賣 1日 — 外資賣壓持續",
+        "散戶估計買超 429億 — 散戶逆勢接刀",
+        "TAIEX RSI 56.9 — 中性偏強，無自動反彈護盾"
       ],
-      "watch_for_tw": "觀察 TAIEX 能否守住 SMA20 及外資方向性轉變。",
+      "watch_for_tw": "外資已連賣 1 日，翻買（連買 2-3 天）才是反彈確認訊號；觀察 TAIEX 能否守住 SMA20 及外資方向性轉變。",
       "action": "觀望持有",
       "action_thresholds": {
         "market": "tw",
         "lookback_days": 252,
-        "sample_size": 194,
+        "sample_size": 193,
         "computed_at": "2026-08-07",
         "p20": 41.2,
         "p40": 46.2,
-        "p60": 49.6,
-        "p80": 67.4,
+        "p60": 49.7,
+        "p80": 68.7,
         "fallback": false
       },
-      "cross_market_summary": "TW Moodring 49.3；TAIEX RSI 57.4 中性；外資連買 2 天（20.2億）；散戶同步減碼 51億；台積電融資月增 6.8%。"
+      "cross_market_summary": "TW Moodring 49.3；TAIEX RSI 56.9 中性；外資連賣 1 天（407.2億）；散戶逆勢接刀 429億；台積電融資月增 5.8%。"
     },
     "summary": {
-      "us_final_score": 82.7,
+      "us_final_score": 84.5,
       "tw_final_score": 49.3,
-      "divergence": 33.4,
-      "cross_market_view": "US (82.7) 和 TW (49.3) 分歧 33.4 — TW 回升至中性區，US 偏強。US RSI 66.6 中性，台股 RSI 57.4 中性。TW 外資連買 2 天（20.2億）；散戶同步減碼 51億；台積電融資月增 6.8%。韓股 (15.8) 恐懼區，歐股 Moodring 68.3 仍在貪婪區，RSI 72.9 偏弱。",
-      "actionable_signal": "積極減碼 — US RSI 66.6 中性，趨勢持續觀察。 TW 外資連買 2 天，多頭動能維持，留意是否延續。"
+      "divergence": 35.2,
+      "cross_market_view": "US (84.5) 和 TW (49.3) 分歧 35.2 — TW 回升至中性區，US 偏強。US RSI 69.6 中性，台股 RSI 56.9 中性。TW 外資連賣 1 天（407.2億）；散戶逆勢接刀 429億；台積電融資月增 5.8%。韓股 (15.8) 恐懼區，歐股 Moodring 87.6 仍在貪婪區，RSI 74.3 偏弱。",
+      "actionable_signal": "積極減碼 — US RSI 69.6 中性，趨勢持續觀察。 TW 散戶槓桿加速追買+外資賣超，不宜追多。等外資翻買連確認（2-3 天+）再動。"
     },
     "jp_agent": {
       "adjusted_score_delta": 0,
       "sentiment_level": "FEARFUL",
       "conviction": "MEDIUM",
-      "narrative": "日股 這週跌了 +1.2%，日圓走向讓人頭大...日經新聞說 BOJ 可能再升息，渡邊太太的外幣 carry trade 都在撤。NISA 裡的高配當股還撐著，但其他部位要不要減？心裡不踏實。",
+      "narrative": "日股 這週跌了 +6.2%，日圓走向讓人頭大...日經新聞說 BOJ 可能再升息，渡邊太太的外幣 carry trade 都在撤。NISA 裡的高配當股還撐著，但其他部位要不要減？心裡不踏實。",
       "key_factors": [
-        "日經 RSI 53.3 中性",
-        "5 日報酬 +1.2% — 小幅反彈",
-        "20 日報酬 -3.8% — 中等回調",
-        "USDJPY 158.4 — 日圓偏弱，出口股獲利"
+        "日經 RSI 46.7 中性",
+        "5 日報酬 +6.2% — 小幅反彈",
+        "20 日報酬 -1.7% — 中等回調",
+        "USDJPY 157.7 — 日圓偏弱，出口股獲利"
       ],
       "what_quant_misses": "BOJ 利率決策和日圓套利交易平倉是目前日股最大不確定因素，非技術指標可以量化。日圓一旦快速升值（如 USD/JPY 跌破 155），可能引發套利交易大規模平倉。",
-      "forward_outlook": "日股 Moodring 37.0，有點弱，不敢進場；五天跌了 -41.3 分，感覺在轉折；USD/JPY 158.4，円安繼續幫出口股衝；RSI 53.3，方向待確認。",
-      "narrative_en": "Nikkei at 65,144. RSI 53.3 (neutral). 5d return +1.2%. 20d return -3.8%. Moodring score 37.0 (fearful — contrarian opportunity building).",
-      "narrative_tw": "日股 這週跌了 +1.2%，日圓走向讓人頭大...日經新聞說 BOJ 可能再升息，渡邊太太的外幣 carry trade 都在撤。NISA 裡的高配當股還撐著，但其他部位要不要減？心裡不踏實。",
+      "forward_outlook": "日股 Moodring 37.0，有點弱，不敢進場；五天跌了 -28.8 分，感覺在轉折；USD/JPY 157.7，円安繼續幫出口股衝；RSI 46.7，方向待確認；近五天 +6.2%，很強，衝勁在。",
+      "narrative_en": "Nikkei at 65,683. RSI 46.7 (neutral). 5d return +6.2%. 20d return -1.7%. Moodring score 37.0 (fearful — contrarian opportunity building).",
+      "narrative_tw": "日股 這週跌了 +6.2%，日圓走向讓人頭大...日經新聞說 BOJ 可能再升息，渡邊太太的外幣 carry trade 都在撤。NISA 裡的高配當股還撐著，但其他部位要不要減？心裡不踏實。",
       "key_factors_tw": [
-        "日經 RSI 53.3 中性",
-        "5 日報酬 +1.2% — 小幅反彈",
-        "20 日報酬 -3.8% — 中等回調",
-        "USDJPY 158.4 — 日圓偏弱，出口股獲利"
+        "日經 RSI 46.7 中性",
+        "5 日報酬 +6.2% — 小幅反彈",
+        "20 日報酬 -1.7% — 中等回調",
+        "USDJPY 157.7 — 日圓偏弱，出口股獲利"
       ],
-      "watch_for_tw": "USD/JPY 158.4 円安，BOJ 什麼時候出手干預是最大不確定；日經 RSI 53.3，等一個方向性突破。",
+      "watch_for_tw": "USD/JPY 157.7 円安，BOJ 什麼時候出手干預是最大不確定；日經 RSI 46.7，等一個方向性突破。",
       "action": "積極加碼",
-      "cross_market_summary": "日經 Moodring 37.0 恐懼；RSI 53.3 中性；20 日 -3.8%；USDJPY 158.4 日圓偏弱（利出口）。",
+      "cross_market_summary": "日經 Moodring 37.0 恐懼；RSI 46.7 中性；20 日 -1.7%；USDJPY 157.7 日圓偏弱（利出口）。",
       "action_thresholds": {
         "market": "jp",
         "lookback_days": 252,
@@ -68853,26 +68851,26 @@
       "adjusted_score_delta": 0,
       "sentiment_level": "EXTREME_FEAR",
       "conviction": "MEDIUM",
-      "narrative": "KOSPI 6224 崩盤！三星、海力士一起跌，外資鯨魚在大賣...Naver 股版上 개미（散戶螞蟻）哀鴻遍野，信用交易帳戶紛紛被追繳。三星信仰還撐得住嗎？DRAM 需求真的不行了？先減碼再說。",
+      "narrative": "KOSPI 6296 崩盤！三星、海力士一起跌，外資鯨魚在大賣...Naver 股版上 개미（散戶螞蟻）哀鴻遍野，信用交易帳戶紛紛被追繳。三星信仰還撐得住嗎？DRAM 需求真的不行了？先減碼再說。",
       "key_factors": [
-        "KOSPI RSI 46.6 中性",
-        "5 日報酬 -5.6% — 小幅下跌",
-        "20 日報酬 -14.6% — 中期回調",
+        "KOSPI RSI 44.2 中性",
+        "5 日報酬 +12.6% — 近期走強",
+        "20 日報酬 -13.1% — 中期回調",
         "Moodring 15.8 — 逆勢買入區間"
       ],
       "what_quant_misses": "三星/SK 海力士記憶體週期、DRAM 現貨價格和韓元匯率是韓股特有催化劑，Z-score 無法量化。AI 記憶體需求預期是近期主要題材。",
-      "forward_outlook": "韓股 Moodring 15.8，怕了，先扛著；五天跌了 -50.3 分，注意動能；KOSPI RSI 46.6，三星/海力士出貨方向是關鍵；近五天 KOSPI -5.6%，跌比較急；KOSPI SMA20 (6573) 能不能守住蠻關鍵。",
-      "narrative_en": "KOSPI at 6,224. RSI 46.6 (neutral). 5d return -5.6%. 20d return -14.6%. Moodring score 15.8 (extreme fear — historically strong buy signal).",
-      "narrative_tw": "KOSPI 6224 崩盤！三星、海力士一起跌，外資鯨魚在大賣...Naver 股版上 개미（散戶螞蟻）哀鴻遍野，信用交易帳戶紛紛被追繳。三星信仰還撐得住嗎？DRAM 需求真的不行了？先減碼再說。",
+      "forward_outlook": "韓股 Moodring 15.8，怕了，先扛著；五天跌了 -39.0 分，注意動能；KOSPI RSI 44.2，三星/海力士出貨方向是關鍵；近五天 KOSPI +12.6%，追高要小心；KOSPI SMA20 (6626) 能不能守住蠻關鍵。",
+      "narrative_en": "KOSPI at 6,296. RSI 44.2 (neutral). 5d return +12.6%. 20d return -13.1%. Moodring score 15.8 (extreme fear — historically strong buy signal).",
+      "narrative_tw": "KOSPI 6296 崩盤！三星、海力士一起跌，外資鯨魚在大賣...Naver 股版上 개미（散戶螞蟻）哀鴻遍野，信用交易帳戶紛紛被追繳。三星信仰還撐得住嗎？DRAM 需求真的不行了？先減碼再說。",
       "key_factors_tw": [
-        "KOSPI RSI 46.6 中性",
-        "5 日報酬 -5.6% — 小幅下跌",
-        "20 日報酬 -14.6% — 中期回調",
+        "KOSPI RSI 44.2 中性",
+        "5 日報酬 +12.6% — 近期走強",
+        "20 日報酬 -13.1% — 中期回調",
         "Moodring 15.8 — 逆勢買入區間"
       ],
-      "watch_for_tw": "KOSPI RSI 46.6，三星/SK 海力士 AI 記憶體出貨是最大催化劑；近五天 KOSPI -5.6%，跌比較急，支撐在哪先確認。",
+      "watch_for_tw": "KOSPI RSI 44.2，三星/SK 海力士 AI 記憶體出貨是最大催化劑；近五天 KOSPI +12.6%，衝太快了，追高要謹慎。",
       "action": "積極加碼",
-      "cross_market_summary": "韓股 Moodring 15.8 恐懼；KOSPI RSI 46.6 中性；近 5 日 -5.6%；月報酬 -14.6%。",
+      "cross_market_summary": "韓股 Moodring 15.8 恐懼；KOSPI RSI 44.2 偏弱；近 5 日 +12.6%；月報酬 -13.1%。",
       "action_thresholds": {
         "market": "kr",
         "lookback_days": 252,
@@ -68887,42 +68885,42 @@
     },
     "eu_agent": {
       "adjusted_score_delta": 0,
-      "sentiment_level": "GREEDY",
+      "sentiment_level": "EXTREME_GREED",
       "conviction": "LOW",
-      "narrative": "歐股最近有點起色！德國財政刺激消息，ESG 主題股也跟著漲...估值比美股便宜很多，被動 ETF 部位開始回血。要加碼歐股做分散嗎？感覺有點吸引力，但地緣風險還在，小額慢慢加。",
+      "narrative": "STOXX50 6524 大反彈！德法政策刺激、ECB 轉鴿，ESG ETF 全線大漲！歐股估值還是比美股便宜，感覺這波有機會繼續漲...加碼歐股 ETF 做資產分散，這種機會不常有。但別忘了歐洲各國差異大，控制部位。",
       "key_factors": [
-        "STOXX50 RSI 72.9 中性",
-        "5 日報酬 +2.5% — 小幅震盪",
-        "20 日報酬 +3.5% — 中期回調"
+        "STOXX50 RSI 74.3 中性",
+        "5 日報酬 +2.6% — 小幅震盪",
+        "20 日報酬 +4.0% — 中期回調"
       ],
       "what_quant_misses": "ECB 政策路徑、俄烏局勢和德國財政刺激的規模是歐股非對稱風險的主要來源，這些因素使技術超賣的反彈幅度難以預估。",
-      "forward_outlook": "歐股 Moodring 68.3，偏多，歐股動能還在延伸；五天跌了 -4.3 分，注意修正。",
-      "narrative_en": "STOXX50 at 6,503. RSI 72.9 (overbought). 5d return +2.5%. 20d return +3.5%. Moodring score 68.3 (greedy — caution warranted).",
-      "narrative_tw": "歐股最近有點起色！德國財政刺激消息，ESG 主題股也跟著漲...估值比美股便宜很多，被動 ETF 部位開始回血。要加碼歐股做分散嗎？感覺有點吸引力，但地緣風險還在，小額慢慢加。",
+      "forward_outlook": "歐股 Moodring 87.6，已經嗨了，追高要留意；五天漲了 +13.3 分，偏多動能還在。",
+      "narrative_en": "STOXX50 at 6,524. RSI 74.3 (overbought). 5d return +2.6%. 20d return +4.0%. Moodring score 87.6 (extreme greed — historically poor entry point).",
+      "narrative_tw": "STOXX50 6524 大反彈！德法政策刺激、ECB 轉鴿，ESG ETF 全線大漲！歐股估值還是比美股便宜，感覺這波有機會繼續漲...加碼歐股 ETF 做資產分散，這種機會不常有。但別忘了歐洲各國差異大，控制部位。",
       "key_factors_tw": [
-        "STOXX50 RSI 72.9 中性",
-        "5 日報酬 +2.5% — 小幅震盪",
-        "20 日報酬 +3.5% — 中期回調"
+        "STOXX50 RSI 74.3 中性",
+        "5 日報酬 +2.6% — 小幅震盪",
+        "20 日報酬 +4.0% — 中期回調"
       ],
-      "watch_for_tw": "STOXX50 RSI 72.9 有點熱，短線過熱要注意；地緣政治跟歐元走勢是另外兩個要看的變數。",
-      "action": "逐步減碼",
-      "cross_market_summary": "歐股 Moodring 68.3 貪婪區；STOXX50 RSI 72.9 偏弱；近 5 日 +2.5%；20 日 +3.5%。",
+      "watch_for_tw": "STOXX50 RSI 74.3 有點熱，短線過熱要注意；地緣政治跟歐元走勢是另外兩個要看的變數。",
+      "action": "積極減碼",
+      "cross_market_summary": "歐股 Moodring 87.6 貪婪區；STOXX50 RSI 74.3 偏弱；近 5 日 +2.6%；20 日 +4.0%。",
       "action_thresholds": {
         "market": "eu",
         "lookback_days": 252,
         "sample_size": 252,
         "computed_at": "2026-08-07",
-        "p20": 45.7,
+        "p20": 45.9,
         "p40": 48.7,
         "p60": 51.7,
-        "p80": 69.1,
+        "p80": 69.7,
         "fallback": false
       }
     },
-    "global_narrative": "2026-08-07：美股 SPY RSI 66.6 中性，VIX 15.15，Moodring 82.7 偏強。台股回升至 Moodring 49.3，TAIEX RSI 57.4，外資連買 2 天（20.2億）。日經 Moodring 37.0 恐懼，USDJPY 158.4 日圓偏弱。韓股 Moodring 15.8 由上週恐懼區回落恐懼，KOSPI 近 5 日 -5.6%。歐股 Moodring 68.3 貪婪區，STOXX50 RSI 72.9 偏弱，20 日 +3.5%。整體：TW 籌碼中性，外資買超確認中。",
+    "global_narrative": "2026-08-07：美股 SPY RSI 69.6 中性，VIX 14.90，Moodring 84.5 偏強。台股回升至 Moodring 49.3，TAIEX RSI 56.9，外資連賣 1 天（407.2億），散戶逆勢接刀 429億。日經 Moodring 37.0 恐懼，USDJPY 157.7 日圓偏弱。韓股 Moodring 15.8 由上週恐懼區回落恐懼，KOSPI 近 5 日 +12.6%。歐股 Moodring 87.6 貪婪區，STOXX50 RSI 74.3 偏弱，20 日 +4.0%。整體：TW 籌碼中性，等外資翻買確認。",
     "jp_base_score": 37.0,
     "kr_base_score": 15.8,
-    "eu_base_score": 68.3
+    "eu_base_score": 87.6
   },
   "jp_score": [
     59.8,
@@ -90339,7 +90337,7 @@
     68.3,
     68.3,
     68.3,
-    68.3
+    87.6
   ],
   "eu_dates": [
     "2009-03-30",
