@@ -19,14 +19,14 @@
     "US_10Y_yield": 4.7
   },
   "tw_market": {
-    "TAIEX_close": 46021.0,
-    "TAIEX_RSI14": 54.9,
-    "TAIEX_SMA20": 43820.0,
-    "TAIEX_vs_52w_high_pct": 96.4,
-    "TAIEX_5d_return_pct": 3.66,
-    "TAIEX_20d_return_pct": 1.41,
-    "TSMC_close": null,
-    "TSMC_vs_52w_high_pct": null
+    "TAIEX_close": 45811.0,
+    "TAIEX_RSI14": 60.1,
+    "TAIEX_SMA20": 43786.0,
+    "TAIEX_vs_52w_high_pct": 96.0,
+    "TAIEX_5d_return_pct": 3.58,
+    "TAIEX_20d_return_pct": 7.36,
+    "TSMC_close": 2395.0,
+    "TSMC_vs_52w_high_pct": 95.4
   },
   "tw_retail_indicators": {
     "margin_balance": 8918284,
@@ -41,31 +41,31 @@
     "TSMC_margin_30d_change_pct": -15.75
   },
   "jp_market": {
-    "NIKKEI_close": 68308.59,
-    "NIKKEI_RSI14": 56.2,
-    "NIKKEI_SMA20": 65308.76,
-    "NIKKEI_vs_52w_high_pct": 94.4,
-    "NIKKEI_5d_return_pct": 3.03,
-    "NIKKEI_20d_return_pct": 0.83,
-    "jp_moodring_score": 66.3
+    "NIKKEI_close": 68713.8,
+    "NIKKEI_RSI14": 58.0,
+    "NIKKEI_SMA20": 65658.27,
+    "NIKKEI_vs_52w_high_pct": 95.0,
+    "NIKKEI_5d_return_pct": 4.61,
+    "NIKKEI_20d_return_pct": 0.23,
+    "jp_moodring_score": 60.3
   },
   "kr_market": {
-    "KOSPI_close": 6813.34,
-    "KOSPI_RSI14": 51.6,
-    "KOSPI_SMA20": 6455.45,
-    "KOSPI_vs_52w_high_pct": 74.8,
-    "KOSPI_5d_return_pct": 8.21,
-    "KOSPI_20d_return_pct": -6.47,
-    "kr_moodring_score": 34.6
+    "KOSPI_close": 6977.94,
+    "KOSPI_RSI14": 52.8,
+    "KOSPI_SMA20": 6463.32,
+    "KOSPI_vs_52w_high_pct": 76.6,
+    "KOSPI_5d_return_pct": 11.49,
+    "KOSPI_20d_return_pct": 2.31,
+    "kr_moodring_score": 36.5
   },
   "eu_market": {
     "STOXX50_close": 6539.59,
-    "STOXX50_RSI14": 81.9,
-    "STOXX50_SMA20": 6389.3,
+    "STOXX50_RSI14": 81.8,
+    "STOXX50_SMA20": 6398.33,
     "STOXX50_vs_52w_high_pct": 99.8,
     "STOXX50_5d_return_pct": 0.24,
-    "STOXX50_20d_return_pct": 4.13,
-    "eu_moodring_score": 88.3
+    "STOXX50_20d_return_pct": 4.95,
+    "eu_moodring_score": 88.9
   },
   "global_context": {
     "Gold": 4432.0,
