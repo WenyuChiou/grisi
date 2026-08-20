@@ -1,5 +1,5 @@
 {
-  "date": "2026-08-19",
+  "date": "2026-08-20",
   "data_sources": {
     "market_prices": "Yahoo Finance (yfinance)",
     "tw_margin": "FinMind API (TWSE OpenData)",
@@ -19,14 +19,14 @@
     "US_10Y_yield": 4.65
   },
   "tw_market": {
-    "TAIEX_close": 45309.0,
-    "TAIEX_RSI14": 69.7,
-    "TAIEX_SMA20": 43869.0,
-    "TAIEX_vs_52w_high_pct": 94.9,
-    "TAIEX_5d_return_pct": 0.42,
-    "TAIEX_20d_return_pct": -0.69,
-    "TSMC_close": null,
-    "TSMC_vs_52w_high_pct": null
+    "TAIEX_close": 44707.0,
+    "TAIEX_RSI14": 78.7,
+    "TAIEX_SMA20": 44084.0,
+    "TAIEX_vs_52w_high_pct": 93.6,
+    "TAIEX_5d_return_pct": -2.86,
+    "TAIEX_20d_return_pct": 5.32,
+    "TSMC_close": 2360.0,
+    "TSMC_vs_52w_high_pct": 94.0
   },
   "tw_retail_indicators": {
     "margin_balance": 8828365,
@@ -41,22 +41,22 @@
     "TSMC_margin_30d_change_pct": -16.68
   },
   "jp_market": {
-    "NIKKEI_close": 67460.73,
-    "NIKKEI_RSI14": 58.8,
-    "NIKKEI_SMA20": 65743.01,
-    "NIKKEI_vs_52w_high_pct": 93.2,
-    "NIKKEI_5d_return_pct": 0.73,
-    "NIKKEI_20d_return_pct": -0.42,
-    "jp_moodring_score": 48.9
+    "NIKKEI_close": 65953.6,
+    "NIKKEI_RSI14": 64.1,
+    "NIKKEI_SMA20": 65538.7,
+    "NIKKEI_vs_52w_high_pct": 91.1,
+    "NIKKEI_5d_return_pct": -3.45,
+    "NIKKEI_20d_return_pct": -0.25,
+    "jp_moodring_score": 51.4
   },
   "kr_market": {
-    "KOSPI_close": 6869.83,
-    "KOSPI_RSI14": 51.7,
-    "KOSPI_SMA20": 6505.01,
+    "KOSPI_close": 6870.18,
+    "KOSPI_RSI14": 69.9,
+    "KOSPI_SMA20": 6466.82,
     "KOSPI_vs_52w_high_pct": 75.4,
-    "KOSPI_5d_return_pct": 9.05,
-    "KOSPI_20d_return_pct": 0.19,
-    "kr_moodring_score": 33.1
+    "KOSPI_5d_return_pct": 4.43,
+    "KOSPI_20d_return_pct": 0.73,
+    "kr_moodring_score": 40.4
   },
   "eu_market": {
     "STOXX50_close": 6444.46,
@@ -68,8 +68,8 @@
     "eu_moodring_score": 80.2
   },
   "global_context": {
-    "Gold": 4581.0,
-    "USDJPY": 158.09,
-    "USDTWD": 31.84
+    "Gold": 4551.0,
+    "USDJPY": 158.42,
+    "USDTWD": 31.86
   }
 }
