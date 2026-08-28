@@ -69,7 +69,7 @@
       "n": 80
     }
   },
-  "jp_current_score": 60.5,
+  "jp_current_score": 59.7,
   "jp_forward": {
     "jp_fwd_5d": {
       "mean": 0.2,
@@ -104,7 +104,7 @@
       "n": 1195
     }
   },
-  "kr_current_score": 53.8,
+  "kr_current_score": 53.4,
   "kr_forward": {
     "kr_fwd_5d": {
       "mean": 0.28,
@@ -139,7 +139,7 @@
       "n": 1367
     }
   },
-  "eu_current_score": 73.2,
+  "eu_current_score": 74.6,
   "eu_forward": {
     "eu_fwd_5d": {
       "mean": 0.01,
