@@ -1,33 +1,33 @@
 {
-  "date": "2026-08-28",
+  "date": "2026-08-29",
   "markets": {
     "us": {
       "full_ic_20d": -0.1552,
-      "recent_ic_20d": 0.2211,
+      "recent_ic_20d": 0.2184,
       "ic_trend": "decaying",
-      "ic_change_pct": 42.5,
-      "score_mean_60d": 75.6,
+      "ic_change_pct": 40.7,
+      "score_mean_60d": 75.7,
       "score_std_60d": 6.9,
       "zone_distribution_60d": {
         "extreme_fear": 0,
         "fear": 0,
         "neutral": 1,
-        "greed": 22,
+        "greed": 21,
         "extreme_greed": 30
       },
       "health": "good",
       "flags": [
-        "IC decaying: recent 0.2211 vs historical -0.1552",
-        "Calibration stale: 2026-03-25 (156d ago)"
+        "IC decaying: recent 0.2184 vs historical -0.1552",
+        "Calibration stale: 2026-03-25 (157d ago)"
       ],
       "calibration_stale": true,
-      "calibration_days_ago": 156
+      "calibration_days_ago": 157
     },
     "tw": {
       "full_ic_20d": -0.1073,
-      "recent_ic_20d": 0.4284,
+      "recent_ic_20d": 0.4267,
       "ic_trend": "decaying",
-      "ic_change_pct": 299.3,
+      "ic_change_pct": 297.7,
       "score_mean_60d": 59.6,
       "score_std_60d": 27.1,
       "zone_distribution_60d": {
@@ -39,11 +39,11 @@
       },
       "health": "good",
       "flags": [
-        "IC decaying: recent 0.4284 vs historical -0.1073",
-        "Calibration stale: 2026-04-11 (139d ago)"
+        "IC decaying: recent 0.4267 vs historical -0.1073",
+        "Calibration stale: 2026-04-11 (140d ago)"
       ],
       "calibration_stale": true,
-      "calibration_days_ago": 139
+      "calibration_days_ago": 140
     },
     "jp": {
       "full_ic_20d": -0.0624,
@@ -63,10 +63,10 @@
       "flags": [
         "IC decaying: recent 0.0547 vs historical -0.0624",
         "Weak IC: 0.0547",
-        "Calibration stale: 2026-07-01 (58d ago)"
+        "Calibration stale: 2026-07-01 (59d ago)"
       ],
       "calibration_stale": true,
-      "calibration_days_ago": 58
+      "calibration_days_ago": 59
     },
     "kr": {
       "full_ic_20d": -0.1065,
@@ -84,10 +84,10 @@
       },
       "health": "good",
       "flags": [
-        "Calibration stale: 2026-04-11 (139d ago)"
+        "Calibration stale: 2026-04-11 (140d ago)"
       ],
       "calibration_stale": true,
-      "calibration_days_ago": 139
+      "calibration_days_ago": 140
     },
     "eu": {
       "full_ic_20d": -0.0499,
@@ -106,25 +106,25 @@
       "health": "poor",
       "flags": [
         "Weak IC: -0.0778",
-        "Calibration stale: 2026-04-11 (139d ago)"
+        "Calibration stale: 2026-04-11 (140d ago)"
       ],
       "calibration_stale": true,
-      "calibration_days_ago": 139
+      "calibration_days_ago": 140
     }
   },
   "system_health": {
     "overall": "poor",
     "active_flags": [
-      "US: IC decaying: recent 0.2211 vs historical -0.1552",
-      "TW: IC decaying: recent 0.4284 vs historical -0.1073",
+      "US: IC decaying: recent 0.2184 vs historical -0.1552",
+      "TW: IC decaying: recent 0.4267 vs historical -0.1073",
       "JP: IC decaying: recent 0.0547 vs historical -0.0624",
       "JP: Weak IC: 0.0547",
       "EU: Weak IC: -0.0778",
-      "US: Calibration stale: 2026-03-25 (156d ago)",
-      "TW: Calibration stale: 2026-04-11 (139d ago)",
-      "JP: Calibration stale: 2026-07-01 (58d ago)",
-      "KR: Calibration stale: 2026-04-11 (139d ago)",
-      "EU: Calibration stale: 2026-04-11 (139d ago)"
+      "US: Calibration stale: 2026-03-25 (157d ago)",
+      "TW: Calibration stale: 2026-04-11 (140d ago)",
+      "JP: Calibration stale: 2026-07-01 (59d ago)",
+      "KR: Calibration stale: 2026-04-11 (140d ago)",
+      "EU: Calibration stale: 2026-04-11 (140d ago)"
     ],
     "last_calibration": "2026-07-01",
     "recommendation": "Signal degradation detected. Consider recalibration."
