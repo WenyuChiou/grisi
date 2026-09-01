@@ -1,27 +1,27 @@
 {
-  "date": "2026-08-31",
+  "date": "2026-09-01",
   "markets": {
     "us": {
       "full_ic_20d": -0.1552,
-      "recent_ic_20d": 0.2157,
+      "recent_ic_20d": 0.213,
       "ic_trend": "decaying",
-      "ic_change_pct": 39.0,
-      "score_mean_60d": 75.9,
-      "score_std_60d": 6.9,
+      "ic_change_pct": 37.2,
+      "score_mean_60d": 76.2,
+      "score_std_60d": 6.5,
       "zone_distribution_60d": {
         "extreme_fear": 0,
         "fear": 0,
-        "neutral": 1,
+        "neutral": 0,
         "greed": 20,
         "extreme_greed": 30
       },
       "health": "good",
       "flags": [
-        "IC decaying: recent 0.2157 vs historical -0.1552",
-        "Calibration stale: 2026-03-25 (159d ago)"
+        "IC decaying: recent 0.213 vs historical -0.1552",
+        "Calibration stale: 2026-03-25 (160d ago)"
       ],
       "calibration_stale": true,
-      "calibration_days_ago": 159
+      "calibration_days_ago": 160
     },
     "tw": {
       "full_ic_20d": -0.1076,
@@ -40,18 +40,18 @@
       "health": "good",
       "flags": [
         "IC decaying: recent 0.411 vs historical -0.1076",
-        "Calibration stale: 2026-04-11 (142d ago)"
+        "Calibration stale: 2026-04-11 (143d ago)"
       ],
       "calibration_stale": true,
-      "calibration_days_ago": 142
+      "calibration_days_ago": 143
     },
     "jp": {
-      "full_ic_20d": -0.0617,
-      "recent_ic_20d": 0.0645,
+      "full_ic_20d": -0.061,
+      "recent_ic_20d": 0.0717,
       "ic_trend": "decaying",
-      "ic_change_pct": 4.5,
-      "score_mean_60d": 61.9,
-      "score_std_60d": 23.2,
+      "ic_change_pct": 17.5,
+      "score_mean_60d": 61.8,
+      "score_std_60d": 23.3,
       "zone_distribution_60d": {
         "extreme_fear": 2,
         "fear": 11,
@@ -61,12 +61,12 @@
       },
       "health": "poor",
       "flags": [
-        "IC decaying: recent 0.0645 vs historical -0.0617",
-        "Weak IC: 0.0645",
-        "Calibration stale: 2026-07-01 (61d ago)"
+        "IC decaying: recent 0.0717 vs historical -0.061",
+        "Weak IC: 0.0717",
+        "Calibration stale: 2026-07-01 (62d ago)"
       ],
       "calibration_stale": true,
-      "calibration_days_ago": 61
+      "calibration_days_ago": 62
     },
     "kr": {
       "full_ic_20d": -0.1071,
@@ -84,10 +84,10 @@
       },
       "health": "good",
       "flags": [
-        "Calibration stale: 2026-04-11 (142d ago)"
+        "Calibration stale: 2026-04-11 (143d ago)"
       ],
       "calibration_stale": true,
-      "calibration_days_ago": 142
+      "calibration_days_ago": 143
     },
     "eu": {
       "full_ic_20d": -0.0499,
@@ -106,25 +106,25 @@
       "health": "poor",
       "flags": [
         "Weak IC: -0.0778",
-        "Calibration stale: 2026-04-11 (142d ago)"
+        "Calibration stale: 2026-04-11 (143d ago)"
       ],
       "calibration_stale": true,
-      "calibration_days_ago": 142
+      "calibration_days_ago": 143
     }
   },
   "system_health": {
     "overall": "poor",
     "active_flags": [
-      "US: IC decaying: recent 0.2157 vs historical -0.1552",
+      "US: IC decaying: recent 0.213 vs historical -0.1552",
       "TW: IC decaying: recent 0.411 vs historical -0.1076",
-      "JP: IC decaying: recent 0.0645 vs historical -0.0617",
-      "JP: Weak IC: 0.0645",
+      "JP: IC decaying: recent 0.0717 vs historical -0.061",
+      "JP: Weak IC: 0.0717",
       "EU: Weak IC: -0.0778",
-      "US: Calibration stale: 2026-03-25 (159d ago)",
-      "TW: Calibration stale: 2026-04-11 (142d ago)",
-      "JP: Calibration stale: 2026-07-01 (61d ago)",
-      "KR: Calibration stale: 2026-04-11 (142d ago)",
-      "EU: Calibration stale: 2026-04-11 (142d ago)"
+      "US: Calibration stale: 2026-03-25 (160d ago)",
+      "TW: Calibration stale: 2026-04-11 (143d ago)",
+      "JP: Calibration stale: 2026-07-01 (62d ago)",
+      "KR: Calibration stale: 2026-04-11 (143d ago)",
+      "EU: Calibration stale: 2026-04-11 (143d ago)"
     ],
     "last_calibration": "2026-07-01",
     "recommendation": "Signal degradation detected. Consider recalibration."
