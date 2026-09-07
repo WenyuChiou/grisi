@@ -18,18 +18,18 @@
     "key_factors": [
       "RSI 47.5 中性偏弱 — 無強力技術訊號",
       "SPY 站上 SMA20/SMA60 — 多頭格局",
-      "VIX 14.5 溫和 — 市場波動可控",
+      "VIX 15.3 溫和 — 市場波動可控",
       "20 日報酬 -0.4% — 溫和回調",
       "10Y 殖利率 4.78% — 聯準會降息預期分歧"
     ],
     "what_quant_misses": "252 天分位把 86.2 讀成偏熱，但有兩件事它算不進去。一是這波往上是幾根權值大陽線拉的，量能沒跟上，價量背離被平均值抹平。二是這週 Fed 點陣圖，利率預期一動估值分母先變，這種事件風險不在歷史分位裡。分數只講你站多高，不會告訴你退潮那天跌得多急。",
-    "forward_outlook": "美股 Moodring 75.2，偏多，FOMO 氛圍蠻濃；SPY RSI 47.5，方向不明，觀望為主；VIX 14.5，波動壓很低，大家都躺著；10Y 殖利率 4.78%，算高，估值壓力在。",
-    "narrative_en": "SPY at 770. RSI 47.5 (neutral). 5d return +0.1%. 20d return -0.4%. Moodring score 75.2 (extreme greed — historically poor entry point). VIX at 14.53 (calm). Gold $4,477.",
+    "forward_outlook": "美股 Moodring 75.2，偏多，FOMO 氛圍蠻濃；SPY RSI 47.5，方向不明，觀望為主；10Y 殖利率 4.78%，算高，估值壓力在。",
+    "narrative_en": "SPY at 770. RSI 47.5 (neutral). 5d return +0.1%. 20d return -0.4%. Moodring score 75.2 (extreme greed — historically poor entry point). VIX at 15.3 (moderate). Gold $4,455.",
     "narrative_tw": "🚀🚀🚀 To the moon！我已經全倉，Robinhood 群友說這波才剛開始！Diamond hands，任何 dip 都是買點！身邊的人也在問要不要進場，感覺 FOMO 氛圍很濃——這種時候歷史上往往就是頂部，但我還是忍不住加碼了。",
     "key_factors_tw": [
       "RSI 47.5 中性偏弱 — 無強力技術訊號",
       "SPY 站上 SMA20/SMA60 — 多頭格局",
-      "VIX 14.5 溫和 — 市場波動可控",
+      "VIX 15.3 溫和 — 市場波動可控",
       "20 日報酬 -0.4% — 溫和回調",
       "10Y 殖利率 4.78% — 聯準會降息預期分歧"
     ],
@@ -46,7 +46,7 @@
       "p80": 81.9,
       "fallback": false
     },
-    "cross_market_summary": "US Moodring 74.2；SPY RSI 47.5 中性；VIX 14.53 正常；20 日 -0.4%；SPY 高於 SMA20 (769)。"
+    "cross_market_summary": "US Moodring 74.2；SPY RSI 47.5 中性；VIX 15.30 正常；20 日 -0.4%；SPY 高於 SMA20 (769)。"
   },
   "tw_agent": {
     "adjusted_score_delta": 2,
@@ -54,77 +54,77 @@
     "conviction": "MEDIUM",
     "narrative": "台股大多頭！台積電 2460 帶頭衝，融資跟著爆量！PTT 板上大家都在喊要起飛，當沖仔全部賺錢，套牢的也快解套了！這種盤一定要滿倉！現在不買以後哭——但融資別開太大，小心斷頭。",
     "key_factors": [
-      "台積電融資月增 -11.1% — 融資增速正常",
-      "融資餘額 5 日 +0.66% — 散戶槓桿擴張",
-      "外資買超 562.1億，連買 1日 — 外資回流訊號",
-      "散戶估計賣超 617億 — 散戶跟空",
-      "TAIEX RSI 65.0 — 中性偏強，無自動反彈護盾"
+      "台積電融資月增 -13.8% — 融資增速正常",
+      "融資餘額 5 日 +1.98% — 散戶槓桿擴張",
+      "外資買超 883.1億，連買 2日 — 外資回流訊號",
+      "散戶估計賣超 1127億 — 散戶跟空",
+      "TAIEX RSI 55.4 — 中性偏強，無自動反彈護盾"
     ],
     "what_quant_misses": "分位把 94.0 讀成極熱，但有兩件事它量不出來。一是外資連買雖到 5 天，方向能不能延續才是盤面關鍵，這比分數更早定生死。二是這波靠指數權值撐、台積電還沒補漲，擴散度不夠，這種結構被單一分數平均掉。台股從中性急拉回貪婪常是幾天內的事，追的人容易買在半山腰，該盯的是籌碼連不連續，不是分數落哪一區。",
-    "forward_outlook": "台股現在 Moodring 93.0，情緒已經很嗨，這個位置追進去感覺像韭菜；外資連買 1 天了，多頭有支撐感，繼續買才算真的；TAIEX SMA20 (45778) 守住才算穩，失守要小心。",
-    "narrative_en": "TAIEX at 47,326. Moodring score 93.0 (extreme greed — historically poor entry point). Foreign investors net buy TWD 562.1B, 1d consecutive buy. Margin balance 5d change +0.7%. TSMC margin 30d change -11.1%.",
+    "forward_outlook": "台股現在 Moodring 93.0，情緒已經很嗨，這個位置追進去感覺像韭菜；外資連買 2 天了，多頭有支撐感，繼續買才算真的；TAIEX SMA20 (45658) 守住才算穩，失守要小心。",
+    "narrative_en": "TAIEX at 46,551. Moodring score 93.0 (extreme greed — historically poor entry point). Foreign investors net buy TWD 883.1B, 2d consecutive buy. Margin balance 5d change +2.0%. TSMC margin 30d change -13.8%.",
     "narrative_tw": "台股大多頭！台積電 2460 帶頭衝，融資跟著爆量！PTT 板上大家都在喊要起飛，當沖仔全部賺錢，套牢的也快解套了！這種盤一定要滿倉！現在不買以後哭——但融資別開太大，小心斷頭。",
     "key_factors_tw": [
-      "台積電融資月增 -11.1% — 融資增速正常",
-      "融資餘額 5 日 +0.66% — 散戶槓桿擴張",
-      "外資買超 562.1億，連買 1日 — 外資回流訊號",
-      "散戶估計賣超 617億 — 散戶跟空",
-      "TAIEX RSI 65.0 — 中性偏強，無自動反彈護盾"
+      "台積電融資月增 -13.8% — 融資增速正常",
+      "融資餘額 5 日 +1.98% — 散戶槓桿擴張",
+      "外資買超 883.1億，連買 2日 — 外資回流訊號",
+      "散戶估計賣超 1127億 — 散戶跟空",
+      "TAIEX RSI 55.4 — 中性偏強，無自動反彈護盾"
     ],
     "watch_for_tw": "觀察 TAIEX 能否守住 SMA20 及外資方向性轉變。",
     "action": "積極減碼",
     "action_thresholds": {
       "market": "tw",
       "lookback_days": 252,
-      "sample_size": 178,
+      "sample_size": 177,
       "computed_at": "2026-09-07",
-      "p20": 40.7,
+      "p20": 40.6,
       "p40": 45.7,
-      "p60": 49.5,
-      "p80": 81.0,
+      "p60": 49.4,
+      "p80": 80.3,
       "fallback": false
     },
-    "cross_market_summary": "TW Moodring 95.0；TAIEX RSI 65.0 中性；外資連買 1 天（562.1億）；散戶同步減碼 617億；台積電融資月減 11.1%。"
+    "cross_market_summary": "TW Moodring 95.0；TAIEX RSI 55.4 中性；外資連買 2 天（883.1億）；散戶同步減碼 1127億；台積電融資月減 13.8%。"
   },
   "summary": {
     "us_final_score": 74.2,
     "tw_final_score": 95.0,
     "divergence": 20.8,
-    "cross_market_view": "US (74.2) 和 TW (95.0) 分歧 20.8 — TW 回升至貪婪區，US 偏強。US RSI 47.5 中性，台股 RSI 65.0 中性。TW 外資連買 1 天（562.1億）；散戶同步減碼 617億；台積電融資月減 11.1%。韓股 (46.1) 中性，歐股 Moodring 74.6 仍在貪婪區，RSI 34.6 接近超賣。",
-    "actionable_signal": "逐步減碼 — US RSI 47.5 中性，趨勢持續觀察。 TW 外資連買 1 天，多頭動能維持，留意是否延續。"
+    "cross_market_view": "US (74.2) 和 TW (95.0) 分歧 20.8 — TW 回升至貪婪區，US 偏強。US RSI 47.5 中性，台股 RSI 55.4 中性。TW 外資連買 2 天（883.1億）；散戶同步減碼 1127億；台積電融資月減 13.8%。韓股 (46.1) 中性，歐股 Moodring 74.6 仍在貪婪區，RSI 34.6 接近超賣。",
+    "actionable_signal": "逐步減碼 — US RSI 47.5 中性，趨勢持續觀察。 TW 外資連買 2 天，多頭動能維持，留意是否延續。"
   },
   "jp_agent": {
     "adjusted_score_delta": 0,
     "sentiment_level": "NEUTRAL",
     "conviction": "MEDIUM",
-    "narrative": "日經 66201，近 5 日 -0.2%，盤面上上下下，沒有定論...BOJ 下次開會才有方向。NISA 額度還有，想買配當股但這個位置不確定。先維持目前部位，等円安/円高方向確認再說。",
+    "narrative": "日經 65021，近 5 日 -2.1%，盤面上上下下，沒有定論...BOJ 下次開會才有方向。NISA 額度還有，想買配當股但這個位置不確定。先維持目前部位，等円安/円高方向確認再說。",
     "key_factors": [
-      "日經 RSI 43.0 中性",
-      "5 日報酬 -0.2% — 溫和下跌",
-      "20 日報酬 +0.9% — 中等回調",
-      "USDJPY 155.9 — 日圓偏弱，出口股獲利"
+      "日經 RSI 28.1 超賣 — 技術反彈條件成立",
+      "5 日報酬 -2.1% — 溫和下跌",
+      "20 日報酬 -1.0% — 中等回調",
+      "USDJPY 154.0 — 日圓中性"
     ],
     "what_quant_misses": "BOJ 利率決策和日圓套利交易平倉是目前日股最大不確定因素，非技術指標可以量化。日圓一旦快速升值（如 USD/JPY 跌破 155），可能引發套利交易大規模平倉。",
-    "forward_outlook": "日股 Moodring 46.4，有點弱，不敢進場；五天跌了 -13.9 分，感覺在轉折；USD/JPY 155.9，円安繼續幫出口股衝；RSI 43.0，方向待確認。",
-    "narrative_en": "Nikkei at 66,201. RSI 43.0 (neutral). 5d return -0.2%. 20d return +0.9%. Moodring score 46.4 (neutral — no strong directional signal).",
-    "narrative_tw": "日經 66201，近 5 日 -0.2%，盤面上上下下，沒有定論...BOJ 下次開會才有方向。NISA 額度還有，想買配當股但這個位置不確定。先維持目前部位，等円安/円高方向確認再說。",
+    "forward_outlook": "日股 Moodring 46.4，有點弱，不敢進場；五天漲了 +5.8 分，動能蠻強；USD/JPY 154.0，日圓弱，BOJ 干預風險要注意；RSI 28.1 超賣，技術面有反彈機會，等穩一點。",
+    "narrative_en": "Nikkei at 65,021. RSI 28.1 (oversold). 5d return -2.1%. 20d return -1.0%. Moodring score 46.4 (neutral — no strong directional signal).",
+    "narrative_tw": "日經 65021，近 5 日 -2.1%，盤面上上下下，沒有定論...BOJ 下次開會才有方向。NISA 額度還有，想買配當股但這個位置不確定。先維持目前部位，等円安/円高方向確認再說。",
     "key_factors_tw": [
-      "日經 RSI 43.0 中性",
-      "5 日報酬 -0.2% — 溫和下跌",
-      "20 日報酬 +0.9% — 中等回調",
-      "USDJPY 155.9 — 日圓偏弱，出口股獲利"
+      "日經 RSI 28.1 超賣 — 技術反彈條件成立",
+      "5 日報酬 -2.1% — 溫和下跌",
+      "20 日報酬 -1.0% — 中等回調",
+      "USDJPY 154.0 — 日圓中性"
     ],
-    "watch_for_tw": "USD/JPY 155.9 円安，BOJ 什麼時候出手干預是最大不確定；日經 RSI 43.0，等一個方向性突破。",
+    "watch_for_tw": "USD/JPY 154.0，BOJ 下次利率決策才是真正催化劑；日經 RSI 28.1 快超賣了，等美股穩定下來再說。",
     "action": "積極加碼",
-    "cross_market_summary": "日經 Moodring 46.4 中性；RSI 43.0 偏弱；20 日 +0.9%；USDJPY 155.9 日圓偏弱（利出口）。",
+    "cross_market_summary": "日經 Moodring 46.4 中性；RSI 28.1 超賣；20 日 -1.0%；USDJPY 154.0 日圓偏弱（利出口）。",
     "action_thresholds": {
       "market": "jp",
       "lookback_days": 252,
       "sample_size": 252,
       "computed_at": "2026-09-07",
-      "p20": 47.8,
+      "p20": 48.0,
       "p40": 52.9,
-      "p60": 56.7,
+      "p60": 56.8,
       "p80": 60.3,
       "fallback": false
     }
@@ -133,24 +133,24 @@
     "adjusted_score_delta": 0,
     "sentiment_level": "NEUTRAL",
     "conviction": "MEDIUM",
-    "narrative": "KOSPI 6965，近 5 日 +2.1%（月跌 +11.3%），三星和海力士一個強一個弱...Naver 股版上 개미 和外資鯨魚在拔河，方向不明確。信用交易先不要加，等 DRAM 報價有更清楚方向再說。",
+    "narrative": "KOSPI 6687，近 5 日 -1.5%（月跌 +6.2%），三星和海力士一個強一個弱...Naver 股版上 개미 和外資鯨魚在拔河，方向不明確。信用交易先不要加，等 DRAM 報價有更清楚方向再說。",
     "key_factors": [
-      "KOSPI RSI 52.2 中性",
-      "5 日報酬 +2.1% — 近期走強",
-      "20 日報酬 +11.3% — 中期持穩"
+      "KOSPI RSI 42.5 中性",
+      "5 日報酬 -1.5% — 小幅下跌",
+      "20 日報酬 +6.2% — 中期持穩"
     ],
     "what_quant_misses": "三星/SK 海力士記憶體週期、DRAM 現貨價格和韓元匯率是韓股特有催化劑，Z-score 無法量化。AI 記憶體需求預期是近期主要題材。",
-    "forward_outlook": "韓股 Moodring 46.1，偏弱，觀望為主；五天漲了 +9.6 分，衝勁蠻強；KOSPI RSI 52.2，三星/海力士出貨方向是關鍵；KOSPI SMA20 (6726) 能不能守住蠻關鍵。",
-    "narrative_en": "KOSPI at 6,965. RSI 52.2 (neutral). 5d return +2.1%. 20d return +11.3%. Moodring score 46.1 (neutral — no strong directional signal).",
-    "narrative_tw": "KOSPI 6965，近 5 日 +2.1%（月跌 +11.3%），三星和海力士一個強一個弱...Naver 股版上 개미 和外資鯨魚在拔河，方向不明確。信用交易先不要加，等 DRAM 報價有更清楚方向再說。",
+    "forward_outlook": "韓股 Moodring 46.1，偏弱，觀望為主；五天漲了 +25.9 分，衝勁蠻強；KOSPI RSI 42.5，三星/海力士出貨方向是關鍵；KOSPI SMA20 (6691) 能不能守住蠻關鍵。",
+    "narrative_en": "KOSPI at 6,687. RSI 42.5 (neutral). 5d return -1.5%. 20d return +6.2%. Moodring score 46.1 (neutral — no strong directional signal).",
+    "narrative_tw": "KOSPI 6687，近 5 日 -1.5%（月跌 +6.2%），三星和海力士一個強一個弱...Naver 股版上 개미 和外資鯨魚在拔河，方向不明確。信用交易先不要加，等 DRAM 報價有更清楚方向再說。",
     "key_factors_tw": [
-      "KOSPI RSI 52.2 中性",
-      "5 日報酬 +2.1% — 近期走強",
-      "20 日報酬 +11.3% — 中期持穩"
+      "KOSPI RSI 42.5 中性",
+      "5 日報酬 -1.5% — 小幅下跌",
+      "20 日報酬 +6.2% — 中期持穩"
     ],
-    "watch_for_tw": "KOSPI RSI 52.2，三星/SK 海力士 AI 記憶體出貨是最大催化劑。",
+    "watch_for_tw": "KOSPI RSI 42.5，三星/SK 海力士 AI 記憶體出貨是最大催化劑。",
     "action": "積極加碼",
-    "cross_market_summary": "韓股 Moodring 46.1 中性；KOSPI RSI 52.2 中性；近 5 日 +2.1%；月報酬 +11.3%。",
+    "cross_market_summary": "韓股 Moodring 46.1 中性；KOSPI RSI 42.5 偏弱；近 5 日 -1.5%；月報酬 +6.2%。",
     "action_thresholds": {
       "market": "kr",
       "lookback_days": 252,
@@ -197,7 +197,7 @@
       "fallback": false
     }
   },
-  "global_narrative": "2026-09-07：美股 SPY RSI 47.5 中性，VIX 14.53，Moodring 74.2 偏強。台股回升至 Moodring 95.0，TAIEX RSI 65.0，外資連買 1 天（562.1億）。日經 Moodring 46.4 中性，USDJPY 155.9 日圓偏弱。韓股 Moodring 46.1 中性，KOSPI 近 5 日 +2.1%。歐股 Moodring 74.6 貪婪區，STOXX50 RSI 34.6 接近超賣，20 日 -2.0%。",
+  "global_narrative": "2026-09-07：美股 SPY RSI 47.5 中性，VIX 15.30，Moodring 74.2 偏強。台股回升至 Moodring 95.0，TAIEX RSI 55.4，外資連買 2 天（883.1億）。日經 Moodring 46.4 中性，USDJPY 154.0 日圓偏弱。韓股 Moodring 46.1 中性，KOSPI 近 5 日 -1.5%。歐股 Moodring 74.6 貪婪區，STOXX50 RSI 34.6 接近超賣，20 日 -2.0%。整體：外資買超確認中。",
   "jp_base_score": 46.4,
   "kr_base_score": 46.1,
   "eu_base_score": 74.6
